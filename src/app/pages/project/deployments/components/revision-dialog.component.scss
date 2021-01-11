@@ -1,0 +1,17 @@
+@import "../../../../../variables.scss";
+
+.revisionRow{
+    .revisionNumberContainer{
+        min-width:150px;
+        max-width:200px;
+        .revisionDate{ color: $subColor;font-size:12px; }
+    }
+    .images{
+        font-size:11px;
+        
+    }
+    .revisionControl{
+        min-width:90px;
+    }
+
+}

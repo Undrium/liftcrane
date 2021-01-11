@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Deployment {{this.deployment.metadata.name}}</h1>
+<div mat-dialog-content>
+    <mat-tab-group dynamicHeight color="accent">
+        <mat-tab label="Basic" >
+            <form fxLayout="column" style="padding:16px 0px;" (change)='formChanged()' >
+                <mat-form-field fxFlex="100">
+                    <mat-label>Application Name</mat-label>
+                    <input name="name" [(ngModel)]="deployment.metadata.name" matInput>
+                </mat-form-field>
+                <mat-form-field fxFlex="100">
+                    <mat-label>Image URL</mat-label>
+                    <input name="image" [(ngModel)]="deployment.spec.template.spec.containers[0].image" matInput>
+                </mat-form-field>
+            </form>
+        </mat-tab>
+        <mat-tab label="Raw">
+            <object-editor *ngIf="showRaw" [(dataObject)]="deployment"></object-editor>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="updateDeployment()">Update</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

@@ -1,0 +1,12 @@
+<ngx-ace-editor
+    #editor 
+    [(text)]="dataString" 
+    [mode]="'json'" 
+    [theme]="'clouds'"
+    (textChanged)="onEditorTextChange($event)"
+    [readOnly]="readOnly"
+    style="width:100%; overflow: auto;"
+    [style.min-height]="minHeight ? minHeight : '250px'"
+    [style.height]="height ? height : ''"
+    >
+</ngx-ace-editor>

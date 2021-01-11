@@ -1,16 +1,51 @@
-import { Component, ViewEncapsulation }   from '@angular/core';
-import {NavigationEnd, Router}            from '@angular/router';
+import { 
+  Component, 
+  ViewEncapsulation  
+}                               from '@angular/core';
 
+
+import { MatSnackBar }          from '@angular/material/snack-bar';
+
+import { AuthService }          from './services/auth.service';
+import { LogService }           from './services/log.service';
+import { PageService }          from './services/page.service';
+
+import { StatusBarComponent }   from './components/status-bar/status-bar.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  title = 'app';
-  constructor(private router: Router){
+  title = 'liftcrane';
+
+  constructor(
+      public authService: AuthService,
+      public logService: LogService,
+      public pageService: PageService,
+      private snackBar: MatSnackBar,
+    ) {
 
   }
+
+  ngOnInit()
+  {
+    var errorObservable = this.logService.errorSubject.asObservable();
+    errorObservable.subscribe((error) => {
+      this.snackBar.openFromComponent(StatusBarComponent, {
+        data: {error: this.logService.getMessageFromError(error)},
+        duration: 3 * 1000,
+      });
+    });
+    var messageObservable = this.pageService.messageSubject.asObservable();
+    messageObservable.subscribe((message) => {
+      this.snackBar.openFromComponent(StatusBarComponent, {
+        data: message,
+        duration: 3 * 1000,
+      });
+    });
+  }
+
 }

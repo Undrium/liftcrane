@@ -1,0 +1,77 @@
+@import "../../../../../variables.scss";
+
+
+.clusterName{
+    max-width:200px;
+}
+.clusterLocation{
+    max-width:160px;
+}
+.clusterVendorState{
+    max-width:110px;
+}
+.clusterOrigin{ color: $subColor;font-size:12px; }
+.nodes{
+    margin-left:16px;
+    .node{
+        cursor:pointer;
+        border-radius:2px;
+        width:7px;
+        height:100%; 
+        min-height:17px;
+        margin-right:5px;
+        &.ready{
+            background-color:#19a224;
+        }
+        &.warning{
+            background-color:rgb(235, 169, 25);
+        }
+        &.error{
+            background-color:rgb(192, 16, 16);
+        }
+        &.unknown{
+            background-color:rgb(133, 133, 133);
+        }
+    }
+}
+
+button[mat-mini-fab]{
+    box-shadow: none !important;
+    &.fetched{
+        background-color: #19a224;
+    }
+    &.unavailable{
+        background-color: #c93f3f;
+    }
+    width:22px !important;
+    height:22px !important;
+    line-height:20px !important;
+    .mat-button-wrapper{
+        padding:0px;
+
+    }
+    mat-icon{
+        width:16px !important;
+        height:18px !important;
+        font-size:15px;
+    }
+}
+
+.extraDetails{
+    width:100%;
+    padding:16px;
+    .title{
+        font-size:24px;
+    }
+    .url, .jwt{
+        word-wrap: break-word;
+        background:rgb(216, 216, 216);
+        padding:8px;
+        border-radius:5px;
+    }
+    .jwt{
+        word-wrap: break-word;
+        font-size:12px;
+    }
+}
+

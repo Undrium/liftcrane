@@ -1,0 +1,14 @@
+<mat-form-field >
+    <mat-label *ngIf="!(clusterService.getCurrentCluster() | async )">Select namespace</mat-label>
+    <mat-select 
+        [ngModel]="clusterService.getCurrentCluster() | async" 
+        (selectionChange)="clusterService.setCurrentCluster($event.value);" 
+        [compareWith]="compareSelected">
+        <mat-option 
+            *ngFor="let cluster of clusterService.clusters$ | async;let i=index; last as isLast" 
+            [value]="cluster"
+        >
+        {{cluster.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

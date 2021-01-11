@@ -1,0 +1,14 @@
+<div class="endpointsHolder">
+    <div class="noEndpoints" *ngIf="!endpoints || endpoints.length == 0">
+        No endpoints yet.
+    </div>
+    <mat-list class="endpoints" fxLayout="column">
+        <div *ngFor="let endpoint of endpoints;" (click)="viewEndpoint(endpoint)" class="endpoint"  fxFlex="100" fxLayoutAlign="space-between">
+            <span fxFlex>{{ endpoint.metadata.name }}</span>
+            <span  *ngFor="let subset of endpoint.subsets;" fxFlex>
+                <span *ngFor="let address of subset.addresses;" fxFlex>{{ address.ip }}</span>
+                <span *ngFor="let port of subset.ports;" fxFlex>{{ port.port }}</span>
+            </span>
+        </div>
+    </mat-list>
+</div>

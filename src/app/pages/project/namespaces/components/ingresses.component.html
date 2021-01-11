@@ -1,0 +1,28 @@
+<div class="ingressesHolder">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button color="accent" mat-raised-button (click)="createIngressDialog()">+ Ingress</button>
+    </div>
+    <div class="noIngresses" *ngIf="!ingresses || ingresses.length == 0">
+        No ingresses yet, create one using the "+ Ingress" button.
+    </div>
+    <mat-list class="ingresses" fxLayout="row">
+        <div class="ingress" *ngFor="let ingress of ingresses;" fxFlex="100" fxLayoutAlign="space-between center">
+            <span fxFlex class="name" (click)="editIngress(ingress)">{{ ingress.metadata.name }}</span>
+            <span></span>
+            <button 
+                color="primary" 
+                (click)="editIngress(ingress)"
+                mat-icon-button aria-label="Edit the ingress" 
+                >
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+                color="primary" 
+                (click)="deleteIngress(ingress)"
+                mat-icon-button aria-label="Delete the ingress" 
+                >
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </mat-list>
+</div>

@@ -1,0 +1,10 @@
+<div class="page">
+    <div class="pageContent">
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile><a [routerLink]="['/admin/projects']">{{ projectCount$ }} Projects</a></mat-grid-tile>
+            <mat-grid-tile><a [routerLink]="['/admin/users']">{{ userCount$ }} Users</a></mat-grid-tile>
+            <mat-grid-tile>{{ registryCount$ }} Registries</mat-grid-tile>
+            <mat-grid-tile>{{ clusterCount$ }} Clusters</mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</div>

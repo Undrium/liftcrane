@@ -1,0 +1,16 @@
+@import "../../../../variables.scss";
+.pageContent{
+    margin:0px;
+    padding:0px;
+    border-top:1px solid var(--accent-lighter-color);
+}
+
+mat-grid-tile{
+    font-size:2.1em;
+    color: var(--primary-color);
+
+    a{
+        color: var(--primary-color);
+        text-decoration: none;    
+    }
+}

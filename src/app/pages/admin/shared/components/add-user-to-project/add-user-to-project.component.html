@@ -1,0 +1,40 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field *ngIf="!project">
+        <mat-label>Project</mat-label>
+        <mat-select 
+            [(ngModel)]="setProject">
+            <mat-option 
+                *ngFor="let p of projectsService.projects$ | async;let i=index; last as isLast" 
+                [value]="p"
+                >
+                {{p.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="!user">
+        <mat-label>User</mat-label>
+        <mat-select 
+            [(ngModel)]="setUser">
+            <mat-option 
+                *ngFor="let u of usersService.users$ | async;let i=index; last as isLast" 
+                [value]="u"
+                >
+                {{u.username}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select 
+            name="role"
+            [(ngModel)]="setRole">
+            <mat-option 
+                *ngFor="let r of roles$;let i=index; last as isLast" 
+                [value]="r"
+                >
+                {{r.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button color="primary" mat-raised-button (click)="add()">Add user</button>
+</div>

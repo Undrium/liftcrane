@@ -1,0 +1,20 @@
+@import "../../../../../variables.scss";
+
+
+.deploymentRow{
+    .deploymentNameContainer{
+        min-width:200px;
+        max-width:300px;
+        cursor:pointer;
+        .deploymentName{ font-family: Roboto;font-size:15px; font-weight:500; margin-bottom:3px;}
+        .deploymentDate{ color: $subColor;font-size:12px; }
+    }
+    .revisions{
+        min-width:200px;
+        cursor:pointer;
+    }
+    .replicas{
+        min-width:200px;
+        cursor:pointer;
+    }
+}

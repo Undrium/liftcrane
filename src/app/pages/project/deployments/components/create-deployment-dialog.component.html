@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Deploy</h1>
+<div mat-dialog-content>
+    <form class="example-form" fxLayout="column">
+        <mat-form-field fxFlex="100">
+            <mat-label>Application Name</mat-label>
+            <input name="name" [(ngModel)]="deploymentSpec.metadata.name" matInput>
+        </mat-form-field>
+
+        <mat-form-field  fxFlex="100">
+            <mat-label>Source</mat-label>
+            <mat-select name="sourceImage"  fxLayout="column" [(ngModel)]="sourceImage">
+                <mat-option value="url" selected="selected" aria-selected="selected"> Image URL</mat-option>
+                <mat-option value="registry"> From registry</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="sourceImage === 'url'">
+            <mat-label>Image URL</mat-label>
+            <input name="image" [(ngModel)]="deploymentSpec.spec.template.spec.containers[0].image" matInput>
+        </mat-form-field>
+
+        <mat-form-field  fxFlex="100" *ngIf="sourceImage === 'registry'">
+            <mat-label>Registry</mat-label>
+            <mat-select [(ngModel)]="sourceRegistry" name="sourceRegistry">
+                <mat-option *ngFor="let registry of registries; let i = index" [value]="i" (click)="registryChange(i)">
+                    {{registry.provider}} / {{registry.username}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field  fxFlex="100" *ngIf="repositoryTags">
+            <mat-label>Image</mat-label>
+            <mat-select [(ngModel)]="deploymentSpec.spec.template.spec.containers[0].image" name="image">
+                <mat-option *ngFor="let tag of repositoryTags; let i = index; let key = key" [value]="registry.url+'/'+tag.repo+':'+tag.name">
+                    {{tag.repo}}: {{tag.name}} / {{tag.digest}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="deploy()">Deploy</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

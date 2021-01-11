@@ -1,0 +1,26 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <div class="pageContent">
+    <mat-card class="readable"  fxFlex="100">
+      <mat-card-title fxLayoutAlign="space-between">
+        {{registry.name}}
+      </mat-card-title>
+      <mat-card-subtitle>{{registry.provider}} </mat-card-subtitle>
+      <div class="noRepositories" *ngIf="!projects.repositories || projects.repositories.length == 0">
+        No repositories yet.
+      </div>
+      <mat-card-content>
+        <div class="repositoryList">
+          <div class="repositoryRow" *ngFor="let repository of projects.repositories;let i=index; last as isLast" >
+            <div class="cluster" fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <div class="repositoryName" fxFlex>
+                      {{ repository }}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="page" fxFlex="100" fxLayout="column">
+    <mat-toolbar color="accent">
+        <mat-toolbar-row fxLayoutAlign="space-between center">
+            <span></span>
+            <button color="" mat-raised-button (click)="createProjectDialog()">+ Project</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
+    <div class="pageContent">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel 
+                class=""
+                *ngFor="let project of projectsService.projects;let i=index; last as isLast; trackBy: trackByFn;" 
+            >
+            <mat-expansion-panel-header (click)="showExtraDetails[project.formatName] = !showExtraDetails[project.formatName]">
+                <mat-panel-title >{{ project.name }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="extraDetails" fxLayout="row" fxLayoutGap="16px">
+                <edit-project [project]="project" fxFlex="100" *ngIf="showExtraDetails[project.formatName]"></edit-project>
+            </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+</div>
+  
+  

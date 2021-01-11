@@ -1,0 +1,34 @@
+<div class="deploymentRow" fxLayoutAlign="space-between center" fxFlex="100">
+    <div class="deploymentNameContainer" fxLayout="column" (click)="editDeploymentDialog(deployment)">
+      <div class="deploymentName">{{deployment.metadata.name}}</div>
+      <div class="deploymentDate">{{ deployment.metadata.creationTimestamp | date }}</div>
+    </div>
+    <replicas [deployment]="deployment" (click)="scaleDialog(deployment)" class="replicas"></replicas>
+    <div class="revisions" (click)="revisionDialog(deployment)" *ngIf="deployment.metadata.annotations">
+      Revision {{deployment.metadata.annotations["deployment.kubernetes.io/revision"]}}
+    </div>
+    <div class="deploymentControl">
+      <button 
+        color="primary" 
+        (click)="startDeployment(namespaceService.currentNamespace.metadata.name, deployment.metadata.name).subscribe()"
+        mat-icon-button 
+        aria-label="Start the deployment" 
+        [hidden]="(deployment | deploymentIsRunning)">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button 
+        color="primary" 
+        (click)="pauseDeployment(namespaceService.currentNamespace.metadata.name, deployment.metadata.name).subscribe()"
+        mat-icon-button aria-label="Stop the deployment" 
+        [hidden]="(deployment | deploymentIsPaused)">
+        <mat-icon>stop</mat-icon>
+      </button>
+      <button 
+        color="primary" 
+        (click)="deleteDeploymentDialog(deployment)"
+        mat-icon-button aria-label="Delete the deployment" 
+        >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>

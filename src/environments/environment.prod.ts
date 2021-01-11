@@ -1,3 +1,8 @@
+import { environment as base } from "./environment.base";
+
 export const environment = {
-  production: true
+  ... base,
+  production: true,
+  cloudguardUrl: "http://cloudguard/api/v1",
 };
+

@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Revisions {{deployment.metadata.name}}</h1>
+<mat-dialog-content fxLayoutAlign="space-between center">
+    <mat-list fxFlex="100">
+        <mat-list-item *ngFor="let replicaSet of replicaSets;let i=index; last as isLast" >
+            <mat-divider *ngIf="!isLast"></mat-divider>
+            <div class="revisionRow" fxLayoutAlign="space-between center" fxFlex="100">
+                <div class="revisionNumberContainer" fxLayout="column">
+                    <div class="revision">
+                        Revision {{replicaSet.metadata.annotations["deployment.kubernetes.io/revision"]}}
+                    </div>
+                    <div class="revisionDate">
+                        {{ replicaSet.metadata.creationTimestamp | date:'yyyy/MM/dd/ HH:MM' }}
+                    </div> 
+                </div>
+                <div class="images">{{replicaSet.spec.template.spec.containers[0].image}}</div>
+                <div class="revisionControl">
+                    <button 
+                        color="accent"
+                        [hidden]="replicaSet.metadata.annotations['deployment.kubernetes.io/revision'] == deployment.metadata.annotations['deployment.kubernetes.io/revision']" 
+                        mat-raised-button 
+                        (click)="rollbackDeployment(deployment, replicaSet.spec.template)">
+                        Rollback
+                    </button>
+                </div>
+            </div>
+        </mat-list-item>
+    </mat-list>
+</mat-dialog-content>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>
+

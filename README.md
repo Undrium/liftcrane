@@ -1,27 +1,38 @@
-# Liftcrane
+# unicloud
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.5.
+## Kubernetes
 
-## Development server
+To start locally, use for instance Minikube. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+ `minikube --extra-config apiserver.cors-allowed-origins=["http://*"] start`
 
-## Code scaffolding
+ Also visit the address of the started cluster in Chrome to enable passage of the certificate.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+ When it comes to JWT, use the default one and open up the service account with this command.
 
-## Build
+ `kubectl create clusterrolebinding serviceaccounts-cluster-admin --clusterrole=cluster-admin --group=system:serviceaccounts`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+ Using this will make your mini-system very vurnerable, this is strictly for a local testing environment.
 
-## Running unit tests
+ ## Release log
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 2020.06.01
+* Openshift-clusters can now be added, still in testing phase
+* Vendor now differs on kubernetes and openshift
 
-## Running end-to-end tests
+### 2020.05.05
+* Secrets are now created clientside before beeing persisted in cloudguard
+* List secrets in namespaces
+* Clusters can now be deleted from cloudguard
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+ ### 2020.05.04
+* Ingresses can now be created and deleted under Namespaces
+* Ingresses can now be edited 
 
-## Further help
+### 2020.05.03
+* Services can now be created and deleted under Namespaces
+* Services can now be edited 
+* Generic confirm and edit dialog added
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### 2020.05.02
+* Endpoints, Services and Ingresses are now listed for each namespace

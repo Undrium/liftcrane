@@ -1,0 +1,19 @@
+@import "../../../../../variables.scss";
+
+
+
+.ingressesHolder{
+    padding:16px;
+
+    .noIngresses{
+        padding:50px;
+        text-align:center;
+        font-size:30px;
+        color: $sadColor;
+    }
+    .ingress{
+        .name{
+            cursor:pointer; 
+        }
+    }
+}

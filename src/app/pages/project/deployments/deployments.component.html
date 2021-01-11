@@ -1,0 +1,46 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+      <div>
+        <cluster-select></cluster-select>
+        <namespace-select></namespace-select>
+      </div>
+      <button color="" mat-raised-button (click)="deployDialog()" [disabled]="!(namespaceService.currentNamespaceSubject | async )">+ Deployment</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="pageContent" fxLayout="column">
+    <mat-card style="margin-bottom:16px !important;">
+      <mat-card-content>
+        <div class="noDeployments" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
+          Please select namespace.
+        </div>
+        <div class="noDeployments" *ngIf="namespaceService.currentNamespace && deployments.length == 0">
+          No deployments yet, create one using the button in the upper corner.
+        </div>
+        <mat-list>
+          <mat-list-item *ngFor="let deployment of deployments;let i=index; last as isLast">
+            <mat-divider *ngIf="!isLast"></mat-divider>
+            <deployment-row [deployment]="deployment" fxFlex="100"></deployment-row>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="(clusterService.currentClusterSubject | async ).platform == 'OPENSHIFT4'">
+      <mat-card-content>
+        <div class="noDeployments" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
+          Please select namespace.
+        </div>
+        <div class="noDeployments" *ngIf="namespaceService.currentNamespace && deploymentConfigs.length == 0">
+          No deployment configurations yet, create one using the button in the upper corner.
+        </div>
+        <mat-list>
+          <mat-list-item *ngFor="let deploymentConfig of deploymentConfigs;let i=index; last as isLast">
+            <mat-divider *ngIf="!isLast"></mat-divider>
+            <deployment-row [deployment]="deploymentConfig" fxFlex="100"></deployment-row>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

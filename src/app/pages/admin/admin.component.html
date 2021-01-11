@@ -1,0 +1,13 @@
+<mat-toolbar>
+    <mat-toolbar-row fxLayoutAlign="left center" fxLayoutGap="24px" class="admin-nav" color="accent">
+        <span *ngFor="let route of adminRoutes.routeConfig.children" routerLinkActive="active">
+            <a *ngIf="route.data && route.data.title" class="nav-link" href="#" [routerLink]="[route.path]">
+                <i class="{{route.data.faIcon}} adminIcon" *ngIf="route.data.faIcon"></i> 
+                {{route.data.title}}
+            </a>
+        </span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div class="adminPage">
+    <router-outlet></router-outlet>
+</div>

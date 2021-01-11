@@ -1,0 +1,18 @@
+@import "../../../../../variables.scss";
+
+.servicesHolder{
+    padding:16px;
+
+    .noServices{
+        padding:30px;
+        text-align:center;
+        font-size:30px;
+        color: $sadColor;
+    }
+    .service{
+        .name{
+            cursor:pointer;
+        }
+    }
+}
+

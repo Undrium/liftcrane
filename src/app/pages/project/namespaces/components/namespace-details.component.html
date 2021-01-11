@@ -1,0 +1,28 @@
+<mat-tab-group dynamicHeight color="accent" backgroundColor="">
+    <mat-tab label="Overview">
+        <object-editor [readOnly]="true" [dataObject]="namespace"></object-editor>
+        <div fxFlex="100" fxLayoutAlign="end center" class="buttonHolder">
+            <button 
+                color="accent" 
+                mat-raised-button 
+                (click)="deleteNamespaceDialog(namespace)"
+                matTooltip="Remove this namespace." 
+                [matTooltipPosition]="'above'"
+                [matTooltipShowDelay]="1000"
+                >Delete Namespace</button>
+        </div>
+    </mat-tab>
+    <mat-tab label="Endpoints">
+        <endpoints [namespace]="namespace" *ngIf="loadEvents"></endpoints>
+    </mat-tab>
+    <mat-tab label="Ingresses">
+        <ingresses [namespace]="namespace" *ngIf="loadEvents"></ingresses>
+    </mat-tab>
+    <mat-tab label="Services">
+        <services [namespace]="namespace" *ngIf="loadEvents"></services>
+    </mat-tab>
+    <mat-tab label="Secrets">
+        <secrets [namespace]="namespace" *ngIf="loadEvents"></secrets>
+    </mat-tab>
+</mat-tab-group>
+

@@ -1,0 +1,43 @@
+
+  <mat-toolbar class="logo" [routerLink]="'/'">
+      <span class="liftcrane"></span> 
+      <span class="textHolder" fxLayout="column">
+        <span class="text">L I F T C R A N E</span> 
+        <span fxFlex="100" class="version">{{ environmentData.version }}</span>
+      </span>
+  </mat-toolbar>
+  <mat-toolbar color="" *ngIf="authService.isLoggedIn() | async">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+      <project-select></project-select>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-nav-list class="navigation" fxFlex="100">
+    <div class="navigationWrapper">
+      <div *ngFor="let menuItem of menuItems">
+        <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
+        <a *ngIf="menuItem.path != 'kubernetes' && (!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
+          <mat-icon *ngIf="menuItem.icon">{{menuItem.icon}}</mat-icon><i class="{{menuItem.faIcon}}" *ngIf="menuItem.faIcon"></i>
+          {{menuItem.title}}
+        </a>
+        <div class="menuChildren" *ngIf="menuItem.children && menuItem.children.length > 0">
+          <a [routerLink]="menuItemChild.path"  *ngFor="let menuItemChild of menuItem.children"  [class.active]="pageService.isActivePage(menuItemChild.path)">
+            <div class="navigationItem nav-icon" *ngIf="(!menuItemChild.settings.expectedUserType || profileService.isUserType(menuItemChild.settings.expectedUserType))">
+              <mat-icon *ngIf="menuItemChild.icon">{{menuItemChild.icon}}</mat-icon>
+              <i class="{{menuItemChild.faIcon}}" *ngIf="menuItemChild.faIcon"></i>
+              {{menuItemChild.title}}
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </mat-nav-list>
+  <div *ngIf="authService.isLoggedIn() | async" class="logoutButton" (click)="pageService.logout()" fxLayout="column"><span><i class="fas fa-sign-out-alt"></i>Logout</span>
+    <span style="font-style: italic; font-size: smaller;">Logged in as {{profileService.user.username}}</span>
+  </div>
+  <div *ngIf="!(authService.isLoggedIn() | async)" class="loginButton" [routerLink]="'/login'"><i class="fas fa-sign-in-alt"></i>Login</div>
+
+
+
+
+      
+  

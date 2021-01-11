@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-list class="docsMenu" fxFlex>
+    <div *ngFor="let item of menuItems;" fxLayout="column">
+      <mat-list-item fxFlex   (click)="item.open = !item.open;navigateDocs(item);" [ngClass]="{'mat-accent': item.open}">
+        <div class="menuItem" fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100">
+          <div fxFlexFill>{{ item.label }}</div>
+          <mat-icon fxFlex *ngIf="item.children" mat-font-library="material-icons" >{{item.open ? "keyboard_arrow_up": "keyboard_arrow_down"}}</mat-icon>
+        </div>
+      </mat-list-item>
+      <mat-list *ngIf="item.children && item.open" class="masp-submenu">
+        <mat-list-item
+          *ngFor="let subItem of item.children;"
+          (click)="navigateDocs(subItem)"
+          mat-colors="subItem.active ? {color:'accent'}:{}"
+          matLine
+          >
+          <div class="menuItem child" layout="row" fxLayoutAlign="start center">
+            <span>{{ subItem.label }}</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-list>
+</mat-card>

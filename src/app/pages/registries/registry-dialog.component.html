@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Login</h1>
+<div mat-dialog-content>
+    <form class="example-form">
+        <mat-form-field>
+            <mat-label>Registry Name</mat-label>
+            <input name="name" [(ngModel)]="registry.name" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Provider</mat-label>
+            <mat-select [(ngModel)]="registry.provider" name="provider">
+                <mat-option *ngFor="let provider of providers" [value]="provider.value">
+                  {{provider.viewValue}}
+                </mat-option>
+              </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Registry URL</mat-label>
+            <input name="url" [(ngModel)]="registry.url" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input name="email" [(ngModel)]="registry.email" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input name="username" [(ngModel)]="registry.username" matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input name="password" type="password" [(ngModel)]="registry.password" matInput>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button mat-raised-button (click)="add()">Add registry</button>
+</div>

@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>Node {{node | nodeNameSummary}}</h1>
+<div mat-dialog-content>
+    <object-editor *ngIf="showRaw" [readOnly]="true" [(dataObject)]="node"></object-editor>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end"></div>

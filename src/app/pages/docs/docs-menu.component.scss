@@ -1,0 +1,10 @@
+.docsMenu{
+  min-width:200px;
+  .menuItem{
+    cursor:pointer;
+    &.child{
+      padding-left:20px;
+    }
+  }
+
+}

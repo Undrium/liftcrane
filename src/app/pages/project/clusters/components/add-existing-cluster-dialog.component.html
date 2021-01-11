@@ -1,0 +1,36 @@
+
+<h1 mat-dialog-title>Add Existing Cluster</h1>
+<div mat-dialog-content>
+    <form class="add-cluster-form" fxLayout="column" style="margin:16px 0;">
+        <mat-form-field fxFlex="100">
+            <mat-label>Name</mat-label>
+            <input name="name" [(ngModel)]="existingCluster.name" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>ApiServer</mat-label>
+            <input name="apiserver" [(ngModel)]="existingCluster.apiServer" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Token</mat-label>
+            <textarea name="token" [(ngModel)]="existingCluster.token" matInput></textarea>
+        </mat-form-field>
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
+            <mat-form-field fxFlex="50" >
+                <mat-label>Platform</mat-label>
+                <mat-select [(ngModel)]="existingCluster.platform" name="platform">
+                    <mat-option *ngFor="let platform of platforms" [value]="platform.value">{{platform.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <mat-label>Vendor</mat-label>
+                <mat-select [(ngModel)]="existingCluster.vendor" name="platform">
+                    <mat-option *ngFor="let vendor of vendors" [value]="vendor">{{vendor}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="createExisting()">Add Existing</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

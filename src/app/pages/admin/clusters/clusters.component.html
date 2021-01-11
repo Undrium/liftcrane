@@ -1,0 +1,22 @@
+<div class="page">
+    <div class="pageContent">
+      <table mat-table [dataSource]="clusters" fxFlex="100">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td style="cursor:pointer;" mat-cell *matCellDef="let el" [routerLink]="['/admin/clusters',el.formatName]"> {{el.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="formatname">
+            <th mat-header-cell *matHeaderCellDef> Formatname </th>
+            <td mat-cell *matCellDef="let el"> {{el.formatName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let el"><mat-icon style="cursor:pointer;" (click)="deleteCluster(el)">delete</mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+</div>

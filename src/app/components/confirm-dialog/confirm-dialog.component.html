@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ data.title || 'Confirm' }}</h1>
+<div mat-dialog-content>
+    {{ data.message || 'Please confirm' }}
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button [mat-dialog-close]="true">Confirm</button>
+    <button color="" mat-raised-button [mat-dialog-close]="false">Cancel</button>
+</div>

@@ -1,0 +1,39 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+      <cluster-select></cluster-select>
+      <button color="" mat-raised-button (click)="createNamespaceDialog()">+ Namespace</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
+  <div class="pageContent">
+      <div class="noNamespaces" *ngIf="!showProgressbar && (!namespaces || namespaces.length == 0)">
+        No namespaces yet, create one using the "+ Namespace" button.
+      </div>
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel 
+          class="namespaceRow"
+          *ngFor="let namespace of namespaces;let i=index; last as isLast;" 
+          >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="namespaceNameContainer" fxLayout="column" (click)="showExtraDetails[namespace.metadata.uid] = !showExtraDetails[namespace.metadata.uid]">
+                <div class="namespaceName">{{namespace.metadata.name}}</div>
+                <div class="namespaceDate">{{namespace.metadata.creationTimestamp | date }}</div>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <namespace-details 
+            [(loadEvents)]="showExtraDetails[namespace.metadata.uid]"
+            class="extraDetails" 
+            fxLayout="column" 
+            [namespace]="namespace"></namespace-details>
+
+          
+        </mat-expansion-panel>
+      </mat-accordion>
+
+  </div>
+</div>
+

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Create new user</h1>
+<div mat-dialog-content>
+    <form class="example-form" fxLayout="column">
+        <mat-form-field fxFlex="100">
+            <mat-label>Username</mat-label>
+            <input name="username" [(ngModel)]="newUser.username" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Email</mat-label>
+            <input name="email" [(ngModel)]="newUser.email" matInput>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="create()">Create</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

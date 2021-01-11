@@ -1,0 +1,62 @@
+<h1>Edit Project {{ project.name }}</h1>
+<div>
+    <mat-tab-group>
+        <mat-tab label="General">
+            <div style="margin:8px;">
+                <form class="edit-project-form" fxLayout="column">
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input name="name" [(ngModel)]="project.name" matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Kubernetes Identifier</mat-label>
+                        <input name="kubernetesIdentifier" [(ngModel)]="project.kubernetesIdentifier" matInput>
+                    </mat-form-field>
+                    <div fxLayoutAlign="end" fxLayoutGap="16px">
+                        <button color="accent" mat-raised-button (click)="save()">Update</button>
+                        <button color="warn" mat-raised-button (click)="deleteProjectDialog(project)">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
+        <mat-tab label="Project Roles" fxFlex="100" fxLayout="column">
+            <div fxLayout="column" style="margin:8px;">
+                <add-user-to-project [(project)]="project"></add-user-to-project>
+                <div fxLayoutAlign="space-between center">
+                    <span></span>
+                    <mat-card-subtitle>( will be added instantly )</mat-card-subtitle>
+                </div>
+            </div>
+            <div fxLayout="column" style="margin:8px;">
+                <table mat-table [dataSource]="project.projectRoles">
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef> Username </th>
+                        <td mat-cell *matCellDef="let el"> {{el.user ? el.user.username : "Noname"}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef> Role </th>
+                        <td mat-cell *matCellDef="let el"> {{el.role ? el.role.name : "Noname"}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let el"><mat-icon style="cursor:pointer;" (click)="deleteProjectRole(el)">delete</mat-icon>
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab label="Clusterspaces" fxFlex="100" fxLayout="column">
+            <div fxLayout="column" style="margin:8px;">
+                <div *ngFor="let cluster of clusterService.clusters;let i=index; last as isLast;" >
+                    <h3>{{cluster.name}}</h3>
+
+                        
+
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,44 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+      <span></span>
+      <button color="" mat-raised-button (click)="registryDialog()">+ Add registry</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="pageContent">
+    <mat-card class="readable"  fxFlex="100">
+      <div class="noRegistries" *ngIf="!registryService.registries || registryService.registries.length == 0">
+        No registries yet.
+      </div>
+      <mat-card-content>
+        <div class="registryList">
+          <div class="registryRow" *ngFor="let registry of registryService.registries;let i=index; last as isLast" >
+            <div class="cluster" fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <div class="registryName" fxFlex>
+                      {{ registry.name }}
+                  </div>
+                  <div class="deploymentControl">
+                    <button 
+                    color="primary" 
+                    mat-icon-button 
+                    (click)="view(registry.formatName)"
+                    aria-label="deploy">
+                    <mat-icon>launch</mat-icon>
+                  </button>
+                    <button 
+                    color="primary" 
+                    mat-icon-button 
+                    (click)="deleteDialog(registry)"
+                    aria-label="delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

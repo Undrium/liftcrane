@@ -1,0 +1,113 @@
+.logo{
+  background-image: url('/assets/img/clouds-1-icon.png');
+  background-size: 64px;
+  background-repeat: no-repeat;
+  background-position: -30px 0;
+  &:focus {outline:0;}
+  cursor:pointer;
+  min-height:65px;
+  color: #FFF;
+  .liftcrane{
+    display: block;
+    width: 77px;
+    height: 64px;
+    margin: 0px 10px 0 -45px;
+  }
+  .textHolder{
+    height:100%;
+    width:100%;
+    position:relative;
+    .text{
+      margin: auto;
+      width: 50% 0;
+      vertical-align: center;
+      text-shadow: 1px 1px 0 gray, 
+                  2px 2px 0 darkslategray;
+    }
+    &:hover{
+      .version{
+        opacity: 1;
+        -webkit-transition: opacity 0.3s ease-in;
+        -moz-transition: opacity 0.3s ease-in;
+        -o-transition: opacity 0.3s ease-in;
+        -ms-transition: opacity 0.3s ease-in;
+        transition: opacity 0.3s ease-in;
+      }  
+    }
+    .version{
+      opacity: 0;
+      position:absolute;
+      bottom:0px;
+      right:0px;
+
+      font-size:11px;
+      
+    }
+  }
+}
+
+.navigation{
+  background-color: rgb(51,51,51);
+  background: linear-gradient(183deg, rgba(51,51,51,1) 0%, rgba(102,102,102,1) 100%);
+}
+.navigationWrapper{
+  padding: 0 16px;
+  margin:0;
+  mat-divider{
+    border-color: var(--accent-lighter-color);
+    margin: 24px 0;
+  }
+}
+
+mat-nav-list{
+  padding: 0;
+  color: #EEE;
+  margin:0px;
+  .navigationWrapper div {
+    font-size: 16px;
+    margin: 0px 0 8px 0px;
+    outline:0 !important; 
+  }
+
+  mat-icon{
+    margin-right:16px;
+  }
+
+  .nav-icon{
+
+    cursor:pointer;
+  }
+
+  .nav-icon i{
+    margin-right: 8px;
+    width: 20px;
+    display: inline-block;
+  }
+
+  .navigationWrapper div.menuChildren{
+    margin: 16px 0px 16px 16px;
+    padding:0px;
+  } 
+  
+}
+
+.active{
+  color: var(--accent-lighter-color);
+}
+
+.adminButton{
+  cursor: pointer;
+  padding:16px 16px 0px 16px;
+  background: rgb(102,102,102);
+  outline:0 !important; 
+  i{margin-right:16px;}
+}
+
+
+.logoutButton, .loginButton{
+  cursor: pointer;
+  padding:16px;
+  background: rgb(102,102,102);
+  outline:0 !important; 
+  i{margin-right:16px;}
+}

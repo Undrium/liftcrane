@@ -1,0 +1,16 @@
+@import "../../../../../variables.scss";
+
+.endpointsHolder{
+    padding:16px;
+
+    .noEndpoints{
+        padding:50px;
+        text-align:center;
+        font-size:30px;
+        color: $sadColor;
+    }
+    .endpoint{
+        cursor:pointer;
+        padding:16px 0;
+    }
+}

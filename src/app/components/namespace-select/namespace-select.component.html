@@ -1,0 +1,14 @@
+<mat-form-field>
+    <mat-label *ngIf="!(namespaceService.currentNamespaceSubject | async )">Select namespace</mat-label>
+    <mat-select 
+        [ngModel]="namespaceService.currentNamespaceSubject | async" 
+        (selectionChange)="switchNamespace($event.value);"
+        [compareWith]="compareSelected">
+        <mat-option 
+            *ngFor="let namespace of namespaceService.namespaces$ | async;let i=index; last as isLast" 
+            [value]="namespace"
+        >
+        {{namespace.metadata.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

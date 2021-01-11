@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Delete registry {{ registry.name }}</h1>
+<div mat-dialog-content>
+    Please confirm deletion of registry, mister!
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="delete(registry.formatName)">Delete</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

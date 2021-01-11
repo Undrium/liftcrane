@@ -1,0 +1,17 @@
+.admin-nav {
+    background-color: var(--accent-darker-color);
+    a, a:visited {
+        font-size: 16px;
+        color: var(--text-accent-color);
+        text-decoration: none;
+        &:hover{
+            color: var(--text-accent-lighter-color);
+        }
+    }
+    i{
+        margin-right:8px;
+    }
+    .active a{
+        color: var(--accent-lighter-color);
+    }
+}

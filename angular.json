@@ -1,9 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "liftcrane": {
+    "unicloud": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,20 +17,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/liftcrane",
+            "outputPath": "dist/unicloud",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/app/pages/docs/docs"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/chart.js/dist/Chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -45,6 +49,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -66,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "liftcrane:build"
+            "browserTarget": "unicloud:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "liftcrane:build:production"
+              "browserTarget": "unicloud:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "liftcrane:build"
+            "browserTarget": "unicloud:build"
           }
         },
         "test": {
@@ -92,6 +97,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -114,15 +120,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "liftcrane:serve"
+            "devServerTarget": "unicloud:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "liftcrane:serve:production"
+              "devServerTarget": "unicloud:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "liftcrane"
+    }
+  },
+  "defaultProject": "unicloud"
 }

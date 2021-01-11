@@ -1,0 +1,8 @@
+<div class="replicas" fxLayout="row">
+    <div 
+        class="replica" [ngClass]="replica.status"
+        *ngFor="let replica of replicas;"
+        matTooltip="Replica {{replica.status}}" [matTooltipPosition]="'above'"
+        >
+    </div>
+</div>

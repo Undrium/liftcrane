@@ -1,0 +1,28 @@
+@import "../../../../variables.scss";
+
+.noNamespaces{
+    padding:50px;
+    text-align:center;
+    font-size:30px;
+    color: $sadColor;
+}
+
+
+@import "../../../../variables.scss";
+
+
+.namespaceRow{
+    .namespaceNameContainer{
+        min-width:200px;
+        max-width:300px;
+        cursor:pointer;
+        .namespaceName{}
+        .namespaceDate{ color: $subColor;font-size:12px; }
+    }
+}
+
+.extraDetails{
+    margin-bottom:16px;
+    background-color:#f7f7f7;
+    border-radius:5px;
+}

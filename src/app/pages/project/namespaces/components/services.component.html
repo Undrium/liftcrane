@@ -1,0 +1,28 @@
+<div class="servicesHolder">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button color="accent" mat-raised-button (click)="createServiceDialog()">+ Service</button>
+    </div>
+    <div class="noServices" *ngIf="!services || services.length == 0">
+        No services yet, create one using the "+ Service" button.
+    </div>
+    <mat-list class="services" fxLayout="column">
+        <div class="service" *ngFor="let service of services;" fxFlex="100" fxLayout="row" fxLayoutAlign="space-between center">
+            <span fxFlex class="name" (click)="editService(service)">{{ service.metadata.name }}</span>
+            <span></span>
+            <button 
+                color="primary" 
+                (click)="editService(service)"
+                mat-icon-button aria-label="Edit the service" 
+                >
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+                color="primary" 
+                (click)="deleteService(service)"
+                mat-icon-button aria-label="Delete the service" 
+                >
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </mat-list>
+</div>

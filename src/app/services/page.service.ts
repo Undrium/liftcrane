@@ -1,0 +1,89 @@
+import { Injectable, EventEmitter }         from '@angular/core';
+import { Router }  from '@angular/router';
+import { BreakpointObserver, Breakpoints }  from '@angular/cdk/layout';
+import { Observable }                       from 'rxjs';
+import { Subject, zip }                from 'rxjs';
+import { map, shareReplay }                 from 'rxjs/operators';
+
+import { LocalStorageService }          from './localstorage.service';
+import { AuthService }                  from './auth.service';
+import { ProfileService }               from './profile.service';
+import { ProjectsService }               from './projects.service';
+
+import * as _                           from 'lodash';
+
+@Injectable({providedIn: 'root'})
+export class PageService {
+
+    sideNavOpen: boolean;
+    messages: Array<any> = [];
+    public pageTitle: string;
+    public beforeLogin: string = "";
+    public messageSubject = new Subject<any>();
+    // Loader
+    public somethingIsLoading = false;
+    public whatIsLoading = "Something is loading";
+
+    constructor(
+        public authService: AuthService,
+        public localStorageService: LocalStorageService,
+        private breakpointObserver: BreakpointObserver,
+        private router: Router,
+        public profileService: ProfileService,
+        public projectsService: ProjectsService,
+    ) {
+        this.sideNavOpen = localStorageService.getItem("settingsSession.sideNavOpen");
+    }
+
+    toggleSideNav():boolean {
+        this.sideNavOpen = !this.sideNavOpen;
+        // Save everytime to session
+        this.localStorageService.setItem("settingsSession.sideNavOpen", this.sideNavOpen)
+        return this.sideNavOpen;
+    }
+
+    public startLoader(message = "Something is loading."){
+        this.somethingIsLoading = true;
+        this.whatIsLoading = message;
+    }
+
+    public stopLoader(){
+        this.somethingIsLoading = false;
+        this.whatIsLoading = "";
+    }
+
+    public guard(allowedRoles: string[]):Observable<boolean>{
+        return zip(this.profileService.user$, this.projectsService.currentProjectSubject)
+        .pipe(map(val => {  
+            var user = {}, project = {};
+            [user, project] = val;
+            if(project['id']){
+                return this.authService.hasCorrectRoleInProject(user, project['id'], allowedRoles);
+            }
+        }));
+    }
+
+    public isActivePage(path: any, matchRootOnly = false): boolean {
+        path = "/"+path;
+        if(matchRootOnly){
+          return this.router.url.startsWith(path);
+        }
+        return path === this.router.url;
+    }
+
+    public logout() {
+        return this.authService.logout().subscribe(
+          (resp) => {this.router.navigate(['/']);}
+        )
+      }
+
+    public displayMessage(message: string){
+        this.messages.push(message);
+        this.messageSubject.next(message);
+    }
+
+    public isHandset$: Observable<boolean> = 
+        this.breakpointObserver.observe(Breakpoints.Handset)
+        .pipe( map(result => result.matches), shareReplay());
+
+}

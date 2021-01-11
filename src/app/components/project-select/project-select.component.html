@@ -1,0 +1,15 @@
+<mat-form-field fxFlex="80">
+    <mat-label *ngIf="!(projectsService.getCurrentProject() | async )">Select project</mat-label>
+    <mat-select 
+        color=""
+        [ngModel]="projectsService.currentProjectSubject | async" 
+        (selectionChange)="switchProject($event.value);" 
+        [compareWith]="compareSelected">
+        <mat-option 
+            *ngFor="let projectRole of projectRoles;let i=index; last as isLast" 
+            [value]="projectRole.project"
+        >
+        {{projectRole.project.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

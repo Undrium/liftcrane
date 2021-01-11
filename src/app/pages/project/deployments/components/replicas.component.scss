@@ -1,0 +1,19 @@
+@import "../../../../../variables.scss";
+
+
+.replica{
+    border-radius:2px;
+    width:7px;
+    height:100%; 
+    min-height:17px;
+    margin-right:5px;
+    &.ready{
+        background-color:rgb(55, 151, 55);
+    }
+    &.unknown{
+        background-color:rgb(235, 169, 25);
+    }
+    &.unavailable{
+        background-color:rgb(192, 16, 16);
+    }
+}

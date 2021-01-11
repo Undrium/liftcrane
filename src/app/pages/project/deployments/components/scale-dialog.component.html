@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Scale {{deployment.metadata.name}}</h1>
+<mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+    <form class="example-form" >
+        <mat-form-field>
+            <mat-label>Number of desired pods</mat-label>
+            <input name="replicas" [(ngModel)]="replicas" type="number" matInput>
+        </mat-form-field>
+    </form>
+    
+</mat-dialog-content>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" mat-raised-button (click)="scale()" style="max-height:40px;">Scale</button>
+    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+</div>

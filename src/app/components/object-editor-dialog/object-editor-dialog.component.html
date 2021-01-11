@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ data.title || 'Edit' }}</h1>
+<div mat-dialog-content>
+    <object-editor [readOnly]="data.readOnly" [dataObject]="data.object"></object-editor>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+    <button color="accent" *ngIf="!data.readOnly" mat-raised-button [mat-dialog-close]="data.object">{{ data.verb || 'Edit' }}</button>
+    <button color="" mat-raised-button [mat-dialog-close]="false">Cancel</button>
+</div>

@@ -1,6 +1,36 @@
-<div>
-  <app-nav></app-nav>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<mat-sidenav-container [class.mat-elevation-z24] class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav liftcrane-nav" fixedInViewport
+            fxLayout="column"
+            [attr.role]="(pageService.isHandset$ | async) ? 'dialog' : 'navigation'"
+            [mode]="(pageService.isHandset$ | async) ? 'over' : 'side'"
+            [opened]="(pageService.isHandset$ | async) === false">
+        <liftcrane-nav fxFlex="100" fxLayout="column"></liftcrane-nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+            <button
+                type="button"
+                aria-label="Toggle sidenav"
+                mat-icon-button
+                (click)="drawer.toggle()"
+                *ngIf="pageService.isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span>{{pageService.pageTitle}}</span>
+            <span fxFlex="fill"></span>
+            <mat-spinner 
+                color="accent"
+                *ngIf="pageService.somethingIsLoading" 
+                style="margin-right:3px;"
+                [diameter]="24" 
+                [strokeWidth]="3" 
+                matTooltip="{{ pageService.whatIsLoading }}" 
+                [matTooltipPosition]="'above'">
+            </mat-spinner>
+        </mat-toolbar>
+        <main fxLayoutAlign="start" fxLayout="column">
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+  

@@ -1,0 +1,40 @@
+<div class="page" fxFlex="100" fxLayout="column">
+    <mat-toolbar color="accent">
+        <mat-toolbar-row fxLayoutAlign="space-between center">
+            <span></span>
+            <button color="" mat-raised-button (click)="createUserDialog()">+ User</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
+    <div class="pageContent">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel 
+                class="clusterRow"
+                *ngFor="let user of usersService.users$ | async;let i=index; last as isLast;" 
+            >
+            <mat-expansion-panel-header>
+                <mat-panel-title fxLayoutAlign="start center">
+                    {{ user.username }} 
+                    <span class="numberOfProjectRoles" *ngIf="user.projectRoles.length > 0"> 
+                        ({{user.projectRoles.length}} {{user.projectRoles.length > 1 ? 'projects' : 'project'  }})
+                    </span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="extraDetails" fxLayout="column">
+                <form class="example-form" fxLayout="column">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Email</mat-label>
+                        <input name="email" [(ngModel)]="user.email" matInput>
+                    </mat-form-field>
+                </form>
+                <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start center">
+                    <button color="accent" mat-raised-button (click)="usersService.update(user)">Update</button>
+                    <button color="warn" mat-stroked-button (click)="confirmDelete(user)">Delete</button>
+                </div>
+            </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+</div>
+  
+  
