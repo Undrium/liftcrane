@@ -1,5 +1,5 @@
 {
-  "name": "unicloud",
+  "name": "liftcrane",
   "version": "2020.06.01",
   "scripts": {
     "ng": "ng",
@@ -57,11 +57,11 @@
     "tslint": "^6.1.3",
     "typescript": "4.0.3"
   },
-  "description": "unicloud",
+  "description": "liftcrane",
   "main": "karma.conf.js",
   "repository": {
     "type": "git",
-    "url": "https://volvocargroup1.visualstudio.com/MASP/_git/unicloud"
+    "url": "https://github.com/Undrium/liftcrane"
   },
   "keywords": [
     "client",
