@@ -5,11 +5,15 @@
       <button color="" mat-raised-button (click)="registryDialog()">+ Add registry</button>
     </mat-toolbar-row>
   </mat-toolbar>
-  <div class="pageContent">
-    <mat-card class="readable"  fxFlex="100">
-      <div class="noRegistries" *ngIf="!registryService.registries || registryService.registries.length == 0">
-        No registries yet.
-      </div>
+  <div class="pageContent" fxFlex="100" fxLayout="column">
+    <div 
+      class="noRegistries somethingIsMissing" 
+      *ngIf="!registryService.registries || registryService.registries.length == 0">
+      No registries yet
+    </div>
+    <mat-card class="readable" 
+    *ngIf="registryService.registries && registryService.registries.length > 0"  
+    fxFlex="100">
       <mat-card-content>
         <div class="registryList">
           <div class="registryRow" *ngFor="let registry of registryService.registries;let i=index; last as isLast" >

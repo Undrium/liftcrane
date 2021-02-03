@@ -9,7 +9,7 @@ import { AppRoutingModule }         from './app-routing.module';
 import { AppComponent }             from './app.component';
 import { PageNotFoundComponent }    from './pages/page-not-found/page-not-found.component';
 import { ProfileComponent }         from './pages/profile/profile.component';
-import { LiftcraneNavComponent }     from './components/liftcrane-nav/liftcrane-nav.component';
+import { SidebarComponent }     from './components/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { LiftcraneNavComponent }     from './components/liftcrane-nav/liftcrane-
     AppComponent,
     PageNotFoundComponent,
     ProfileComponent,
-    LiftcraneNavComponent
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

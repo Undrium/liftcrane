@@ -11,11 +11,12 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
-  <div class="pageContent">
-    <div class="noClusters" *ngIf="!clustersAreBeingFetched && (!clusterService.clusters || clusterService.clusters.length == 0)">
-      No clusters yet.
+  <div class="pageContent" fxFlex="100">
+    <div class="somethingIsMissing" 
+      *ngIf="!clusterService.clustersAreBeingFetched && (!clusterService.clusters || clusterService.clusters.length == 0)">
+      No clusters yet
     </div>
-    <mat-accordion class="example-headers-align" multi>
+    <mat-accordion multi>
       <mat-expansion-panel 
         class="clusterRow"
         *ngFor="let cluster of clusterService.clusters;let i=index; last as isLast;" 

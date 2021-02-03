@@ -19,11 +19,11 @@ export class MenuItem {
 }
 
 @Component({
-  selector: 'liftcrane-nav',
-  templateUrl: './liftcrane-nav.component.html',
-  styleUrls: ['./liftcrane-nav.component.scss']
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss']
 })
-export class LiftcraneNavComponent {
+export class SidebarComponent {
   menuItems: MenuItem[]; 
   environmentData : any;
   constructor(

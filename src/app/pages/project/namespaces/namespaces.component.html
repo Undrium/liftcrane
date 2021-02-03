@@ -10,7 +10,7 @@
       <div class="noNamespaces" *ngIf="!showProgressbar && (!namespaces || namespaces.length == 0)">
         No namespaces yet, create one using the "+ Namespace" button.
       </div>
-      <mat-accordion class="example-headers-align" multi>
+      <mat-accordion multi>
         <mat-expansion-panel 
           class="namespaceRow"
           *ngFor="let namespace of namespaces;let i=index; last as isLast;" 

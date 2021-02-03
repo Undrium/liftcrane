@@ -1,12 +1,14 @@
 <mat-sidenav-container [class.mat-elevation-z24] class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav liftcrane-nav" fixedInViewport
-            fxLayout="column"
-            [attr.role]="(pageService.isHandset$ | async) ? 'dialog' : 'navigation'"
-            [mode]="(pageService.isHandset$ | async) ? 'over' : 'side'"
-            [opened]="(pageService.isHandset$ | async) === false">
-        <liftcrane-nav fxFlex="100" fxLayout="column"></liftcrane-nav>
+    <mat-sidenav #drawer class="sidenavHeader" fixedInViewport
+        fxLayout="column"
+        [attr.role]="(pageService.isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(pageService.isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(pageService.isHandset$ | async) === false">
+
+        <app-sidebar fxFlex="100" fxLayout="column"></app-sidebar>
+
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenavContainer">
         <mat-toolbar color="primary" fxLayoutAlign="space-between center" fxLayoutGap="8px">
             <button
                 type="button"

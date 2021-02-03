@@ -23,7 +23,6 @@ export class ClustersComponent {
   public vendor: any
   public clusters:Array<any> = [];
   public showProgressbar: boolean = false;
-  public clustersAreBeingFetched = true;
 
   constructor(
     public clusterService: ClusterService,

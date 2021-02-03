@@ -9,14 +9,14 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <div class="pageContent" fxLayout="column">
+    <div class="somethingIsMissing" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
+      Please select namespace.
+    </div>
+    <div class="somethingIsMissing" *ngIf="(namespaceService.currentNamespaceSubject | async ) && namespaceService.currentNamespace && deployments.length == 0">
+      No deployments yet, create one using the button in the upper corner.
+    </div>
     <mat-card style="margin-bottom:16px !important;">
       <mat-card-content>
-        <div class="noDeployments" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
-          Please select namespace.
-        </div>
-        <div class="noDeployments" *ngIf="namespaceService.currentNamespace && deployments.length == 0">
-          No deployments yet, create one using the button in the upper corner.
-        </div>
         <mat-list>
           <mat-list-item *ngFor="let deployment of deployments;let i=index; last as isLast">
             <mat-divider *ngIf="!isLast"></mat-divider>
@@ -27,10 +27,10 @@
     </mat-card>
     <mat-card *ngIf="(clusterService.currentClusterSubject | async ).platform == 'OPENSHIFT4'">
       <mat-card-content>
-        <div class="noDeployments" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
+        <div class="somethingIsMissing" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
           Please select namespace.
         </div>
-        <div class="noDeployments" *ngIf="namespaceService.currentNamespace && deploymentConfigs.length == 0">
+        <div class="somethingIsMissing" *ngIf="namespaceService.currentNamespace && deploymentConfigs.length == 0">
           No deployment configurations yet, create one using the button in the upper corner.
         </div>
         <mat-list>
