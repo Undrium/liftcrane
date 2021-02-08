@@ -1,14 +1,8 @@
-import { Component, OnInit, }               from '@angular/core';
-import { Router, ActivatedRoute, Params }   from '@angular/router';
+import { Component }                        from '@angular/core';
+import { ActivatedRoute, Params }           from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
-import { Observable }         from 'rxjs';
-import { map, share }         from 'rxjs/operators';
-
-
 import { CreateNamespaceDialogComponent }   from './components/create-namespace-dialog.component'
-import { ConfirmDialogComponent }           from '../../../components/confirm-dialog/confirm-dialog.component'
-
 
 import { PageService }        from '../../../services/page.service';
 import { ApiService }         from '../../../services/api.service';

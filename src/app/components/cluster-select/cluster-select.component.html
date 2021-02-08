@@ -1,5 +1,5 @@
 <mat-form-field >
-    <mat-label *ngIf="!(clusterService.getCurrentCluster() | async )">Select namespace</mat-label>
+    <mat-label *ngIf="!(clusterService.getCurrentCluster() | async )">Select cluster</mat-label>
     <mat-select 
         [ngModel]="clusterService.getCurrentCluster() | async" 
         (selectionChange)="clusterService.setCurrentCluster($event.value);" 

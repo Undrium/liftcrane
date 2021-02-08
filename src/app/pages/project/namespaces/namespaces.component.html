@@ -2,12 +2,17 @@
   <mat-toolbar color="accent">
     <mat-toolbar-row fxLayoutAlign="space-between center">
       <cluster-select></cluster-select>
-      <button color="" mat-raised-button (click)="createNamespaceDialog()">+ Namespace</button>
+      <button color="" mat-raised-button (click)="createNamespaceDialog()" [disabled]="!(clusterService.currentClusterSubject | async )">+ Namespace</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
   <div class="pageContent">
-      <div class="noNamespaces" *ngIf="!showProgressbar && (!namespaces || namespaces.length == 0)">
+      <div class="somethingIsMissing" *ngIf="!(clusterService.currentClusterSubject | async )">
+        Please select cluster
+      </div>
+      <div class="noNamespaces" 
+        *ngIf="(clusterService.currentClusterSubject | async ) && 
+        (!showProgressbar && (!namespaces || namespaces.length == 0))">
         No namespaces yet, create one using the "+ Namespace" button.
       </div>
       <mat-accordion multi>

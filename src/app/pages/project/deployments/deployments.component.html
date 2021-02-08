@@ -9,11 +9,15 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <div class="pageContent" fxLayout="column">
-    <div class="somethingIsMissing" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
-      Please select namespace.
+    <div class="somethingIsMissing" *ngIf="!(clusterService.currentClusterSubject | async )">
+      Please select cluster
+    </div>
+    <div class="somethingIsMissing" *ngIf="(clusterService.currentClusterSubject | async ) && 
+    (!showProgressbar && !(namespaceService.currentNamespaceSubject | async ))">
+      Please select namespace
     </div>
     <div class="somethingIsMissing" *ngIf="(namespaceService.currentNamespaceSubject | async ) && namespaceService.currentNamespace && deployments.length == 0">
-      No deployments yet, create one using the button in the upper corner.
+      No deployments yet, create one using the button in the upper corner
     </div>
     <mat-card style="margin-bottom:16px !important;">
       <mat-card-content>
