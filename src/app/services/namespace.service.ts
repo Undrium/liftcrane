@@ -51,7 +51,8 @@ export class NamespaceService {
     }
 
     refresh(){
-        this.clusterService.refresh();
+        // Since namespaces come from the cluster itself, refresh the current cluster
+        this.clusterService.refresh(true);
     }
 
     /*
