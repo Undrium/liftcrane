@@ -2,6 +2,8 @@ import { Component }                        from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
+import { combineLatest }                    from 'rxjs';
+
 import { CreateDeploymentDialogComponent }  from './components/create-deployment-dialog.component'
 
 import { PageService }        from '../../../services/page.service';
@@ -50,6 +52,16 @@ export class DeploymentsComponent {
     });
 
     this.namespaceService.getCurrentNamespace().subscribe((namespace:any) => {
+      this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
+      this.deployments = [];
+      this.getDeployments(namespace);
+      if(this.vendor.platformName == "OPENSHIFT4"){
+        this.getDeploymentConfigs(namespace);
+      }
+    });
+
+    combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
+    .subscribe(([cluster, namespace]) => {
       this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
       this.deployments = [];
       this.getDeployments(namespace);
