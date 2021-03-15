@@ -80,11 +80,11 @@ export class ClusterService {
     }
 
     public refresh(isCurrent: boolean = true){
-        if(this.currentCluster && this.currentCluster.name){
+        if(this.currentCluster && this.currentCluster.formatName){
             // Force renewal through deletion of token
             delete this.currentCluster.personalToken;
             delete this.currentCluster.status;
-            this.getFullCluster(this.currentCluster.name, this.projectsService.currentProject.formatName).subscribe(
+            this.getFullCluster(this.currentCluster.formatName, this.projectsService.currentProject.formatName).subscribe(
                 (cluster: any) => {
                     // Refresh to notify listeners
                     if(isCurrent){
@@ -103,7 +103,6 @@ export class ClusterService {
 
     public async setCurrentCluster(cluster: any){
         this.currentCluster = this.localStorageService.setItem('currentCluster', cluster); 
-        this.preferenceService.addOrUpdatePreference("cluster", cluster.name || "");
         this.currentClusterSubject.next(this.currentCluster);
     }
 

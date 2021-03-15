@@ -4,10 +4,10 @@
       <span></span>
       <button 
         *ngIf="pageService.guard(['admin']) | async" 
-        mat-raised-button (click)="addExistingClusterDialog()">+ Existing Cluster</button>
+        mat-raised-button (click)="addExistingClusterDialog()">+ Existing</button>
       <button 
         *ngIf="pageService.guard(['admin']) | async" 
-        mat-raised-button (click)="createClusterDialog()">+ New Cluster</button>
+        mat-raised-button (click)="createClusterDialog()">+ New</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
@@ -29,11 +29,11 @@
         <div class="extraDetails" fxLayout="column">
           <div *ngIf="cluster.apiServer" fxLayout="column">
             <h3>API</h3>
-            <div fxFlex="50" class="url"><a href="{{cluster.apiServer}}">{{cluster.apiServer}}</a></div>
+            <div fxFlex="50" class="url"><a href="{{cluster.apiServer}}" target="_blank">{{cluster.apiServer}}</a></div>
           </div>
           <div *ngIf="cluster.dashboardUrl && cluster.platform == 'KUBERNETES'" fxLayout="column">
             <h3>Kubernetes Dashboard URL</h3>
-            <div fxFlex="50" class="url"><a href="{{cluster.dashboardUrl}}">{{cluster.dashboardUrl}}</a></div>
+            <div fxFlex="50" class="url"><a href="{{cluster.dashboardUrl}}" target="_blank">{{cluster.dashboardUrl}}</a></div>
           </div>
           <div *ngIf="cluster.personalToken" fxLayout="column">
             <div fxLayout="row">

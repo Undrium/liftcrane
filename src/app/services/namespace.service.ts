@@ -55,7 +55,7 @@ export class NamespaceService {
     }
 
     /*
-    * Get the current list of clusters fetched or if not existing a new shallow list of clusters
+    * Get the current list of namespaces fetched or if not existing a new shallow list of namespaces
     */
    public async getProjectsNamespaces(projectFormatName: string, refresh = false):Promise<any>{
         if((refresh || !this.namespaces || this.namespaces.length == 0) && projectFormatName){

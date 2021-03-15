@@ -32,7 +32,8 @@ export class CreateNamespaceDialogComponent {
     }
 
     create(): void{
-        this.namespaceService.createNamespace(this.newNamespace, this.projectsService.currentProject.kubernetesIdentifier).subscribe(
+        var kid = this.projectsService.currentProject.kubernetesIdentifier;
+        this.namespaceService.createNamespace(this.newNamespace, kid).subscribe(
             resp =>{
                 this.namespaceService.refresh();
                 this.dialogRef.close();

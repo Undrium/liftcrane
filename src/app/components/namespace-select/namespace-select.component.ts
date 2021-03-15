@@ -12,7 +12,11 @@ import { ClusterService }       from '../../services/cluster.service';
 })
 export class NamespaceSelectComponent {
 
-    constructor(public clusterService: ClusterService, public namespaceService: NamespaceService, public preferenceService: PreferenceService) { 
+    constructor(
+      public clusterService: ClusterService, 
+      public namespaceService: NamespaceService, 
+      public preferenceService: PreferenceService
+    ) { 
 
       
     }
