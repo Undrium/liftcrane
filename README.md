@@ -1,5 +1,9 @@
 # Liftcrane
 
+Manage, clone and patch clusters in Kubernetes
+
+Liftcrane is a GUI using CloudGuard to safely manage a multi environment Kubernetes setup. It is aimed towards organizations which want to let development teams provision and handle their own clusters.
+
 ## Kubernetes
 
 To start locally, use for instance Minikube. 

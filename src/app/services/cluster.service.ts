@@ -124,7 +124,6 @@ export class ClusterService {
             this.clustersAreBeingFetched = false;
             this.clusters = this.localStorageService.setItem('clusters-'+projectFormatName, fetchedClusters);
         }
-
         // Determine if a cluster should be selected in select components
         this.preferenceService.getPreferenceByName("cluster").subscribe(preference => {
             if(typeof preference  === 'undefined') { 
@@ -132,7 +131,10 @@ export class ClusterService {
                 if(this.clusters.length){
                     this.setCurrentClusterByName(this.clusters[0].formatName); 
                 }
-                return 
+                return
+            }else if(this.clusters.length && this.clusters.length == 1){
+                this.setCurrentClusterByName(this.clusters[0].formatName); 
+                return
             }
             this.setCurrentClusterByName(preference['preferenceValue']);  
             if(this.currentCluster.formatName && this.clusters[0] && this.clusters[0].formatName == this.currentCluster.formatName){

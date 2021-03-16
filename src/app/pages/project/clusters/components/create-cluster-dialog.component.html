@@ -1,6 +1,6 @@
-<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()">
-    <h1 mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">Create Cluster
-
+<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()" (change)="formChanged()">
+    <h1 mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+        Create Cluster in Azure
         <mat-spinner 
                 *ngIf="creating"
                 style="margin-right:16px;"
@@ -9,32 +9,46 @@
                 matTooltip="Initiating provisioning in Azure" 
                 [matTooltipPosition]="'above'"></mat-spinner> 
     </h1>
+
     <div mat-dialog-content >
-        <div fxLayout="column" style="margin:16px 0;">
-            <mat-form-field fxFlex="100">
-                <mat-label>Name</mat-label>
-                <input name="name" [(ngModel)]="newCluster.name" #clusterName="ngModel" required appForbiddenFormat matInput>
-                <mat-error *ngIf="clusterName.errors">
-                    <span *ngIf="clusterName.errors.forbiddenFormat">Must be lowercase and no spaces.</span>
-                    <span *ngIf="clusterName.errors.required">Can't be empty.</span>
-                </mat-error>
-            </mat-form-field>
-            <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
-                <mat-form-field fxFlex="50">
-                    <mat-label>Location</mat-label>
-                    <mat-select [(ngModel)]="newCluster.specification.location" name="location">
-                        <mat-option *ngFor="let location of locations" [value]="location.value">{{location.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field fxFlex="50">
-                    <mat-label>Platform</mat-label>
-                    <mat-select [(ngModel)]="newCluster.platform" name="platform">
-                        <mat-option *ngFor="let platform of platforms" [value]="platform.value">{{platform.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+        <div fxLayout="column" style="margin:0px 0;">
+            <mat-tab-group dynamicHeight color="accent" backgroundColor="">
+                <mat-tab label="Overview">
+                    <mat-form-field fxFlex="100" style="margin:16px 0;">
+                        <mat-label>Name</mat-label>
+                        <input name="name" [(ngModel)]="newCluster.name" #clusterName="ngModel" required appForbiddenFormat matInput>
+                        <mat-error *ngIf="clusterName.errors">
+                            <span *ngIf="clusterName.errors.forbiddenFormat">Must be lowercase and no spaces.</span>
+                            <span *ngIf="clusterName.errors.required">Can't be empty.</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Location</mat-label>
+                            <mat-select [(ngModel)]="newCluster.specification.location" name="location">
+                                <mat-option *ngFor="let location of locations" [value]="location.value">{{location.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Platform</mat-label>
+                            <mat-select [(ngModel)]="newCluster.platform" name="platform">
+                                <mat-option 
+                                    *ngFor="let platform of platforms" 
+                                    [value]="platform.value">{{platform.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>        
+                </mat-tab>
+
+                <mat-tab label="Advanced">
+                    <object-editor *ngIf="showAdvanced" [(dataObject)]="newCluster"></object-editor>
+                </mat-tab>
+            </mat-tab-group>
+            
+            
         </div>
     </div>
+
     <div mat-dialog-actions fxLayoutAlign="end center"> 
         <button 
             color="accent" mat-raised-button (click)="createNew()" 

@@ -7,20 +7,21 @@
       </span>
   </mat-toolbar>
   <mat-toolbar color="" *ngIf="authService.isLoggedIn() | async">
-    <mat-toolbar-row fxLayoutAlign="space-between center">
+    <mat-toolbar-row fxLayoutAlign="space-between center" class="projectHolder">
       <project-select></project-select>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-nav-list class="navigation" fxFlex="100">
     <div class="navigationWrapper">
-      <div *ngFor="let menuItem of menuItems">
+      <div *ngFor="let menuItem of menuItems; let first = first">
         <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
-        <a *ngIf="menuItem.path != 'kubernetes' && (!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
+        <a *ngIf="menuItem.path != 'kubernetes' && (!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 
+          [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
           <mat-icon *ngIf="menuItem.icon">{{menuItem.icon}}</mat-icon><i class="{{menuItem.faIcon}}" *ngIf="menuItem.faIcon"></i>
           {{menuItem.title}}
         </a>
-        <div class="menuChildren" *ngIf="menuItem.children && menuItem.children.length > 0">
-          <a [routerLink]="menuItemChild.path"  *ngFor="let menuItemChild of menuItem.children"  [class.active]="pageService.isActivePage(menuItemChild.path)">
+        <div class="menuChildren" *ngIf="menuItem.children && menuItem.children.length > 0" [class.first]="first">
+          <a [routerLink]="menuItemChild.path" *ngFor="let menuItemChild of menuItem.children"  [class.active]="pageService.isActivePage(menuItemChild.path)">
             <div class="navigationItem nav-icon" *ngIf="(!menuItemChild.settings.expectedUserType || profileService.isUserType(menuItemChild.settings.expectedUserType))">
               <mat-icon *ngIf="menuItemChild.icon">{{menuItemChild.icon}}</mat-icon>
               <i class="{{menuItemChild.faIcon}}" *ngIf="menuItemChild.faIcon"></i>

@@ -14,7 +14,7 @@ import { ClusterService }       from '../../../../services/cluster.service';
 export class AddExistingClusterDialogComponent {
     tabIndex = 0;
     existingCluster: any;
-    platforms: any[];
+    platforms: any[]; 
     vendors = ["LOCAL", "AZURE", "AMAZON"];
 
     constructor(

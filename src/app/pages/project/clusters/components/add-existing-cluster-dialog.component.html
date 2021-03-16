@@ -18,15 +18,18 @@
             <mat-form-field fxFlex="50" >
                 <mat-label>Platform</mat-label>
                 <mat-select [(ngModel)]="existingCluster.platform" name="platform">
-                    <mat-option *ngFor="let platform of platforms" [value]="platform.value">{{platform.name}}</mat-option>
+                    <mat-option 
+                        *ngFor="let platform of platforms" 
+                        [value]="platform.value">{{platform.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <mat-label>Vendor</mat-label>
-                <mat-select [(ngModel)]="existingCluster.vendor" name="platform">
+                <mat-select [(ngModel)]="existingCluster.vendor" name="vendor">
                     <mat-option *ngFor="let vendor of vendors" [value]="vendor">{{vendor}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            
         </div>
     </form>
 </div>

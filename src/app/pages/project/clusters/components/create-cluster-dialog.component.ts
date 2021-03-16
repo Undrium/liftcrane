@@ -27,6 +27,7 @@ export class CreateClusterDialogComponent {
     platforms: any[]; 
     locations: any[];
     creating: boolean = false;
+    showAdvanced = true;
 
     constructor(
         public logService: LogService,
@@ -38,6 +39,7 @@ export class CreateClusterDialogComponent {
     ) {
         this.platforms = this.clusterService.availablePlatforms;
         this.locations = this.clusterService.availableLocationsAzure;
+        
         this.newCluster = { 
             "name": "", 
             "platform": this.platforms[0].value, 
@@ -67,6 +69,12 @@ export class CreateClusterDialogComponent {
             }
         } // End newCluster
         
+    }
+
+    formChanged(){
+        console.log("changed");
+        this.showAdvanced = false;
+        setTimeout(() => {this.showAdvanced = true}, 100);
     }
 
     onNoClick(): void {
