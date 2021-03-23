@@ -72,9 +72,7 @@ export class CreateClusterDialogComponent {
     }
 
     formChanged(){
-        console.log("changed");
-        this.showAdvanced = false;
-        setTimeout(() => {this.showAdvanced = true}, 100);
+        this.newCluster = Object.assign({}, this.newCluster);
     }
 
     onNoClick(): void {

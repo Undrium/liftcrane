@@ -23,6 +23,17 @@
   z-index: 1;
 }
 
+.mat-expanded{
+  .mat-expansion-indicator{
+    margin-top:5px !important;
+  }
+  
+}
+
+.mat-expansion-indicator{
+  margin-top:-4px;
+}
+
 main{
   display: flex;
   height: 100vh;  
