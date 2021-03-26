@@ -27,9 +27,6 @@ export class NamespaceService {
         public localStorageService: LocalStorageService,
         public preferenceService: PreferenceService
     ) {
-        if(this.localStorageService.isExist('namespaces')){
-            this.namespaces = this.localStorageService.getItem('namespaces');
-        }
         this.namespaces$ = new ReplaySubject<Array<any>>(1);    
         this.currentNamespaceSubject = new BehaviorSubject<any>(null);
         // Subscribe to know when namespaces change
@@ -43,7 +40,7 @@ export class NamespaceService {
             this.preferenceService.getPreferenceByName("preferedNamespace"+cluster.formatName).subscribe(preference => {
                 if(typeof preference  == 'undefined') { 
                     // No preference, default to 0
-                    if(cluster.namespaces[0] && cluster.namespaces[0].metadata){
+                    if(cluster.namespaces && cluster.namespaces[0] && cluster.namespaces[0].metadata){
                         this.setCurrentNamespaceByName(cluster.namespaces[0].metadata.name); 
                     }
                     return 
@@ -132,6 +129,9 @@ export class NamespaceService {
             .pipe(map((resp: any) => {
                 if(resp && resp.status && resp.status.phase && resp.status.phase == 'Terminating'){
                     this.namespaces.splice(this.namespaces.findIndex(item => item.metadata.name === resp.metadata.name), 1);
+                    // Clear traces of namespace
+                    this.clusterService.currentCluster['namespaces'] = this.namespaces;
+                    this.localStorageService.removeItem("currentCluster"); 
                 }
         }));
     }

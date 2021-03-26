@@ -101,9 +101,15 @@ export class ClusterService {
         })).pipe(take(1)).subscribe();
     }
 
-    public async setCurrentCluster(cluster: any){
+    public async setCurrentCluster(cluster: any, dirty = false){
         this.currentCluster = this.localStorageService.setItem('currentCluster', cluster); 
         this.currentClusterSubject.next(this.currentCluster);
+        // If a dirty cluster it also need to be fetched, do that afterwards
+        if(dirty){
+            this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
+                this.setCurrentCluster(cluster);
+            })).pipe(take(1)).subscribe();
+        }
     }
 
     public getCurrentCluster(){

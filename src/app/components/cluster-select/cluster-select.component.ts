@@ -30,7 +30,8 @@ export class ClusterSelectComponent {
 
     public switchCurrentCluster(cluster: any){
       this.preferenceService.addOrUpdatePreference("cluster", cluster.name || "");
-      this.clusterService.setCurrentCluster(cluster);
+      // Need to wipe it, therefor set it to dirty
+      this.clusterService.setCurrentCluster(cluster, true);
     }
 
 }

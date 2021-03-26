@@ -51,15 +51,6 @@ export class DeploymentsComponent {
       }
     });
 
-    this.namespaceService.getCurrentNamespace().subscribe((namespace:any) => {
-      this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
-      this.deployments = [];
-      this.getDeployments(namespace);
-      if(this.vendor.platformName == "OPENSHIFT4"){
-        this.getDeploymentConfigs(namespace);
-      }
-    });
-
     combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
     .subscribe(([cluster, namespace]) => {
       this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
