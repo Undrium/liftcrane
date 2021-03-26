@@ -65,6 +65,10 @@ export class CloudGuardService {
     return this.post("/clusters/aks", post);
   }
 
+  public cloneNamespace(namespaceName: string, cloneData: any): Observable<any> {
+    return this.post("/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);
+  }
+
   public deleteAKSCluster(name): any{
     return this.delete("/clusters/aks/"+name);
   }

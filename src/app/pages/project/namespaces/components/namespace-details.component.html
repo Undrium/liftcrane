@@ -1,7 +1,15 @@
 <mat-tab-group dynamicHeight color="accent" backgroundColor="">
     <mat-tab label="Overview">
         <object-editor [readOnly]="true" [dataObject]="namespace"></object-editor>
-        <div fxFlex="100" fxLayoutAlign="end center" class="buttonHolder">
+        <div fxFlex="100" fxLayoutAlign="end center" class="buttonHolder" fxLayoutGap="16px">
+            <button 
+                color="accent" 
+                mat-raised-button 
+                (click)="cloneNamespaceDialog(namespace)"
+                matTooltip="Clone this namespace to another cluster or same origin." 
+                [matTooltipPosition]="'above'"
+                [matTooltipShowDelay]="1000"
+                >Clone Namespace</button>
             <button 
                 color="accent" 
                 mat-raised-button 

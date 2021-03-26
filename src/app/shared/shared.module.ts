@@ -28,6 +28,7 @@ import { FlexLayoutModule }                         from '@angular/flex-layout';
 
 import { MatButtonModule }                          from '@angular/material/button';
 import { MatCardModule }                            from '@angular/material/card';
+import { MatCheckboxModule }                        from '@angular/material/checkbox';
 import { MatChipsModule }                           from '@angular/material/chips';
 import { MatDialogModule }                          from '@angular/material/dialog';
 import { MatExpansionModule }                       from '@angular/material/expansion';
@@ -61,6 +62,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     CommonModule,
     FlexLayoutModule,
     MatCardModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -111,6 +113,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     FlexLayoutModule,
     FormsModule,
     MatCardModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,

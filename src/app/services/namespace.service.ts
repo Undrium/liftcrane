@@ -2,11 +2,13 @@ import { Injectable }                   from '@angular/core';
 import { BehaviorSubject, ReplaySubject, Observable, of }  from 'rxjs';
 import { map, take }                           from 'rxjs/operators';
 
-import { ApiService }                   from './api.service';
-import { ClusterService }               from './cluster.service';
-import { ProjectsService }               from './projects.service';
-import { LocalStorageService }          from './localstorage.service';
-import { PreferenceService } from './preference.service';
+import { ApiService }                       from './api.service';
+import { CloudGuardService }                from './cloudguard.service';
+import { ClusterService }                   from './cluster.service';
+import { ProjectsService }                  from './projects.service';
+import { LocalStorageService }              from './localstorage.service';
+import { PreferenceService }                from './preference.service';
+
 import { ɵMetadataOverrider } from '@angular/core/testing';
 
 
@@ -19,6 +21,7 @@ export class NamespaceService {
 
     constructor(
         public apiService: ApiService, 
+        public cloudguardService: CloudGuardService,
         public clusterService: ClusterService,
         public projectsService: ProjectsService,
         public localStorageService: LocalStorageService,
