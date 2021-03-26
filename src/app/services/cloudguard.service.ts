@@ -46,15 +46,11 @@ export class CloudGuardService {
   }
 
   public getCluster(formatName: string): any{
-    return this.get("/clusters/" + formatName).pipe(map((cluster: any) =>{
-      return cluster;
-    }));
+    return this.get("/clusters/" + formatName);
   }
   
   public getClusterNamespaces(formatName: string): any{
-    return this.get("/clusters/" + formatName + "/namespaces").pipe(map((resp: any) =>{
-      return resp;
-    }));
+    return this.get("/clusters/" + formatName + "/namespaces");
   }
 
   public getAKSCluster(name): any{
@@ -168,26 +164,38 @@ export class CloudGuardService {
 
   public get(uri: string): Observable<any> {
     return this.getHeaders().pipe(switchMap(headers => {
-      return this.http.get(environment.cloudguardUrl + uri, { headers: headers }).pipe(share())
+      return this.http.get(environment.cloudguardUrl + uri, { headers: headers }).pipe(map((resp: any) =>{
+        return this.handleCloudGuardResponse(resp);
+      })).pipe(share());
     }));
   }
 
   public delete(uri: string, data = {}): Observable<any> {
     return this.getHeaders().pipe(switchMap(headers => {
-      return this.http.delete(environment.cloudguardUrl + uri, { headers: headers }).pipe(share());
+      return this.http.delete(environment.cloudguardUrl + uri, { headers: headers }).pipe(map((resp: any) =>{
+        return this.handleCloudGuardResponse(resp);
+      })).pipe(share());
     }));
   }
 
   public post(uri: string, data = {}): Observable<any> {
     return this.getHeaders().pipe(switchMap(headers => {
-      return this.http.post(environment.cloudguardUrl + uri, data, { headers: headers }).pipe(share());
+      return this.http.post(environment.cloudguardUrl + uri, data, { headers: headers }).pipe(map((resp: any) =>{
+        return this.handleCloudGuardResponse(resp);
+      })).pipe(share());
     }));
   }
 
   public patch(uri: string, data = {}): Observable<any> {
     return this.getHeaders("patch").pipe(switchMap(headers => {
-      return this.http.patch(environment.cloudguardUrl + uri, data, { headers: headers }).pipe(share());
+      return this.http.patch(environment.cloudguardUrl + uri, data, { headers: headers }).pipe(map((resp: any) =>{
+        return this.handleCloudGuardResponse(resp);
+      })).pipe(share());
     }));
+  }
+
+  public handleCloudGuardResponse(response: any){
+    return response.result || response;
   }
 
   public getHeaders(type?: string): Observable<any> {
