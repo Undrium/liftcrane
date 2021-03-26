@@ -52,7 +52,13 @@ export class CloneNamespaceDialogComponent {
     clone(): void{
         this.cloudguardService.cloneNamespace(this.namespace.metadata.name, this.cloneData).subscribe(
             resp =>{
-                this.dialogRef.close();
+                // We really only want to reload if same target as source
+                if(this.cloneData && this.cloneData.targetClusterFormatName && this.cloneData.sourceClusterFormatName){
+                    if(this.cloneData.targetClusterFormatName == this.cloneData.sourceClusterFormatName){
+                        this.namespaceService.refresh();
+                    }
+                }
+                this.dialogRef.close(this.cloneData);
             },
             err => {
                 this.logService.handleError(err);

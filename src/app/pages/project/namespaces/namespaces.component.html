@@ -18,7 +18,7 @@
       <mat-accordion multi>
         <mat-expansion-panel 
           class="namespaceRow"
-          *ngFor="let namespace of namespaces;let i=index; last as isLast;" 
+          *ngFor="let namespace of namespaces;trackBy:trackByUid;let i=index; last as isLast;" 
           >
           <mat-expansion-panel-header>
             <mat-panel-title>

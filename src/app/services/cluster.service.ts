@@ -201,39 +201,66 @@ export class ClusterService {
         
     } // End getFullCluster
 
+    public removeFromLocalClusterList(clusterToDelete: any){
+        for (let [index, cluster] of this.clusters.entries()) {
+            if(clusterToDelete['formatName'] == cluster.formatName){
+                this.clusters.splice(index, 1);
+                // Update local storage aswell
+                this.localStorageService.setItem('clusters-'+this.projectsService.currentProject.formatName, this.clusters);
+                break;
+            }
+        }
+    }
 
-    public deleteAKSCluster(data: any): Observable<any>{
-        return this.cloudGuardService.deleteAKSCluster(data.name).pipe(map(cluster => {
-            this.getProjectsClusters(this.projectsService.currentProject.formatName, true);
+    public upsertLocalClusterList(newCluster: any){
+        var found = false;
+        for (let [index, cluster] of this.clusters.entries()) {
+            found = newCluster['formatName'] == cluster.formatName
+            if(found){
+                this.clusters[index] = newCluster;
+                break;
+            }
+        }
+        if(!found){
+            this.clusters.push(newCluster);
+        }
+        // Update local storage aswell
+        this.localStorageService.setItem('clusters-'+this.projectsService.currentProject.formatName, this.clusters);
+    }
+
+
+    public deleteAKSCluster(clusterToDelete: any): Observable<any>{
+        return this.cloudGuardService.deleteAKSCluster(clusterToDelete.name).pipe(map(cluster => {
+            this.removeFromLocalClusterList(clusterToDelete);
             return cluster;
         }));
     }
 
     public createAKSCluster(data: any): Observable<any>{
         return this.cloudGuardService.createAKSCluster(data).pipe(map(cluster => {
-            this.getProjectsClusters(this.projectsService.currentProject.formatName, true);
+            this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public addCluster(cluster: any): Observable<any>{
         return this.cloudGuardService.addCluster(cluster).pipe(map(cluster => {
-            this.getProjectsClusters(this.projectsService.currentProject.formatName, true);
+            this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public updateCluster(cluster: any): Observable<any>{
         return this.cloudGuardService.updateCluster(cluster).pipe(map(cluster => {
-            this.getProjectsClusters(this.projectsService.currentProject.formatName, true);
+            this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
-    public deleteCluster(cluster): Observable<any>{
-        return this.cloudGuardService.deleteCluster(cluster.formatName).pipe(map(resp => {
-            this.getProjectsClusters(this.projectsService.currentProject.formatName, true);
-          return resp;
+    public deleteCluster(clusterToDelete): Observable<any>{
+        return this.cloudGuardService.deleteCluster(clusterToDelete.formatName).pipe(map(resp => {
+            this.removeFromLocalClusterList(clusterToDelete);
+            return resp;
         }));
     }
 

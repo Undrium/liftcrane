@@ -79,4 +79,8 @@ export class ClustersComponent {
     });
   }
 
+  trackByFormatName(index, item){
+    return item.formatName;
+  }
+
 }

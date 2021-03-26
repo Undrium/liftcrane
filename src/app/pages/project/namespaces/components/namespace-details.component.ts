@@ -23,7 +23,7 @@ export class NamespaceDetailsComponent {
       const dialogRef = this.dialog.open(CloneNamespaceDialogComponent, {
         data: { namespace: this.namespace }
       });
-      dialogRef.afterClosed().subscribe(result => {});
+      dialogRef.afterClosed().subscribe(cloneData => {});
     }
 
     deleteNamespaceDialog(namespace: any): void {

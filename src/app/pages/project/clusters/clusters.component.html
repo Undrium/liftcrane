@@ -19,7 +19,7 @@
     <mat-accordion multi>
       <mat-expansion-panel 
         class="clusterRow"
-        *ngFor="let cluster of clusterService.clusters;let i=index; last as isLast;" 
+        *ngFor="let cluster of clusterService.clusters; trackBy: trackByFormatName; let i=index; last as isLast;" 
         >
         <mat-expansion-panel-header>
           <mat-panel-title>

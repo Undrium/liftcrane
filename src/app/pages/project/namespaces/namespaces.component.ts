@@ -45,7 +45,13 @@ export class NamespacesComponent {
       width: '350px',
       data: {}
     });
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
+
+  trackByUid(index, item){
+    return item.metadata.uid; 
   }
 
 }
