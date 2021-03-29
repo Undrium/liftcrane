@@ -55,7 +55,8 @@ export class ClustersComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         width: '450px',
         data: {
-          message: "Confirm deletion of cluster " + cluster.name + " reference."
+          title: "Confirm Delete",
+          message: "Confirm deletion of cluster " + cluster.name + " reference (will not be removed from provider)."
         }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -69,6 +70,7 @@ export class ClustersComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         width: '450px',
         data: {
+          title: "Confirm Delete",
           message: "Confirm deletion of cluster " + cluster.name + " in Azure."
         }
     });

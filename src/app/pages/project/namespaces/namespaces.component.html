@@ -18,11 +18,13 @@
       <mat-accordion multi>
         <mat-expansion-panel 
           class="namespaceRow"
+          (opened)="showExtraDetails[namespace.metadata.uid] = true" 
+          (closed)="showExtraDetails[namespace.metadata.uid] = false"
           *ngFor="let namespace of namespaces;trackBy:trackByUid;let i=index; last as isLast;" 
           >
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div class="namespaceNameContainer" fxLayout="column" (click)="showExtraDetails[namespace.metadata.uid] = !showExtraDetails[namespace.metadata.uid]">
+              <div class="namespaceNameContainer" fxLayout="column">
                 <div class="namespaceName">{{namespace.metadata.name}}</div>
                 <div class="namespaceDate">{{namespace.metadata.creationTimestamp | date }}</div>
               </div>
@@ -33,9 +35,7 @@
             [(loadEvents)]="showExtraDetails[namespace.metadata.uid]"
             class="extraDetails" 
             fxLayout="column" 
-            [namespace]="namespace"></namespace-details>
-
-          
+            [namespace]="namespace"></namespace-details>          
         </mat-expansion-panel>
       </mat-accordion>
 

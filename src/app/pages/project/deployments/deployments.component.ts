@@ -99,7 +99,6 @@ export class DeploymentsComponent {
 
   ngOnDestroy() {
     if(this.deploymentsEvents && this.deploymentsEvents['abortController']){
-      console.log("DERP");
       this.deploymentsEvents['abortController'].abort();
     }
   }

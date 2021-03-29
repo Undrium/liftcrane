@@ -4,8 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 import { LogService }                       from '../../../../services/log.service';
 import { ApiService }                       from '../../../../services/api.service';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
-import { NamespaceService }       from './../../../../services/namespace.service';
-import { ProjectsService }       from './../../../../services/projects.service';
+import { NamespaceService }                 from './../../../../services/namespace.service';
+import { ProjectsService }                  from './../../../../services/projects.service';
+import { PageService }                      from './../../../..//services/page.service';
 
 
 @Component({
@@ -13,10 +14,11 @@ import { ProjectsService }       from './../../../../services/projects.service';
     templateUrl: 'create-namespace-dialog.component.html',
 })
 export class CreateNamespaceDialogComponent {
-    newNamespace: any;
+    newNamespaceName: string;
 
     constructor(
         public logService: LogService,
+        public pageService: PageService,
         public apiService: ApiService,
         public namespaceService: NamespaceService,
         public projectsService: ProjectsService,
@@ -24,7 +26,7 @@ export class CreateNamespaceDialogComponent {
         public dialogRef: MatDialogRef<CreateNamespaceDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.newNamespace = "default"
+        this.newNamespaceName = "default"
     }
 
     onNoClick(): void {
@@ -33,10 +35,11 @@ export class CreateNamespaceDialogComponent {
 
     create(): void{
         var kubernetesIdentifier = this.projectsService.currentProject.kubernetesIdentifier;
-        this.namespaceService.createNamespace(this.newNamespace, kubernetesIdentifier).subscribe(
+        this.namespaceService.createNamespace(this.newNamespaceName, kubernetesIdentifier).subscribe(
             resp =>{
                 this.namespaceService.refresh();
                 this.dialogRef.close();
+                this.pageService.displayMessage("Namespace " + this.newNamespaceName + " created in cluster.");
             },
             err => {
                 this.logService.handleError(err);

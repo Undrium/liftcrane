@@ -34,7 +34,7 @@ export class ServicesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if(this.servicesEvents['abortController']){
+    if(this.servicesEvents && this.servicesEvents['abortController']){
         this.servicesEvents['abortController'].abort();
     }
   }

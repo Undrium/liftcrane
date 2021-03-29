@@ -23,6 +23,25 @@
   z-index: 1;
 }
 
+mat-dialog-container{
+  padding:0px !important;
+  .mat-dialog-title{
+    background-color: #5468bf !important;
+    color:white !important;
+    padding:16px !important;
+    text-align:center;
+  }
+  .mat-dialog-content{
+    margin:0px 16px !important;
+    padding: 0px !important;
+  }
+  .mat-dialog-actions{
+    padding-top:16px !important;
+
+    margin: 0px 16px !important;
+  }
+}
+
 .mat-expanded{
   .mat-expansion-indicator{
     margin-top:5px !important;

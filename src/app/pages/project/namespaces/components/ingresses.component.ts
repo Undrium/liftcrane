@@ -34,7 +34,7 @@ export class IngressesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if(this.ingressesEvents['abortController']){
+    if(this.ingressesEvents && this.ingressesEvents['abortController']){
         this.ingressesEvents['abortController'].abort();
     }
   }

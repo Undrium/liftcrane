@@ -21,10 +21,11 @@ export class ClusterSelectComponent {
     }
     
     public compareSelected(cluster1: any, cluster2: any):boolean{
+
       if(!cluster1 && !cluster2){
         return false;
       }
-
+      
       return cluster1.name == cluster2.name;
     }    
 

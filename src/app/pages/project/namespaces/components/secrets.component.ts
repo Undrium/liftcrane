@@ -29,7 +29,7 @@ export class SecretsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if(this.secretsEvents['abortController']){
+    if(this.secretsEvents && this.secretsEvents['abortController']){
         this.secretsEvents['abortController'].abort();
     }
   }

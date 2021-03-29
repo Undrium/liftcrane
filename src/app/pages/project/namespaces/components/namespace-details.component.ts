@@ -28,8 +28,11 @@ export class NamespaceDetailsComponent {
 
     deleteNamespaceDialog(namespace: any): void {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-          width: '350px',
-          data: { message: "Confirm deletion of namespace " + namespace.metadata.name }
+          width: '450px',
+          data: { 
+            title: "Confirm Deletion",
+            message: "This will mark namespace " + namespace.metadata.name + " for termination and all it's resources will be removed." 
+          }
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result){

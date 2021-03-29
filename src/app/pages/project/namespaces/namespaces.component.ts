@@ -40,6 +40,10 @@ export class NamespacesComponent {
 
   }
 
+  extraDetailsEcho(){
+    console.log(this.showExtraDetails);
+  }
+
   createNamespaceDialog(): void {
     const dialogRef = this.dialog.open(CreateNamespaceDialogComponent, {
       width: '350px',
