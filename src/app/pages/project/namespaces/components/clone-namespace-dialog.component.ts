@@ -7,6 +7,7 @@ import { ClusterService }                   from '../../../../services/cluster.s
 import { CloudGuardService }                from '../../../../services/cloudguard.service';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
 import { NamespaceService }                 from '../../../../services/namespace.service';
+import { PageService }                      from './../../../../services/page.service';
 import { ProjectsService }                  from '../../../../services/projects.service';
 
 
@@ -31,6 +32,7 @@ export class CloneNamespaceDialogComponent {
         public cloudguardService: CloudGuardService,
         public clusterService: ClusterService,
         public namespaceService: NamespaceService,
+        public pageService: PageService,
         public projectsService: ProjectsService,
         public localStorageService: LocalStorageService,
         public dialogRef: MatDialogRef<CloneNamespaceDialogComponent>,
@@ -50,10 +52,12 @@ export class CloneNamespaceDialogComponent {
     }
 
     clone(): void{
-        this.cloudguardService.cloneNamespace(this.namespace.metadata.name, this.cloneData).subscribe(
+        var projectFormatName = this.projectsService.currentProject.formatName;
+        this.cloudguardService.cloneNamespace(projectFormatName, this.namespace.metadata.name, this.cloneData).subscribe(
             resp =>{
                 // We really only want to reload if same target as source
                 if(this.cloneData && this.cloneData.targetClusterFormatName && this.cloneData.sourceClusterFormatName){
+                    this.pageService.displayMessage("Cloned namespace " + this.namespace.metadata.name + " to Cluster "+this.cloneData.targetClusterFormatName+".");
                     if(this.cloneData.targetClusterFormatName == this.cloneData.sourceClusterFormatName){
                         this.namespaceService.refresh();
                     }

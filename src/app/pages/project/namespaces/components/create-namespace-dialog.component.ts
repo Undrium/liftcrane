@@ -6,7 +6,7 @@ import { ApiService }                       from '../../../../services/api.servi
 import { LocalStorageService }              from '../../../../services/localstorage.service';
 import { NamespaceService }                 from './../../../../services/namespace.service';
 import { ProjectsService }                  from './../../../../services/projects.service';
-import { PageService }                      from './../../../..//services/page.service';
+import { PageService }                      from './../../../../services/page.service';
 
 
 @Component({

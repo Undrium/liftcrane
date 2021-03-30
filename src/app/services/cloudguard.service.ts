@@ -45,6 +45,10 @@ export class CloudGuardService {
     })).pipe(share());
   }
 
+  public getProjectsClustersNamespaces(projectFormatName: string, clusterFormatName: string): any{
+    return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName+"/namespaces").pipe(share());
+  }
+
   public getCluster(formatName: string): any{
     return this.get("/clusters/" + formatName);
   }
@@ -61,8 +65,8 @@ export class CloudGuardService {
     return this.post("/clusters/aks", post);
   }
 
-  public cloneNamespace(namespaceName: string, cloneData: any): Observable<any> {
-    return this.post("/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);
+  public cloneNamespace(projectFormatName: string, namespaceName: string, cloneData: any): Observable<any> {
+    return this.post("/projects/"+projectFormatName+"/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);
   }
 
   public deleteAKSCluster(name): any{

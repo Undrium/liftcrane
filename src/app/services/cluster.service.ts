@@ -102,8 +102,12 @@ export class ClusterService {
     }
 
     public async setCurrentCluster(cluster: any, dirty = false){
+        var previousCluster = this.currentCluster;
         this.currentCluster = this.localStorageService.setItem('currentCluster', cluster); 
-        this.currentClusterSubject.next(this.currentCluster);
+        // We do not want to spam change if same cluster and not dirty
+        if((previousCluster.formatName != this.currentCluster.formatName) || dirty){
+            this.currentClusterSubject.next(this.currentCluster);
+        }
         // If a dirty cluster it also need to be fetched, do that afterwards
         if(dirty){
             this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {

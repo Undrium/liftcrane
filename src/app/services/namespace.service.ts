@@ -34,25 +34,17 @@ export class NamespaceService {
             if(!cluster || !cluster.name){return;}
             // Reset
             this.setNamespaces([]);
-            this.setCurrentNamespace(null)
-            this.setNamespaces(cluster.namespaces);
-            // Check preferences
-            this.preferenceService.getPreferenceByName("preferedNamespace"+cluster.formatName).subscribe(preference => {
-                if(typeof preference  == 'undefined') { 
-                    // No preference, default to 0
-                    if(cluster.namespaces && cluster.namespaces[0] && cluster.namespaces[0].metadata){
-                        this.setCurrentNamespaceByName(cluster.namespaces[0].metadata.name); 
-                    }
-                    return 
-                }
-                this.setCurrentNamespaceByName(preference['preferenceValue']);       
-            });
+            this.setCurrentNamespace(null);
+            this.refresh();
+            
         });
     }
 
     refresh(){
-        // Since namespaces come from the cluster itself, refresh the current cluster
-        this.clusterService.refresh(true);
+        var projectFormatName = this.projectsService.currentProject.formatName;
+        this.getProjectsNamespaces(projectFormatName, true);
+        // Reset
+        this.setCurrentNamespace(null)
     }
 
     /*
@@ -60,15 +52,27 @@ export class NamespaceService {
     */
    public async getProjectsNamespaces(projectFormatName: string, refresh = false):Promise<any>{
         if((refresh || !this.namespaces || this.namespaces.length == 0) && projectFormatName){
-            this.clusterService.getCurrentCluster().subscribe((cluster:any) => {
-                if(!cluster || !cluster.name){return;}
-                this.clusterService.getFullCluster(cluster.formatName, projectFormatName).pipe(take(1)).subscribe(cluster => { 
-                    this.setNamespaces(cluster.namespaces);
-                    this.namespaces$.next(this.namespaces);
-                });
+            if(!this.clusterService.currentCluster || !this.clusterService.currentCluster.name){return;}
+            var clusterFormatName = this.clusterService.currentCluster.formatName;
+            this.cloudguardService.getProjectsClustersNamespaces(projectFormatName, clusterFormatName).subscribe((namespaces:any) => {
+                this.setNamespaces(namespaces);
+                this.namespaces$.next(this.namespaces);
                 // Reset
                 this.setCurrentNamespace(null)
+                // Check preferences
+                this.preferenceService.getPreferenceByName("preferedNamespace"+clusterFormatName).subscribe(preference => {
+                    if(typeof preference  == 'undefined') { 
+                        // No preference, default to 0
+                        if(this.namespaces && this.namespaces[0] && this.namespaces[0].metadata){
+                            this.setCurrentNamespaceByName(this.namespaces[0].metadata.name); 
+                        }
+                        return 
+                    }
+                    this.setCurrentNamespaceByName(preference['preferenceValue']);       
+                });
             });
+            // Reset
+            this.setCurrentNamespace(null)
         }
         return this.namespaces;
     }
@@ -86,12 +90,18 @@ export class NamespaceService {
     public async setCurrentNamespace(namespace: any){
         // Only update if new
         if(namespace && !this.sameUID(namespace, this.currentNamespace)){
+
             this.currentNamespace = this.localStorageService.setItem('currentNamespace', namespace); 
-
             this.preferenceService.addOrUpdatePreference("namespace", this.currentNamespace.metadata.name || "");
-
             // Notify others
             this.currentNamespaceSubject.next(this.currentNamespace);
+
+        }else if(!namespace){
+
+            this.currentNamespace = this.localStorageService.setItem('currentNamespace', namespace); 
+            this.preferenceService.addOrUpdatePreference("namespace", "");
+            this.currentNamespaceSubject.next(this.currentNamespace);
+            
         }
     }
 
@@ -129,9 +139,9 @@ export class NamespaceService {
             .pipe(map((resp: any) => {
                 if(resp && resp.status && resp.status.phase && resp.status.phase == 'Terminating'){
                     this.namespaces.splice(this.namespaces.findIndex(item => item.metadata.name === resp.metadata.name), 1);
-                    // Clear traces of namespace
-                    this.clusterService.currentCluster['namespaces'] = this.namespaces;
-                    this.localStorageService.removeItem("currentCluster"); 
+                    if(this.currentNamespace.metadata.name == namespaceName){
+                        this.setCurrentNamespace(null);
+                    }
                 }
         }));
     }
