@@ -23,7 +23,7 @@ export class CloneNamespaceDialogComponent {
     cloneData: any = {
         sourceClusterFormatName: "",
         targetClusterFormatName: "",
-        newNamespaceName: ""
+        newName: ""
     }
 
     constructor(
@@ -39,7 +39,7 @@ export class CloneNamespaceDialogComponent {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.namespace = data.namespace;
-        this.cloneData.newNamespaceName = data.namespace.metadata.name;
+        this.cloneData.newName = data.namespace.metadata.name;
         this.clusterService.getCurrentCluster().subscribe(currentCluster => {
             this.cloneData.sourceClusterFormatName = currentCluster['formatName'];
         });
@@ -73,7 +73,7 @@ export class CloneNamespaceDialogComponent {
     formChanged(): void{
         this.validationMessage = "";
         if(this.cloneData.sourceClusterFormatName == this.cloneData.targetClusterFormatName){
-            if(this.namespace.metadata.name == this.cloneData.newNamespaceName){
+            if(this.namespace.metadata.name == this.cloneData.newName){
                 this.changeName = true;
                 this.validationMessage = "Provide a unique namespace name"
             }

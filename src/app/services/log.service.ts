@@ -8,6 +8,10 @@ export class LogService {
 
     constructor() {}
 
+    public silentError(error: any){
+      this.handleError(error, false);
+    }
+
     public handleError(error: any, verbose = true){
       this.errors.push(error);
       if(verbose){

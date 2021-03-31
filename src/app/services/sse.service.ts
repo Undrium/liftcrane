@@ -1,9 +1,11 @@
 import { Injectable }       from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { LogService }           from './log.service';
+
 @Injectable({providedIn: 'root'})
 export class SseService {
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient, public logService: LogService,) {}
 
   async CreateEventMachine(url, init): Promise<EventTarget> {
     const eventTarget = new EventTarget()
@@ -69,8 +71,7 @@ export class SseService {
         let eventObject = JSON.parse(objectString);
         eventObjects.push(eventObject);
       }catch(err){
-        console.log(err);
-        console.log("derp", objectString);
+        this.logService.silentError(err);
       }
     }
     return eventObjects;

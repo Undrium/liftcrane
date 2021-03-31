@@ -11,6 +11,7 @@ import * as _                               from 'lodash';
 @Injectable({providedIn: 'root'})
 export class AuthService {
   loginSubject = new BehaviorSubject<boolean>(false);
+  heartbeatTimeout = null;
   // store the URL so we can redirect after logging in
   redirectUrl: string;
   constructor(
@@ -19,13 +20,16 @@ export class AuthService {
     private cloudGuardService: CloudGuardService
     ) {
       profileService.user$.subscribe((user: User) => {
+        clearTimeout(this.heartbeatTimeout);
         if(user && user.token){
-          this.heartbeat(user).subscribe();
+          this.heartbeat(user);
         }
-      })
+      });
   }
 
   public login(username: string, password: string): Observable<any>{
+    // Clear previous data if existing
+    this.profileService.clearUser();
     return this.cloudGuardService.login(username, password).pipe(map(user => {
       this.profileService.setUser(user);
       return user;
@@ -33,10 +37,16 @@ export class AuthService {
   }
 
   public heartbeat(user: User): Observable<any>{
-    return this.cloudGuardService.heartbeat(user).pipe(map(user => {
-      //Actually refresh user
+    return this.cloudGuardService.heartbeat(user).pipe(map(incomingUser => {
+      var user = this.profileService.updateUserToken(incomingUser);
+      this.heartbeatTimeout = setTimeout(() => 
+      {
+        this.heartbeat(user);
+      },
+      15000);
     }),
-    catchError(err => { console.log(err); this.profileService.clearUser();return of(err);}));
+    catchError(err => { console.log(err); this.profileService.clearUser();return of(err);}))
+    .subscribe();
   }
 
   public logout(): Observable<any>{

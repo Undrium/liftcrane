@@ -34,7 +34,14 @@ export class ProfileService {
   public setUser(user:any){
     this.user = this.userAdapter.adapt(user);
     this.user$.next(this.user);
-    this.localStorageService.setItem('user', this.user);
+    this.saveUserLocally();
+    return this.user;
+  }
+
+  public updateUserToken(user: any){
+    this.user["token"] = user.token;
+    this.saveUserLocally();
+    return this.user;
   }
 
   public saveUserLocally(){

@@ -5,14 +5,13 @@
       <button color="" mat-raised-button (click)="createNamespaceDialog()" [disabled]="!(clusterService.currentClusterSubject | async )">+ Namespace</button>
     </mat-toolbar-row>
   </mat-toolbar>
-  <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
+  <mat-progress-bar *ngIf="namespaceService.namespacesLoading" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
   <div class="pageContent">
       <div class="somethingIsMissing" *ngIf="!(clusterService.currentClusterSubject | async )">
         Please select cluster
       </div>
       <div class="noNamespaces" 
-        *ngIf="(clusterService.currentClusterSubject | async ) && 
-        (!showProgressbar && (!namespaces || namespaces.length == 0))">
+        *ngIf="(clusterService.currentClusterSubject | async ) && (!namespaces || namespaces.length == 0) && !namespaceService.namespacesLoading">
         No namespaces yet, create one using the "+ Namespace" button.
       </div>
       <mat-accordion multi>

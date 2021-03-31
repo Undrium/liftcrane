@@ -14,7 +14,7 @@ export class CloudGuardService {
   constructor(private http: HttpClient, private profileService: ProfileService) {}
 
   public heartbeat(user): any{
-    return this.post("/auth/refresh", user);
+    return this.post("/auth/heartbeat", user);
   }
 
   public login(username: string, password: string): any{

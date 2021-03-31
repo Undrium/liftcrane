@@ -15,6 +15,7 @@ import { ɵMetadataOverrider } from '@angular/core/testing';
 @Injectable({providedIn: 'root'})
 export class NamespaceService {
     public namespaces: Array<any> = [];
+    public namespacesLoading = true;
     namespaces$: ReplaySubject<Array<any>>;
     public currentNamespace: any = {};
     public currentNamespaceSubject: BehaviorSubject<any>;
@@ -51,10 +52,15 @@ export class NamespaceService {
     * Get the current list of namespaces fetched or if not existing a new shallow list of namespaces
     */
    public async getProjectsNamespaces(projectFormatName: string, refresh = false):Promise<any>{
+
         if((refresh || !this.namespaces || this.namespaces.length == 0) && projectFormatName){
+            
             if(!this.clusterService.currentCluster || !this.clusterService.currentCluster.name){return;}
+            this.namespacesLoading = true;
             var clusterFormatName = this.clusterService.currentCluster.formatName;
+
             this.cloudguardService.getProjectsClustersNamespaces(projectFormatName, clusterFormatName).subscribe((namespaces:any) => {
+                this.namespacesLoading = false;
                 this.setNamespaces(namespaces);
                 this.namespaces$.next(this.namespaces);
                 // Reset
