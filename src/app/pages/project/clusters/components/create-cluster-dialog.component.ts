@@ -26,6 +26,7 @@ export class CreateClusterDialogComponent {
     newCluster: any;
     platforms: any[]; 
     locations: any[];
+    kubernetesVersions: any[];
     creating: boolean = false;
     showAdvanced = true;
 
@@ -39,7 +40,10 @@ export class CreateClusterDialogComponent {
     ) {
         this.platforms = this.clusterService.availablePlatforms;
         this.locations = this.clusterService.availableLocationsAzure;
+        this.kubernetesVersions = this.clusterService.availableKubernetesVersionsAzure;
         
+        const defaultVersion = this.kubernetesVersions.find(element => element.name.includes("default"));
+        console.log(defaultVersion);
         this.newCluster = { 
             "name": "", 
             "platform": this.platforms[0].value, 
@@ -64,7 +68,7 @@ export class CreateClusterDialogComponent {
                         "name": "Basic",
                         "tier": "Paid"
                     },
-                    kubernetesVersion: "1.17.13"
+                    kubernetesVersion: defaultVersion['value']
                 }
             }
         } // End newCluster

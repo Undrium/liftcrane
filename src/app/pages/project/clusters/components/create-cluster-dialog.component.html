@@ -42,7 +42,15 @@
                     </div>        
                 </mat-tab>
 
-                <mat-tab label="Advanced">
+                <mat-tab label="Advanced" fxLayout="row" fxFlex="100">
+                    <mat-form-field style="margin-top:16px;" fxFlex="100">
+                        <mat-label>Kubernetes Version</mat-label>
+                        <mat-select [(ngModel)]="newCluster.specification.properties.kubernetesVersion" name="kubernetesVersion" (selectionChange)="formChanged()">
+                            <mat-option 
+                                *ngFor="let kubernetesVersion of kubernetesVersions" 
+                                [value]="kubernetesVersion.value">{{kubernetesVersion.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                     <object-editor [(dataObject)]="newCluster"></object-editor>
                 </mat-tab>
             </mat-tab-group>

@@ -37,10 +37,10 @@
             </mat-checkbox>
             <mat-form-field *ngIf="changeName" fxFlex="fill">
                 <mat-label>New namespace name</mat-label>
-                <input name="name" [(ngModel)]="cloneData.newName" #newName="ngModel" required appForbiddenFormat matInput>
-                <mat-error *ngIf="newName.errors">
-                    <span *ngIf="newName.errors.forbiddenFormat">Must be lowercase and no spaces.</span>
-                    <span *ngIf="newName.errors.required">Can't be empty.</span>
+                <input name="name" [(ngModel)]="cloneData.targetNamespaceName" #targetNamespaceName="ngModel" required appForbiddenFormat matInput>
+                <mat-error *ngIf="targetNamespaceName.errors">
+                    <span *ngIf="targetNamespaceName.errors.forbiddenFormat">Must be lowercase and no spaces.</span>
+                    <span *ngIf="targetNamespaceName.errors.required">Can't be empty.</span>
                 </mat-error>
             </mat-form-field>
         </div>  

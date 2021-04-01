@@ -29,6 +29,14 @@ export class ClusterService {
         {"name": "Kubernetes", "value": "KUBERNETES"},
         {"name": "OpenShift 4.X", "value": "OPENSHIFT4"}
     ];
+    // @todo create this somewhere else
+    public availableKubernetesVersionsAzure = [
+        {"name": "1.20.2 (preview)", "value": "1.20.2"},
+        {"name": "1.19.7", "value": "1.19.7"},
+        {"name": "1.19.6", "value": "1.19.6"},
+        {"name": "1.18.14 (default)", "value": "1.18.14"},
+        {"name": "1.18.10", "value": "1.18.10"}
+    ];
     // @todo maybe fetch these from somewhere 
     public availableLocationsAzure = [
         {name: "Australia East", value: "australiaeast"},

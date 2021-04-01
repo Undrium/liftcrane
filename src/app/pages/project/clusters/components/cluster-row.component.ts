@@ -131,9 +131,13 @@ export class ClusterRowComponent implements OnInit {
     var vendor = cluster.vendor || "Unknown vendor";
     var platform = cluster.platform || "Unknown platform";
     var placement = vendor == "LOCAL" ? "on" : "in";
+    
     vendor = vendor.charAt(0).toUpperCase() + vendor.slice(1).toLowerCase();
     platform = platform.charAt(0).toUpperCase() + platform.slice(1).toLowerCase();
-    return `${platform} ${placement} ${vendor}`;
+
+    var version = cluster?.platformVersionInfo?.gitVersion || '';
+
+    return `${platform} ${version} ${placement} ${vendor}`;
   }
 
   ngOnChanges(changes) {

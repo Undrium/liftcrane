@@ -51,7 +51,10 @@
             </div>
           </div>
           <h3>Platform</h3>
-          <div fxFlex="50"><code>{{cluster.platform}}</code></div>
+          <div fxFlex="50">
+            <code>{{cluster.platform}}</code>
+            <pre class="versionInfo" *ngIf="cluster.platformVersionInfo">{{ cluster.platformVersionInfo | json }}</pre>
+          </div>
           <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
               <span></span>
               <button 

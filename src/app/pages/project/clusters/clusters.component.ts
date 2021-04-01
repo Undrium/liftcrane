@@ -37,7 +37,7 @@ export class ClustersComponent {
 
   createClusterDialog(): void {
     const dialogRef = this.dialog.open(CreateClusterDialogComponent, {
-      width: '450px',
+      width: '550px',
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {});
@@ -45,7 +45,7 @@ export class ClustersComponent {
 
   addExistingClusterDialog(): void {
     const dialogRef = this.dialog.open(AddExistingClusterDialogComponent, {
-      width: '450px',
+      width: '550px',
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {});
