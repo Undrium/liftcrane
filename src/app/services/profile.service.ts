@@ -39,6 +39,7 @@ export class ProfileService {
   }
 
   public updateUserToken(user: any){
+    if(!this.user){return null;}
     this.user["token"] = user.token;
     this.saveUserLocally();
     return this.user;

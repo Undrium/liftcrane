@@ -41,7 +41,7 @@
             <button mat-mini-fab color="warn" class="unavailable" 
                 *ngIf="cluster.status == 'unavailable'" 
                 aria-label="The cluster could not be fetched."
-                matTooltip="Not available." 
+                matTooltip="Not available, cluster could not be fetched." 
                 (click)="refreshCluster(); $event.stopPropagation();"
                 [matTooltipPosition]="'above'">
                 <mat-icon>priority_high</mat-icon>

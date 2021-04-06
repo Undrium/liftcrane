@@ -55,7 +55,9 @@ export class DeploymentsComponent {
     .subscribe(([cluster, namespace]) => {
       this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
       this.deployments = [];
+      //Since both OCP4 and Kubernetes use deployments we fetch those first
       this.getDeployments(namespace);
+      // OCP4 also has deployment configurations
       if(this.vendor.platformName == "OPENSHIFT4"){
         this.getDeploymentConfigs(namespace);
       }

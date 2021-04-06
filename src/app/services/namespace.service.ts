@@ -56,6 +56,7 @@ export class NamespaceService {
         if((refresh || !this.namespaces || this.namespaces.length == 0) && projectFormatName){
             
             if(!this.clusterService.currentCluster || !this.clusterService.currentCluster.name){return;}
+
             this.namespacesLoading = true;
             var clusterFormatName = this.clusterService.currentCluster.formatName;
 
@@ -144,8 +145,8 @@ export class NamespaceService {
             .deleteNamespace(namespaceName)
             .pipe(map((resp: any) => {
                 if(resp && resp.status && resp.status.phase && resp.status.phase == 'Terminating'){
-                    this.namespaces.splice(this.namespaces.findIndex(item => item.metadata.name === resp.metadata.name), 1);
-                    if(this.currentNamespace.metadata.name == namespaceName){
+                    this.namespaces.splice(this.namespaces.findIndex(item => item?.metadata?.name === resp?.metadata?.name), 1);
+                    if(this.currentNamespace?.metadata?.name == namespaceName){
                         this.setCurrentNamespace(null);
                     }
                 }
