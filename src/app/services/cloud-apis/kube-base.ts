@@ -27,7 +27,7 @@ export class KubeBase {
   }
 
   public getNodes(cluster: any): Observable<any> {
-    return this.get("/api/v1/nodes", cluster);
+    return this.get("/api/v1/nodes", cluster).pipe(take(1));
   }
 
   public getNodesSse(cluster: any, resourceVersion): Observable<any> {
@@ -38,7 +38,7 @@ export class KubeBase {
         "headers": urlAndHeaders[1],
         "resourceVersion": resourceVersion
       })
-    })).pipe(take(1));;
+    })).pipe(take(1));
   }
 
   public listNamespacesSse(resourceVersion): Observable<any> {

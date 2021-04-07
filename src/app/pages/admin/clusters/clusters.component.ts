@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
 import { PageService }        from '../../../services/page.service';
-import { CloudGuardService }        from '../../../services/cloudguard.service';
+import { CloudGuardDataSource }        from '../../../services/cloudguard.data-source';
 
 
 
@@ -20,11 +20,11 @@ export class ClustersComponent {
 
   constructor(
     public pageService: PageService,
-    private cloudGuardService: CloudGuardService,
+    private cloudGuardDataSource: CloudGuardDataSource,
 
   ) { 
     this.pageService.pageTitle = "Admin > Clusters";
-    this.cloudGuardService.getClusters().subscribe((response:any) => {
+    this.cloudGuardDataSource.getClusters().subscribe((response:any) => {
         this.clusters = response;
     });
   }

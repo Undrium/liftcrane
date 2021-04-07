@@ -1,5 +1,6 @@
 import { 
   Component, 
+  OnChanges,
   OnInit, 
   Input, 
   ViewEncapsulation 
@@ -8,7 +9,7 @@ import { MatDialog }            from '@angular/material/dialog';
 
 import { NodeDialogComponent }  from './node-dialog.component'
 
-import { CloudGuardService }    from '../../../../services/cloudguard.service';
+import { CloudGuardDataSource }    from '../../../../services/cloudguard.data-source';
 import { LogService }           from '../../../../services/log.service';
 import { PageService }          from '../../../../services/page.service';
 import { ApiService }           from '../../../../services/api.service';
@@ -22,15 +23,16 @@ import { ProjectsService }       from '../../../../services/projects.service';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./cluster-row.component.scss']
 })
-export class ClusterRowComponent implements OnInit {
+export class ClusterRowComponent implements OnInit, OnChanges {
   @Input() cluster: any;
   public vendor: any
   nodes: Array<any> = [];
+  pollStates: Array<any> = ["Creating", "Upgrading"];
   pollTimeout = null;
   public nodeEvents: any;
 
   constructor(
-    public cloudGuardService: CloudGuardService, 
+    public cloudGuardDataSource: CloudGuardDataSource, 
     public clusterService: ClusterService,
     public projectsService: ProjectsService,
     public pageService: PageService, 
@@ -44,7 +46,7 @@ export class ClusterRowComponent implements OnInit {
   async ngOnInit() {
     this.vendor = this.apiService.getVendor(this.cluster);
     this.initNodes(this.cluster);
-    if(this.cluster.vendor == "AZURE" && this.cluster.vendorState == "Creating" && !this.pollTimeout){
+    if(this.cluster.vendor == "AZURE" && this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
       this.pollTimeout = this.pollAzureClusterState();
     }
   }
@@ -56,10 +58,12 @@ export class ClusterRowComponent implements OnInit {
     clearTimeout(this.pollTimeout);
   }
 
+  
+
   async pollAzureClusterState(){
     const self = this;
-    var data = await this.cloudGuardService.getAKSCluster(this.cluster.name).toPromise();
-    if(data && data.properties && data.properties.provisioningState != "Creating"){
+    var data = await this.cloudGuardDataSource.getAKSCluster(this.cluster.name).toPromise();
+    if(!this.pollStates.includes(data?.properties?.provisioningState)){
       clearTimeout(this.pollTimeout);
       // One final refresh;
       await this.refreshCluster();
@@ -78,18 +82,13 @@ export class ClusterRowComponent implements OnInit {
   }
 
   async getNodes(cluster: any){
-    this.vendor.getNodes(cluster).subscribe((res:any) => {
-        this.nodes = res.items || []
-        // Lets keep this updated by events
-
-        this.handleNodesEvents(cluster, res.metadata.resourceVersion)
-
-        return this.nodes
-      },
-      error => {
-        this.logService.handleError(error, false)
-      }
-    )
+    try{
+      var nodeList = await this.vendor.getNodes(cluster).toPromise();
+      this.nodes = nodeList.items || [];
+      this.handleNodesEvents(cluster, nodeList.metadata.resourceVersion);
+    }catch(error){
+      this.logService.handleError(error, false);
+    }
   }
 
   async refreshCluster(){

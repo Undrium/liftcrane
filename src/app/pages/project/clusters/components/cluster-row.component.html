@@ -7,19 +7,6 @@
         <div class="clusterLocation" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
             {{cluster.vendorLocation || 'NA'}}
         </div>
-        <div class="clusterVendorState" fxFlex 
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-            *ngIf="cluster.vendorState == 'Creating'"
-            (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
-            <mat-spinner 
-                style="margin-right:3px;"
-                [diameter]="20" 
-                [strokeWidth]="3" 
-                matTooltip="Retrieving status of {{ cluster.name }}" 
-                [matTooltipPosition]="'above'"></mat-spinner>  
-            {{ cluster.vendorState }}
-        </div>
         <div class="nodes" fxFlex fxLayout="row">
             <div 
                 class="node" [ngClass]="node | nodeConditionSummary"
@@ -28,6 +15,19 @@
                 matTooltip="Node {{node | nodeNameSummary}}" [matTooltipPosition]="'above'"
             >
             </div>
+        </div>
+        <div class="clusterVendorState" fxFlex 
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            *ngIf="cluster.vendorState == 'Creating' || cluster.vendorState == 'Upgrading'"
+            (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
+            <mat-spinner 
+                style="margin-right:3px;"
+                [diameter]="20" 
+                [strokeWidth]="3" 
+                matTooltip="Retrieving status of {{ cluster.name }}" 
+                [matTooltipPosition]="'above'"></mat-spinner>  
+            {{ cluster.vendorState }}
         </div>
         <div class="status" fxFlex fxLayoutAlign="end center">
             <mat-spinner 

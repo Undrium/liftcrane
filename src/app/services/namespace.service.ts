@@ -3,7 +3,7 @@ import { BehaviorSubject, ReplaySubject, Observable, of }  from 'rxjs';
 import { map, take }                           from 'rxjs/operators';
 
 import { ApiService }                       from './api.service';
-import { CloudGuardService }                from './cloudguard.service';
+import { CloudGuardDataSource }                from './cloudguard.data-source';
 import { ClusterService }                   from './cluster.service';
 import { ProjectsService }                  from './projects.service';
 import { LocalStorageService }              from './localstorage.service';
@@ -22,7 +22,7 @@ export class NamespaceService {
 
     constructor(
         public apiService: ApiService, 
-        public cloudguardService: CloudGuardService,
+        public cloudguardService: CloudGuardDataSource,
         public clusterService: ClusterService,
         public projectsService: ProjectsService,
         public localStorageService: LocalStorageService,

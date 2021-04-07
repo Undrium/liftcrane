@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 import { LogService }                       from '../../../../services/log.service';
 import { ApiService }                       from '../../../../services/api.service';
 import { ClusterService }                   from '../../../../services/cluster.service';
-import { CloudGuardService }                from '../../../../services/cloudguard.service';
+import { CloudGuardDataSource }                from '../../../../services/cloudguard.data-source';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
 import { NamespaceService }                 from '../../../../services/namespace.service';
 import { PageService }                      from './../../../../services/page.service';
@@ -29,7 +29,7 @@ export class CloneNamespaceDialogComponent {
     constructor(
         public logService: LogService,
         public apiService: ApiService,
-        public cloudguardService: CloudGuardService,
+        public cloudguardService: CloudGuardDataSource,
         public clusterService: ClusterService,
         public namespaceService: NamespaceService,
         public pageService: PageService,

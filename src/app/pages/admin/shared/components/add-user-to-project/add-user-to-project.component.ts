@@ -1,6 +1,6 @@
 import { Component, Inject, Input }                from '@angular/core';
 import { map }                          from "rxjs/operators";
-import { CloudGuardService }        from './../../../../../services/cloudguard.service';
+import { CloudGuardDataSource }        from '../../../../../services/cloudguard.data-source';
 import { ProjectsService }        from './../../../../../services/projects.service';
 import { UsersService }        from './../../../../../pages/admin/users/users.service';
 
@@ -21,9 +21,9 @@ export class AddUserToProjectComponent {
     constructor(
         public projectsService: ProjectsService,
         public usersService: UsersService,
-        private cloudGuardService: CloudGuardService,
+        private cloudGuardDataSource: CloudGuardDataSource,
     ) {
-        this.cloudGuardService.getRoles().subscribe((response:any) => {this.roles$ = response;});
+        this.cloudGuardDataSource.getRoles().subscribe((response:any) => {this.roles$ = response;});
     }
 
     ngOnInit() {
@@ -42,8 +42,8 @@ export class AddUserToProjectComponent {
             username: this.setUser.username,
             roleId: this.setRole.id
         };
-        this.cloudGuardService.createProjectRole(post).subscribe((response:any) => {
-            this.cloudGuardService.getProject(post.projectFormatName).subscribe((response:any) => {
+        this.cloudGuardDataSource.createProjectRole(post).subscribe((response:any) => {
+            this.cloudGuardDataSource.getProject(post.projectFormatName).subscribe((response:any) => {
                 this.project.projectRoles = response.projectRoles;
                 this.projectsService.fetchProjects();
             });

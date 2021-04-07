@@ -5,11 +5,11 @@ import { Observable }                 from 'rxjs';
 
 import { ProfileService }                from './profile.service'
 
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({providedIn: 'root'})
-export class CloudGuardService {
+export class CloudGuardDataSource {
 
   constructor(private http: HttpClient, private profileService: ProfileService) {}
 
@@ -60,10 +60,19 @@ export class CloudGuardService {
   public getAKSCluster(name): any{
     return this.get("/clusters/aks/"+name);
   }
+  
+  public getAKSUpgradeProfile(name): any{
+    return this.get("/clusters/aks/"+name+"/upgradeProfile");
+  }
 
   public createAKSCluster(post): any{
     return this.post("/clusters/aks", post);
   }
+
+  public patchAKSCluster(formatName, patchData): any{
+    return this.patch("/clusters/aks/"+formatName, patchData);
+  }
+
 
   public cloneNamespace(projectFormatName: string, namespaceName: string, cloneData: any): Observable<any> {
     return this.post("/projects/"+projectFormatName+"/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);

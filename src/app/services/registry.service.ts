@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject }       from 'rxjs';
 import { map, catchError }                  from "rxjs/operators";
 
 
-import { CloudGuardService }                        from './cloudguard.service';
+import { CloudGuardDataSource }                        from './cloudguard.data-source';
 import { ClusterService }                              from './cluster.service';
 import { ProfileService }                              from './profile.service';
 import { LocalStorageService }                      from './localstorage.service';
@@ -18,7 +18,7 @@ export class RegistryService {
     private clusterApi:any;
     private registryApi:any;
     constructor(
-        public cloudGuardService: CloudGuardService, 
+        public cloudGuardDataSource: CloudGuardDataSource, 
         public clusterService: ClusterService,
         public localStorageService: LocalStorageService, 
         public apiService: ApiService, 
@@ -58,7 +58,7 @@ export class RegistryService {
     */
    public async getRegistries(refresh = false):Promise<any>{
         if(refresh || !this.registries || this.registries.length == 0){
-            let fetchedRegistries = await this.cloudGuardService.getRegistries().toPromise();
+            let fetchedRegistries = await this.cloudGuardDataSource.getRegistries().toPromise();
             this.registries = this.localStorageService.setItem('registries', fetchedRegistries);
         }
         this.registries$.next(this.registries);
@@ -66,13 +66,13 @@ export class RegistryService {
     }
 
     public createRegistry(name: string, provider: string, url: string, email: string, username: string, password: string, secret: string): Observable<any>{
-        return this.cloudGuardService.createRegistry({name:name, provider:provider, url:url,email:email,username:username,password:password,secret:secret}).pipe(map(registry => {
+        return this.cloudGuardDataSource.createRegistry({name:name, provider:provider, url:url,email:email,username:username,password:password,secret:secret}).pipe(map(registry => {
           return registry;
         }));
     }
 
     public deleteRegistry(formatName): Observable<any>{
-        return this.cloudGuardService.deleteRegistry(formatName).pipe(map(resp => {
+        return this.cloudGuardDataSource.deleteRegistry(formatName).pipe(map(resp => {
           return resp;
         }));
     }

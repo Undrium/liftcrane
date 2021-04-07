@@ -3,7 +3,7 @@ import { HttpClient }                   from '@angular/common/http';
 import { map }                          from "rxjs/operators";
 import { Observable, BehaviorSubject, of, ReplaySubject  }         from 'rxjs';
 
-import { CloudGuardService }            from './cloudguard.service';
+import { CloudGuardDataSource }            from './cloudguard.data-source';
 import { ProfileService }               from './profile.service';
 import { LocalStorageService }          from './localstorage.service';
 
@@ -23,7 +23,7 @@ export class ProjectsService {
      public currentProjectSubject: BehaviorSubject<{currentProject: any}>; 
 
     constructor(
-        private cloudGuardService: CloudGuardService,
+        private cloudGuardDataSource: CloudGuardDataSource,
         private localStorageService: LocalStorageService,
         private profileService: ProfileService
     ) {
@@ -37,39 +37,39 @@ export class ProjectsService {
     * Observe! This is for fetching all the projects, not specifically for the user
     */
     public fetchProjects(){
-        return this.cloudGuardService.getProjects().subscribe((projects: any[]) => {
+        return this.cloudGuardDataSource.getProjects().subscribe((projects: any[]) => {
             this.projects.length = 0;
             [].push.apply(this.projects, projects);
             this.projects$.next(projects);
             // Refresh user roles for admin
-            this.cloudGuardService.getUser(this.profileService.getUsername()).subscribe(user => {
+            this.cloudGuardDataSource.getUser(this.profileService.getUsername()).subscribe(user => {
                 this.profileService.refreshUserProjectRoles(user);
             });
         });
     }
 
     public getProject(formatName: string): Observable<any>{
-        return this.cloudGuardService.getProject(formatName).pipe(map(project => {
+        return this.cloudGuardDataSource.getProject(formatName).pipe(map(project => {
             return project;
         }));
     }
 
     public createProject(project: any): Observable<any>{
-        return this.cloudGuardService.createProject(project).pipe(map(project => {
+        return this.cloudGuardDataSource.createProject(project).pipe(map(project => {
             this.fetchProjects();
             return project;
         }));
     }
     
     public deleteProject(project): Observable<any>{
-        return this.cloudGuardService.deleteProject(project.formatName).pipe(map(resp => {
+        return this.cloudGuardDataSource.deleteProject(project.formatName).pipe(map(resp => {
             this.fetchProjects();
             return resp;
         }));
     }
     
     public updateProject(project: any): Observable<any>{
-        return this.cloudGuardService.updateProject(project).pipe(map(project => {
+        return this.cloudGuardDataSource.updateProject(project).pipe(map(project => {
             this.fetchProjects();
             return project;
         }));

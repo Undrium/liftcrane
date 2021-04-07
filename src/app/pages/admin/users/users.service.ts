@@ -3,7 +3,7 @@ import { HttpClient }                   from '@angular/common/http';
 import { map }                          from "rxjs/operators";
 import { Observable, BehaviorSubject, of, ReplaySubject  }         from 'rxjs';
 
-import { CloudGuardService }          from '../../../services/cloudguard.service';
+import { CloudGuardDataSource }          from '../../../services/cloudguard.data-source';
 
 import * as _                           from 'lodash';
 
@@ -13,31 +13,31 @@ export class UsersService {
     // When needed update 
     public users$: ReplaySubject<Array<any>>; 
 
-    constructor(private cloudGuardService: CloudGuardService) {
+    constructor(private cloudGuardDataSource: CloudGuardDataSource) {
         this.fetchUsers();
         this.users$ = new ReplaySubject<Array<any>>(1);
     }
 
     public fetchUsers(){
-        return this.cloudGuardService.getUsers().subscribe((users: any[]) => {
+        return this.cloudGuardDataSource.getUsers().subscribe((users: any[]) => {
             this.users$.next(users);
         });
     }
 
     public update(user: any){
-        return this.cloudGuardService.updateUser(user.username, user).subscribe((response: any) => {
+        return this.cloudGuardDataSource.updateUser(user.username, user).subscribe((response: any) => {
             this.fetchUsers();
         });
     }
 
     public delete(user: any){
-        return this.cloudGuardService.deleteUser(user.username).subscribe((response: any) => {
+        return this.cloudGuardDataSource.deleteUser(user.username).subscribe((response: any) => {
             this.fetchUsers();
         });
     }
 
     public create(user: any){
-        return this.cloudGuardService.createUser(user).pipe(map((response: any) => {
+        return this.cloudGuardDataSource.createUser(user).pipe(map((response: any) => {
             this.fetchUsers();
             return response;
         }));

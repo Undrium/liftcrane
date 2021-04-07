@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of }  from "rxjs";
 import { LocalStorageService }              from './localstorage.service';
 import { ProfileService }                      from './profile.service';
 import { User, UserAdapter }                from '../shared/models/user.model';
-import { CloudGuardService }                from './cloudguard.service';
+import { CloudGuardDataSource }                from './cloudguard.data-source';
 
 import * as _                               from 'lodash';
 
@@ -17,7 +17,7 @@ export class AuthService {
   constructor(
     private localStorageService: LocalStorageService, 
     private profileService: ProfileService,
-    private cloudGuardService: CloudGuardService
+    private cloudGuardDataSource: CloudGuardDataSource
     ) {
       profileService.user$.subscribe((user: User) => {
         clearTimeout(this.heartbeatTimeout);
@@ -30,14 +30,17 @@ export class AuthService {
   public login(username: string, password: string): Observable<any>{
     // Clear previous data if existing
     this.profileService.clearUser();
-    return this.cloudGuardService.login(username, password).pipe(map(user => {
+    return this.cloudGuardDataSource.login(username, password).pipe(map(user => {
       this.profileService.setUser(user);
       return user;
     }));
   }
 
   public heartbeat(user: User): Observable<any>{
-    return this.cloudGuardService.heartbeat(user).pipe(map(incomingUser => {
+    return this.cloudGuardDataSource.heartbeat(user).pipe(map(incomingUser => {
+      if(!user || !user.token){
+        clearTimeout(this.heartbeatTimeout);
+      }
       var user = this.profileService.updateUserToken(incomingUser);
       this.heartbeatTimeout = setTimeout(() => 
       {
@@ -50,7 +53,7 @@ export class AuthService {
   }
 
   public logout(): Observable<any>{
-    return this.cloudGuardService.logout(this.profileService.user$).pipe(
+    return this.cloudGuardDataSource.logout(this.profileService.user$).pipe(
       map(response => { this.profileService.clearUser();return response; }),
       catchError(err => { this.profileService.clearUser();return of(err);})
     );

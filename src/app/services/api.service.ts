@@ -3,7 +3,7 @@ import { KubernetesApiService }           from './cloud-apis/api-kubernetes.serv
 import { OpenshiftApiService }            from './cloud-apis/api-openshift.service';
 import { HarborApiService }               from './cloud-apis/api-harbor.service';
 import { AzurecrApiService }              from './cloud-apis/api-azurecr.service';
-import { CloudGuardService }              from './cloudguard.service';
+import { CloudGuardDataSource }              from './cloudguard.data-source';
 
 @Injectable({providedIn:'root'})
 export class ApiService {
@@ -13,7 +13,7 @@ export class ApiService {
     public harborApiService: HarborApiService,
     public azurecrApiService: AzurecrApiService,
     public openshiftApiService: OpenshiftApiService,
-    public cloudGuardService: CloudGuardService
+    public cloudGuardDataSource: CloudGuardDataSource
   ) {}
 
   public getRegistry(registry: any):any{
@@ -44,6 +44,6 @@ export class ApiService {
   }
 
   public getServerApi(){
-    return this.cloudGuardService;
+    return this.cloudGuardDataSource;
   }
 }

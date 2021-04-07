@@ -43,7 +43,7 @@ export class CreateClusterDialogComponent {
         this.kubernetesVersions = this.clusterService.availableKubernetesVersionsAzure;
         
         const defaultVersion = this.kubernetesVersions.find(element => element.name.includes("default"));
-        console.log(defaultVersion);
+
         this.newCluster = { 
             "name": "", 
             "platform": this.platforms[0].value, 

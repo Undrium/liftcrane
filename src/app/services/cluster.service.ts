@@ -2,7 +2,7 @@ import { Injectable }                               from '@angular/core';
 import { Observable, BehaviorSubject, of, ReplaySubject  }         from 'rxjs';
 import { map, catchError, share, switchMap, take }                   from "rxjs/operators";
 
-import { CloudGuardService }                        from './cloudguard.service';
+import { CloudGuardDataSource }                     from './cloudguard.data-source';
 import { LocalStorageService }                      from './localstorage.service';
 import { ProfileService }                           from './profile.service';
 import { ProjectsService }                          from './projects.service';
@@ -69,7 +69,7 @@ export class ClusterService {
     ];
 
     constructor(
-        public cloudGuardService: CloudGuardService, 
+        public cloudGuardDataSource: CloudGuardDataSource, 
         public localStorageService: LocalStorageService,
         public profileService: ProfileService,
         public projectsService: ProjectsService,
@@ -87,6 +87,9 @@ export class ClusterService {
 
     }
 
+ 
+
+    // TODO Make it more clear what is refreshed
     public refresh(isCurrent: boolean = true){
         if(this.currentCluster && this.currentCluster.formatName){
             // Force renewal through deletion of token
@@ -138,7 +141,7 @@ export class ClusterService {
     public async getProjectsClusters(projectFormatName: string, refresh = false):Promise<any>{
         if((refresh || !this.clusters || this.clusters.length == 0) && projectFormatName){
             this.clustersAreBeingFetched = true;
-            let fetchedClusters = await this.cloudGuardService.getProjectsClusters(projectFormatName).toPromise();
+            let fetchedClusters = await this.cloudGuardDataSource.getProjectsClusters(projectFormatName).toPromise();
             this.clustersAreBeingFetched = false;
             this.clusters = this.localStorageService.setItem('clusters-'+projectFormatName, fetchedClusters);
         }
@@ -192,7 +195,7 @@ export class ClusterService {
                 
                 if(!this.clusterFetch$[identifier] && projectFormatName) {
                     this.clusterFetch$[identifier] 
-                        = this.cloudGuardService.getProjectsCluster(projectFormatName, cluster.formatName);
+                        = this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
                 }
                 return this.clusterFetch$[identifier].pipe(
                     map((fetchedCluster: any)=>{
@@ -248,35 +251,35 @@ export class ClusterService {
 
 
     public deleteAKSCluster(clusterToDelete: any): Observable<any>{
-        return this.cloudGuardService.deleteAKSCluster(clusterToDelete.name).pipe(map(cluster => {
+        return this.cloudGuardDataSource.deleteAKSCluster(clusterToDelete.name).pipe(map(cluster => {
             this.removeFromLocalClusterList(clusterToDelete);
             return cluster;
         }));
     }
 
     public createAKSCluster(data: any): Observable<any>{
-        return this.cloudGuardService.createAKSCluster(data).pipe(map(cluster => {
+        return this.cloudGuardDataSource.createAKSCluster(data).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public addCluster(cluster: any): Observable<any>{
-        return this.cloudGuardService.addCluster(cluster).pipe(map(cluster => {
+        return this.cloudGuardDataSource.addCluster(cluster).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public updateCluster(cluster: any): Observable<any>{
-        return this.cloudGuardService.updateCluster(cluster).pipe(map(cluster => {
+        return this.cloudGuardDataSource.updateCluster(cluster).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public deleteCluster(clusterToDelete): Observable<any>{
-        return this.cloudGuardService.deleteCluster(clusterToDelete.formatName).pipe(map(resp => {
+        return this.cloudGuardDataSource.deleteCluster(clusterToDelete.formatName).pipe(map(resp => {
             this.removeFromLocalClusterList(clusterToDelete);
             return resp;
         }));

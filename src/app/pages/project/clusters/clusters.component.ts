@@ -1,8 +1,5 @@
 import { Component, OnInit }  from '@angular/core';
-import { Observable }         from 'rxjs';
-import { map, share }         from 'rxjs/operators';
-import { MatDialog }                        from '@angular/material/dialog';
-
+import { MatDialog }          from '@angular/material/dialog';
 
 
 import { PageService }        from '../../../services/page.service';
@@ -10,9 +7,10 @@ import { ApiService }         from '../../../services/api.service';
 import { ClusterService }     from '../../../services/cluster.service';
 import { ProjectsService }    from '../../../services/projects.service';
 
-import { CreateClusterDialogComponent }   from './components/create-cluster-dialog.component';
-import { AddExistingClusterDialogComponent }   from './components/add-existing-cluster-dialog.component';
-import { ConfirmDialogComponent }         from '../../../components/confirm-dialog/confirm-dialog.component';
+import { CreateClusterDialogComponent }       from './components/create-cluster-dialog.component';
+import { AddExistingClusterDialogComponent }  from './components/add-existing-cluster-dialog.component';
+import { ConfirmDialogComponent }             from '../../../components/confirm-dialog/confirm-dialog.component';
+import { PatchClusterDialogComponent }        from './components/patch-cluster-dialog.component';
 
 @Component({
   selector: 'app-clusters',
@@ -79,6 +77,14 @@ export class ClustersComponent {
         this.clusterService.deleteAKSCluster(cluster).subscribe();
       }
     });
+  }
+
+  patchClusterInAzureDialog(cluster): void {
+    const dialogRef = this.dialog.open(PatchClusterDialogComponent, {
+      width: '550px',
+      data: {cluster: cluster}
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   trackByFormatName(index, item){

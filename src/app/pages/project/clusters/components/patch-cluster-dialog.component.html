@@ -1,0 +1,44 @@
+<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()" (change)="formChanged()">
+    <div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+        Patch Kubernetes version of {{ data.cluster.name }}
+        <mat-spinner 
+                *ngIf="!clusterPatch?.properties?.kubernetesVersion || patchingRequest"
+                [diameter]="20" 
+                [strokeWidth]="3" 
+                matTooltip="Initiating provisioning in Azure" 
+                [matTooltipPosition]="'above'"></mat-spinner> 
+    </div>
+
+    <div mat-dialog-content *ngIf="clusterPatch?.properties?.kubernetesVersion">
+        <div fxLayout="row" style="margin:16px 0px 8px 0px;" fxLayoutAlign="space-between center">
+            <div style="font-size:16px;text-align:center;" fxFlex="33">
+                Current {{ data.cluster.platformVersionInfo?.gitVersion || "Unknown version" }}
+            </div>
+            <div style="font-size:16px;text-align:center;" fxFlex="33">
+                <mat-icon>east</mat-icon>
+            </div>
+            <div fxFlex="33" *ngIf="availableVersions.length > 0">
+                <mat-form-field style="max-width:140px;">
+                    <mat-label>Available Versions</mat-label>
+                    <mat-select [(ngModel)]="clusterPatch.properties.kubernetesVersion" name="kubernetesVersion">
+                        <mat-option 
+                            *ngFor="let kubernetesVersion of availableVersions" 
+                            [value]="kubernetesVersion">{{kubernetesVersion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" *ngIf="availableVersions && availableVersions.length == 0">
+                No upgrades available
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions fxLayoutAlign="end center"> 
+        <button 
+            color="accent" mat-raised-button (click)="patch()" 
+            [disabled]="patchingRequest || (availableVersions && availableVersions.length == 0) || (!clusterPatch?.properties?.kubernetesVersion)">Patch</button>
+        <button 
+            color="" mat-raised-button (click)="dialogRef.close()" 
+            [disabled]="patchingRequest">Cancel</button>
+    </div>
+</form>

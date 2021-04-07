@@ -7,7 +7,7 @@ import { LogService }                       from '../../../../services/log.servi
 import { LocalStorageService }              from '../../../../services/localstorage.service';
 import { ProjectsService }       from '../../../../services/projects.service';
 import { ClusterService }       from '../../../../services/cluster.service';
-import { CloudGuardService }       from '../../../../services/cloudguard.service';
+import { CloudGuardDataSource }       from '../../../../services/cloudguard.data-source';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class EditProjectComponent {
         public projectsService: ProjectsService,
         public localStorageService: LocalStorageService,
         public clusterService: ClusterService,
-        public cloudGuardService: CloudGuardService,
+        public cloudGuardDataSource: CloudGuardDataSource,
         public dialog: MatDialog
 
     ) {}
@@ -73,8 +73,8 @@ export class EditProjectComponent {
         });
         dialogRef.afterClosed().subscribe(result => {
           if(result){
-              this.cloudGuardService.deleteProjectRole(projectRole.id).subscribe((response:any) => {
-                  this.cloudGuardService.getProject(this.project.formatName).subscribe((response:any) => {
+              this.cloudGuardDataSource.deleteProjectRole(projectRole.id).subscribe((response:any) => {
+                  this.cloudGuardDataSource.getProject(this.project.formatName).subscribe((response:any) => {
                       this.project.projectRoles = response.projectRoles;
                       this.projectsService.fetchProjects();
                   });

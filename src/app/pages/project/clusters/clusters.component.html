@@ -93,6 +93,14 @@
                   <mat-icon>delete</mat-icon>
               </button>
               <button 
+                  *ngIf="cluster.vendor == 'AZURE'"
+                  (click)="patchClusterInAzureDialog(cluster)"
+                  mat-raised-button aria-label="Patch (upgrade) the clusters Kubernetes version" 
+                  >
+                  PATCH
+                  <mat-icon>upgrade</mat-icon>
+              </button>
+              <button 
                   (click)="refreshCluster(cluster)"
                   mat-raised-button aria-label="Refresh the cluster" 
                   >

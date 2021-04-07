@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
 import { PageService }        from '../../../services/page.service';
-import { CloudGuardService }        from '../../../services/cloudguard.service';
+import { CloudGuardDataSource }        from '../../../services/cloudguard.data-source';
 
 @Component({
   selector: 'app-admin-start',
@@ -18,13 +18,13 @@ export class StartComponent {
 
   constructor(
     public pageService: PageService,
-    public cloudGuardService: CloudGuardService
+    public cloudGuardDataSource: CloudGuardDataSource
   ) { 
     this.pageService.pageTitle = "Admin > Start";
-    this.cloudGuardService.countProjects().subscribe((response:any) => {this.projectCount$ = response;});
-    this.cloudGuardService.countUsers().subscribe((response:any) => {this.userCount$ = response;});
-    this.cloudGuardService.countRegistries().subscribe((response:any) => {this.registryCount$ = response;});
-    this.cloudGuardService.countClusters().subscribe((response:any) => {this.clusterCount$ = response;});
+    this.cloudGuardDataSource.countProjects().subscribe((response:any) => {this.projectCount$ = response;});
+    this.cloudGuardDataSource.countUsers().subscribe((response:any) => {this.userCount$ = response;});
+    this.cloudGuardDataSource.countRegistries().subscribe((response:any) => {this.registryCount$ = response;});
+    this.cloudGuardDataSource.countClusters().subscribe((response:any) => {this.clusterCount$ = response;});
   }
 
 

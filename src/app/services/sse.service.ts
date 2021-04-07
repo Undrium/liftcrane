@@ -31,6 +31,9 @@ export class SseService {
       let result;
       while (!result || !result.done) {
         result = await streamReader.read();
+        
+        if(result?.done){break;}
+        
         var objectEvents = self.getEventObjectsFromStream(result.value);
         for(var objectEvent of objectEvents){
           eventTarget.dispatchEvent(new MessageEvent(objectEvent.type, { data: objectEvent.object }));
@@ -52,7 +55,10 @@ export class SseService {
 
   getEventObjectsFromStream(streamArray: any): Array<any> {
     let str = "", objectStrings = [], eventObjects = [];
-    for (var i=0; i<streamArray.byteLength; i++) {
+
+    if(!streamArray?.byteLength){ console.log("MISSING stream", streamArray); return eventObjects; }
+    
+    for (var i=0; i < streamArray.byteLength; i++) {
       var letter = String.fromCharCode(streamArray[i]);
       if(letter == '\n'){
         objectStrings.push(str);
@@ -61,6 +67,7 @@ export class SseService {
         str += letter;
       }
     }
+
     // Finally, if there is a str left, add it to the array
     if(str){
       objectStrings.push(str);

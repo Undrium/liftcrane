@@ -4,7 +4,7 @@ import { MatDialog }                        from '@angular/material/dialog';
 
 import { ConfirmDialogComponent }         from '../../../../components/confirm-dialog/confirm-dialog.component';
 import { PageService }        from '../../../../services/page.service';
-import { CloudGuardService }        from '../../../../services/cloudguard.service';
+import { CloudGuardDataSource }        from '../../../../services/cloudguard.data-source';
 import { ClusterService }        from '../../../../services/cluster.service';
 import { buffer } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class ClusterComponent {
   public platforms: any;
   constructor(
     public pageService: PageService,
-    private cloudGuardService: CloudGuardService,
+    private cloudGuardDataSource: CloudGuardDataSource,
     private clusterService: ClusterService,
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
@@ -34,7 +34,7 @@ export class ClusterComponent {
     this.activatedRoute.params.subscribe((params: Params) => {
       var clusterFormatname = params['formatName'];
       if(clusterFormatname){
-        this.cloudGuardService.getCluster(clusterFormatname).subscribe((response:any) => {
+        this.cloudGuardDataSource.getCluster(clusterFormatname).subscribe((response:any) => {
           this.cluster = response;
           this.clusterClone = JSON.parse(JSON.stringify(this.cluster));
           this.pageService.pageTitle = "Admin > Clusters > " + this.cluster.name;

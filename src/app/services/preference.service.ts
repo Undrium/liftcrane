@@ -2,7 +2,7 @@ import { Injectable, EventEmitter }     from '@angular/core';
 import { map, take }                    from "rxjs/operators";
 import { ReplaySubject  }               from 'rxjs';
 
-import { CloudGuardService }            from './cloudguard.service';
+import { CloudGuardDataSource }            from './cloudguard.data-source';
 import { ProfileService }               from './profile.service';
 import { LocalStorageService }          from './localstorage.service';
 
@@ -14,7 +14,7 @@ export class PreferenceService {
     public preferences$: ReplaySubject<Array<any>>; 
 
     constructor(
-        private cloudGuardService: CloudGuardService,
+        private cloudGuardDataSource: CloudGuardDataSource,
         private localStorageService: LocalStorageService,
         private profileService: ProfileService
     ) {
@@ -44,7 +44,7 @@ export class PreferenceService {
             }
             // Save the local preference object which is in the profile/user
             this.profileService.saveUserLocally();
-            return this.cloudGuardService.updatePreferences(preferences).subscribe((projects: any[]) => {});
+            return this.cloudGuardDataSource.updatePreferences(preferences).subscribe((projects: any[]) => {});
         });
     }
 
