@@ -36,14 +36,14 @@ export class AppComponent {
     errorObservable.subscribe((error) => {
       this.snackBar.openFromComponent(StatusBarComponent, {
         data: {error: this.logService.getMessageFromError(error)},
-        duration: 3 * 1000,
+        duration: 5000,
       });
     });
     var messageObservable = this.pageService.messageSubject.asObservable();
     messageObservable.subscribe((message) => {
       this.snackBar.openFromComponent(StatusBarComponent, {
         data: message,
-        duration: 3 * 1000,
+        duration: 4000,
       });
     });
   }

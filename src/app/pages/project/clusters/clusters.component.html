@@ -95,6 +95,7 @@
               <button 
                   *ngIf="cluster.vendor == 'AZURE'"
                   (click)="patchClusterInAzureDialog(cluster)"
+                  [disabled]="cluster?.vendorState == 'Upgrading'"
                   mat-raised-button aria-label="Patch (upgrade) the clusters Kubernetes version" 
                   >
                   PATCH

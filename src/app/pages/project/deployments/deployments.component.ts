@@ -22,6 +22,7 @@ import { LogService }         from '../../../services/log.service';
 })
 export class DeploymentsComponent {
   public vendor: any
+  public loadingDeployments = true;
   public deployments:Array<any> = [];
   public deploymentsEvents;
   // OCP
@@ -53,6 +54,7 @@ export class DeploymentsComponent {
 
     combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
     .subscribe(([cluster, namespace]) => {
+      this.loadingDeployments = true;
       this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
       this.deployments = [];
       //Since both OCP4 and Kubernetes use deployments we fetch those first
@@ -75,33 +77,50 @@ export class DeploymentsComponent {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  getDeployments(namespace: any){
-    if(!namespace || !namespace.metadata || !namespace.metadata.name){return}
-    this.vendor.getDeployments(namespace.metadata.name).subscribe((res:any) => {
-        this.deployments = res.items || []
-        // Lets keep this updated by events
-        this.handleDeploymentEvents(res.metadata.resourceVersion)
-        return res.items || []
-      },
+  async getDeployments(namespace: any){
+    if(!namespace || !namespace.metadata || !namespace.metadata.name){
+      this.loadingDeployments = false;
+      return
+    }
+    var res = null;
+    try{
+      res = await this.vendor.getDeployments(namespace.metadata.name).toPromise();
+      this.deployments = res?.items || []
+      // Lets keep this updated by events
+      this.handleDeploymentEvents(res.metadata.resourceVersion)
+
+    }catch(error){
       error => {this.logService.handleError(error)}
-    );
+    }
+    this.loadingDeployments = false;
+    return res?.items || []
   }
 
-  getDeploymentConfigs(namespace: any){
-    if(!namespace || !namespace.metadata || !namespace.metadata.name){return}
-    this.vendor.getDeploymentConfigs(namespace.metadata.name).subscribe((res:any) => {
-        this.deployments = res.items || []
-        // Lets keep this updated by events
-        this.handleDeploymentConfigEvents(res.metadata.resourceVersion)
-        return res.items || []
-      },
+  async getDeploymentConfigs(namespace: any){
+    if(!namespace || !namespace.metadata || !namespace.metadata.name){
+      this.loadingDeployments = false;
+      return
+    }
+    var res = null;
+    try{
+      res = await this.vendor.getDeploymentConfigs(namespace.metadata.name).toPromise();
+      this.deployments = res?.items || []
+      // Lets keep this updated by events
+      this.handleDeploymentConfigEvents(res.metadata.resourceVersion)
+
+    }catch(error){
       error => {this.logService.handleError(error)}
-    );
+    }
+    this.loadingDeployments = false;
+    return res?.items || [];
   }
 
   ngOnDestroy() {
     if(this.deploymentsEvents && this.deploymentsEvents['abortController']){
       this.deploymentsEvents['abortController'].abort();
+    }
+    if(this.deploymentConfigsEvents && this.deploymentConfigsEvents['abortController']){
+      this.deploymentConfigsEvents['abortController'].abort();
     }
   }
 

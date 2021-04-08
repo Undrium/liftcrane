@@ -59,7 +59,9 @@ export class ClustersComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.clusterService.deleteCluster(cluster).subscribe();
+        this.clusterService.deleteCluster(cluster).subscribe(response => {
+          this.pageService.displayMessage(`Cluster ${cluster.name} deleted.`);
+        });
       }
     });
   }
@@ -74,7 +76,9 @@ export class ClustersComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.clusterService.deleteAKSCluster(cluster).subscribe();
+        this.clusterService.deleteAKSCluster(cluster).subscribe(result => {
+          this.pageService.displayMessage("Cluster deletion started of " + cluster.name);
+        });
       }
     });
   }

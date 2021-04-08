@@ -37,7 +37,6 @@ export class NamespaceService {
             this.setNamespaces([]);
             this.setCurrentNamespace(null);
             this.refresh();
-            
         });
     }
 

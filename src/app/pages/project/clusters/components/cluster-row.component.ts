@@ -46,32 +46,33 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   async ngOnInit() {
     this.vendor = this.apiService.getVendor(this.cluster);
     this.initNodes(this.cluster);
-    if(this.cluster.vendor == "AZURE" && this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
-      this.pollTimeout = this.pollAzureClusterState();
-    }
+
   }
 
   ngOnDestroy() {
     if(this.nodeEvents && this.nodeEvents['abortController']){
         this.nodeEvents['abortController'].abort();
     }
-    clearTimeout(this.pollTimeout);
+    this.stopPollTimer();
   }
-
-  
 
   async pollAzureClusterState(){
     const self = this;
     var data = await this.cloudGuardDataSource.getAKSCluster(this.cluster.name).toPromise();
     if(!this.pollStates.includes(data?.properties?.provisioningState)){
-      clearTimeout(this.pollTimeout);
+      this.stopPollTimer();
       // One final refresh;
       await this.refreshCluster();
       return;
     }
     return setTimeout(function(){
       self.pollAzureClusterState();
-    },6000);
+    }, 7000);
+  }
+
+  async stopPollTimer(){
+    clearTimeout(this.pollTimeout);
+    this.pollTimeout = null;
   }
 
   async initNodes(cluster: any){
@@ -140,7 +141,9 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
- 
+    if(this.cluster.vendor == "AZURE" && this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
+      this.pollTimeout = this.pollAzureClusterState();
+    }
   }
 
 }

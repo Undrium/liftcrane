@@ -1,16 +1,12 @@
 <form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()" (change)="formChanged()">
-    <div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+    <h1 mat-dialog-title>
         Patch Kubernetes version of {{ data.cluster.name }}
-        <mat-spinner 
-                *ngIf="!clusterPatch?.properties?.kubernetesVersion || patchingRequest"
-                [diameter]="20" 
-                [strokeWidth]="3" 
-                matTooltip="Initiating provisioning in Azure" 
-                [matTooltipPosition]="'above'"></mat-spinner> 
-    </div>
-
-    <div mat-dialog-content *ngIf="clusterPatch?.properties?.kubernetesVersion">
-        <div fxLayout="row" style="margin:16px 0px 8px 0px;" fxLayoutAlign="space-between center">
+    </h1>
+    <div mat-dialog-content style="margin:16px 0px 8px 0px;height:80px;" fxLayoutAlign="space-between center">
+        <div *ngIf="!clusterPatch?.properties?.kubernetesVersion" fxFlex="100" style="text-align:center;">
+            Fetching available Kubernetes versions to this Cluster ...
+        </div>
+        <div fxFlex="100" fxLayout="row" *ngIf="clusterPatch?.properties?.kubernetesVersion" fxLayoutAlign="space-between center">
             <div style="font-size:16px;text-align:center;" fxFlex="33">
                 Current {{ data.cluster.platformVersionInfo?.gitVersion || "Unknown version" }}
             </div>
@@ -33,7 +29,15 @@
         </div>
     </div>
 
-    <div mat-dialog-actions fxLayoutAlign="end center"> 
+    <div mat-dialog-actions fxLayoutAlign="end center">
+        <mat-spinner 
+                *ngIf="!clusterPatch?.properties?.kubernetesVersion || patchingRequest"
+                style="margin-right:16px;"
+                color="accent"
+                [diameter]="20" 
+                [strokeWidth]="3" 
+                matTooltip="Initiating provisioning in Azure" 
+                [matTooltipPosition]="'above'"></mat-spinner>  
         <button 
             color="accent" mat-raised-button (click)="patch()" 
             [disabled]="patchingRequest || (availableVersions && availableVersions.length == 0) || (!clusterPatch?.properties?.kubernetesVersion)">Patch</button>
