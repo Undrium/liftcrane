@@ -1,6 +1,7 @@
-import { Component, OnInit }  from '@angular/core';
-import { MatDialog }          from '@angular/material/dialog';
+import { Component, OnInit, ViewChild }   from '@angular/core';
 
+import { MatDialog }                      from '@angular/material/dialog';
+import { MatAccordion }                   from '@angular/material/expansion';
 
 import { PageService }        from '../../../services/page.service';
 import { ApiService }         from '../../../services/api.service';
@@ -18,9 +19,13 @@ import { PatchClusterDialogComponent }        from './components/patch-cluster-d
   styleUrls: ['./clusters.component.scss']
 })
 export class ClustersComponent {
+
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+
   public vendor: any
   public clusters:Array<any> = [];
   public showProgressbar: boolean = false;
+  public filterText: String = "";
 
   constructor(
     public clusterService: ClusterService,
@@ -34,6 +39,8 @@ export class ClustersComponent {
   }
 
   createClusterDialog(): void {
+    this.accordion.closeAll();
+
     const dialogRef = this.dialog.open(CreateClusterDialogComponent, {
       width: '550px',
       data: {}
@@ -42,6 +49,8 @@ export class ClustersComponent {
   }
 
   addExistingClusterDialog(): void {
+    this.accordion.closeAll();
+
     const dialogRef = this.dialog.open(AddExistingClusterDialogComponent, {
       width: '550px',
       data: {}
@@ -60,6 +69,7 @@ export class ClustersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.clusterService.deleteCluster(cluster).subscribe(response => {
+          this.accordion.closeAll();
           this.pageService.displayMessage(`Cluster ${cluster.name} deleted.`);
         });
       }
@@ -77,6 +87,7 @@ export class ClustersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.clusterService.deleteAKSCluster(cluster).subscribe(result => {
+          this.accordion.closeAll();
           this.pageService.displayMessage("Cluster deletion started of " + cluster.name);
         });
       }
@@ -88,7 +99,18 @@ export class ClustersComponent {
       width: '550px',
       data: {cluster: cluster}
     });
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      this.accordion.closeAll();
+    });
+  }
+
+  public filterAndLimitClusters(clusters: any){
+
+    var filteredClusters = clusters.filter((cluster) => {
+      return this.filterText == "" || cluster.name.includes(this.filterText);
+    });
+
+    return filteredClusters;
   }
 
   trackByFormatName(index, item){

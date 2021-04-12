@@ -1,11 +1,14 @@
 <div class="page" fxFlex="100" fxLayout="column">
   <mat-toolbar color="accent">
     <mat-toolbar-row fxLayoutAlign="end center" fxLayoutGap="8px">
-      <span></span>
+      <search-filter [(filterText)]="clusterService.filterText" (filterTextChange)="clusterService.filterText = $event;"></search-filter>
+      <span fxFlex="grow"></span>
       <button 
+        style="min-width:100px;"
         *ngIf="pageService.guard(['admin']) | async" 
         mat-raised-button (click)="addExistingClusterDialog()">+ Existing</button>
       <button 
+        style="min-width:90px;"
         *ngIf="pageService.guard(['admin']) | async" 
         mat-raised-button (click)="createClusterDialog()">+ New</button>
     </mat-toolbar-row>
@@ -22,11 +25,12 @@
     <mat-accordion multi>
       <mat-expansion-panel 
         class="clusterRow"
-        *ngFor="let cluster of clusterService.clusters$ | async; trackBy: trackByFormatName; let i=index; last as isLast;" 
+        *ngFor="let cluster of (clusterService.clusters$ | async) | filterAndLimitClusters:clusterService.filterText; trackBy: trackByFormatName; let i=index; last as isLast;" 
+        [hidden]="cluster.hide"
         >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <cluster-row [cluster]="cluster" fxFlex="100" ></cluster-row>
+            <cluster-row [cluster]="cluster" fxFlex="100"></cluster-row>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="extraDetails" fxLayout="column">

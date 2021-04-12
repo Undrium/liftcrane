@@ -7,7 +7,7 @@
         <div class="clusterLocation" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
             {{cluster.vendorLocation || 'NA'}}
         </div>
-        <div class="nodes" fxFlex fxLayout="row">
+        <div class="nodes" fxFlex="grow" fxLayout="row">
             <div 
                 class="node" [ngClass]="node | nodeConditionSummary"
                 *ngFor="let node of nodes;"
@@ -18,11 +18,12 @@
         </div>
         <div class="clusterVendorState" fxFlex 
             fxLayout="row"
-            fxLayoutAlign="space-between center"
+            fxLayoutAlign="start space-between "
             *ngIf="cluster.vendorState == 'Creating' || cluster.vendorState == 'Upgrading'"
             (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
             <mat-spinner 
-                style="margin-right:3px;"
+                style="margin-right:16px;"
+                color="accent"
                 [diameter]="20" 
                 [strokeWidth]="3" 
                 matTooltip="Retrieving status of {{ cluster.name }}" 
@@ -33,6 +34,7 @@
             <mat-spinner 
                 *ngIf="cluster.status == 'fetching'" 
                 style="margin-right:3px;"
+                color="accent"
                 [diameter]="20" 
                 [strokeWidth]="3" 
                 matTooltip="Retrieving status of {{ cluster.name }}" 

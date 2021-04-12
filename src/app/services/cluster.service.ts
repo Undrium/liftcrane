@@ -11,6 +11,8 @@ import { PreferenceService }                        from './preference.service';
 
 @Injectable({providedIn: 'root'})
 export class ClusterService {
+    // General filters used all over the application for clusters 
+    public filterText: string = "";
     //Flag for components to check
     public clustersAreBeingFetched = false;
     // List with loaded clusters
@@ -86,8 +88,6 @@ export class ClusterService {
         });
 
     }
-
- 
 
     // TODO Make it more clear what is refreshed
     public refresh(isCurrent: boolean = true){
@@ -221,6 +221,18 @@ export class ClusterService {
         }));
         
     } // End getFullCluster
+
+    public filterAndLimitClusters(clusters: any){
+        if(!clusters){
+           return clusters; 
+        }
+        for(var cluster of clusters){
+            cluster["hide"] = this.filterText != "" && !cluster.name.includes(this.filterText);
+        }
+
+        return clusters;
+    }
+
 
     public removeFromLocalClusterList(clusterToDelete: any){
         for (let [index, cluster] of this.clusters.entries()) {

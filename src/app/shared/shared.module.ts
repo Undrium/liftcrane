@@ -3,12 +3,13 @@ import { CommonModule }                             from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl }         from '@angular/forms';
 import { LayoutModule }                             from '@angular/cdk/layout';
 
+import { ClusterSelectComponent }                   from '../components/cluster-select/cluster-select.component';
+import { ConfirmDialogComponent }                   from '../components/confirm-dialog/confirm-dialog.component';
+import { NamespaceSelectComponent }                 from '../components/namespace-select/namespace-select.component';
 import { ObjectEditorComponent }                    from '../components/object-editor/object-editor.component';
 import { ObjectEditorDialogComponent }              from '../components/object-editor-dialog/object-editor-dialog.component';
-import { ConfirmDialogComponent }                   from '../components/confirm-dialog/confirm-dialog.component';
-import { ClusterSelectComponent }                   from '../components/cluster-select/cluster-select.component';
 import { ProjectSelectComponent }                   from '../components/project-select/project-select.component';
-import { NamespaceSelectComponent }                 from '../components/namespace-select/namespace-select.component';
+import { SearchFilterComponent }                    from '../components/search-filter/search-filter.component';
 
 // Pipes
 import { 
@@ -19,6 +20,9 @@ import {
   NodeConditionSummaryPipe,
   NodeNameSummaryPipe 
 } from './pipes/node.pipe';
+import { 
+  FilterAndLimitClustersPipe
+} from './pipes/filters.pipe';
 import { RoleGuardPipe } from './pipes/guard.pipe';
 // Validators
 import { NameFormatDirective} from './validators/name-format.directive';
@@ -91,11 +95,13 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     ObjectEditorComponent,
     DeploymentIsPausedPipe,
     DeploymentIsRunningPipe,
+    FilterAndLimitClustersPipe,
     NodeConditionSummaryPipe,
     NodeNameSummaryPipe,
     RoleGuardPipe,
     NameFormatDirective,
-    ObjectEditorDialogComponent
+    ObjectEditorDialogComponent,
+    SearchFilterComponent
   ],
   exports: [
     AceEditorModule,
@@ -104,8 +110,10 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     NamespaceSelectComponent,
     CommonModule,
     ObjectEditorComponent,
+    SearchFilterComponent,
     DeploymentIsPausedPipe,
     DeploymentIsRunningPipe,
+    FilterAndLimitClustersPipe,
     NodeConditionSummaryPipe,
     RoleGuardPipe,
     NodeNameSummaryPipe,

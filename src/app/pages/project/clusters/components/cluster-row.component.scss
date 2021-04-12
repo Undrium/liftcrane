@@ -2,13 +2,17 @@
 
 
 .clusterName{
-    max-width:200px;
+    min-width:200px;
+    max-width:240px;
 }
 .clusterLocation{
-    max-width:160px;
+    min-width:140px;
+    max-width:180px;
 }
 .clusterVendorState{
-    max-width:110px;
+    min-width:140px;
+    max-width:160px;
+    margin-right:16px;
 }
 .clusterOrigin{ color: $subColor;font-size:12px; }
 .nodes{
