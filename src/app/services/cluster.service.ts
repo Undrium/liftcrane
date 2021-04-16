@@ -261,6 +261,10 @@ export class ClusterService {
         this.localStorageService.setItem('clusters-'+this.projectsService.currentProject.formatName, this.clusters);
     }
 
+    public getAKSKubeConfig(clusterToDelete: any): Observable<any>{
+        return this.cloudGuardDataSource.getAKSKubeConfig(clusterToDelete.name);
+    }
+
 
     public deleteAKSCluster(clusterToDelete: any): Observable<any>{
         return this.cloudGuardDataSource.deleteAKSCluster(clusterToDelete.name).pipe(map(cluster => {

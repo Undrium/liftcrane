@@ -42,24 +42,49 @@
             <h3>Kubernetes Dashboard URL</h3>
             <div fxFlex="50" class="url"><a href="{{cluster.dashboardUrl}}" target="_blank">{{cluster.dashboardUrl}}</a></div>
           </div>
-          <div *ngIf="cluster.personalToken" fxLayout="column">
-            <div fxLayout="row">
-              <h3>Personal token for access to cluster and dashboard</h3>
-              <button class="displayEye" 
-                mat-icon-button color="accent" 
-                aria-label="Show JWT" 
-                (click)="cluster.displayJWT = !cluster.displayJWT"
-                matTooltip="Toggle the JWT token user generated for this cluster" 
-                [matTooltipPosition]="'above'"
-                [matTooltipShowDelay]="1000">
-                <i class=" fas fa-eye"></i>
-              </button>
+
+          <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
+
+            <div fxLayout="column" fxFlex="50">
+              <div fxLayout="row">
+                <h3>KubeConfig</h3>
+                <button class="displayEye" 
+                  mat-icon-button color="accent" 
+                  aria-label="Show KubeConfig" 
+                  (click)="toggleKubeConfig(cluster)"
+                  matTooltip="Get the KubeConfig for this cluster" 
+                  [matTooltipPosition]="'above'"
+                  [matTooltipShowDelay]="1000">
+                  <i class=" fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="jwt" >
+                <code *ngIf="cluster.displayKubeConfig">{{cluster.kubeConfig || 'Loading ...'}}</code>
+                <code *ngIf="!cluster.displayKubeConfig">Click <strong (click)="toggleKubeConfig(cluster)" style="cursor:pointer;">here</strong> to reveal the KubeConfig.</code>
+              </div>
             </div>
-            <div fxFlex="50" class="jwt" >
-              <code *ngIf="cluster.displayJWT">{{cluster.personalToken}}</code>
-              <code *ngIf="!cluster.displayJWT">Click <strong (click)="cluster.displayJWT = !cluster.displayJWT" style="cursor:pointer;">here</strong> to reveal the JWT.</code>
+
+            <div *ngIf="cluster.personalToken" fxLayout="column" fxFlex="50">
+              <div fxLayout="row">
+                <h3>Personal token for access to cluster and dashboard</h3>
+                <button class="displayEye" 
+                  mat-icon-button color="accent" 
+                  aria-label="Show JWT" 
+                  (click)="cluster.displayJWT = !cluster.displayJWT"
+                  matTooltip="Toggle the JWT token user generated for this cluster" 
+                  [matTooltipPosition]="'above'"
+                  [matTooltipShowDelay]="1000">
+                  <i class=" fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="jwt" >
+                <code *ngIf="cluster.displayJWT">{{cluster.personalToken}}</code>
+                <code *ngIf="!cluster.displayJWT">Click <strong (click)="cluster.displayJWT = !cluster.displayJWT" style="cursor:pointer;">here</strong> to reveal the JWT.</code>
+              </div>
             </div>
+
           </div>
+
           <div fxLayout="row">
             <h3>Platform</h3>
             <button 

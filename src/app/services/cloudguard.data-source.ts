@@ -60,9 +60,13 @@ export class CloudGuardDataSource {
   public getAKSCluster(name): any{
     return this.get("/clusters/aks/"+name);
   }
-  
+
   public getAKSUpgradeProfile(name): any{
     return this.get("/clusters/aks/"+name+"/upgradeProfile");
+  }
+  
+  public getAKSKubeConfig(name): any{
+    return this.get("/clusters/aks/"+name+"/kubeconfig");
   }
 
   public createAKSCluster(post): any{
@@ -72,7 +76,6 @@ export class CloudGuardDataSource {
   public patchAKSCluster(formatName, patchData): any{
     return this.patch("/clusters/aks/"+formatName, patchData);
   }
-
 
   public cloneNamespace(projectFormatName: string, namespaceName: string, cloneData: any): Observable<any> {
     return this.post("/projects/"+projectFormatName+"/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);

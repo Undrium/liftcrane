@@ -18,7 +18,7 @@
       <span *ngIf="(namespaceService.namespaces$ | async ).length > 0">Please select namespace</span>
     </div>
     <div class="somethingIsMissing" 
-      *ngIf="!loadingDeployments && deployments.length == 0">
+      *ngIf="!loadingDeployments && deployments.length == 0 && (namespaceService.namespaces$ | async ).length != 0">
       No deployments yet, create one using the button in the upper corner
     </div>
     <mat-card style="margin-bottom:16px !important;">

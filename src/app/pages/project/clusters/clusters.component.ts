@@ -111,6 +111,15 @@ export class ClustersComponent {
     });
 
     return filteredClusters;
+
+  }
+
+  public toggleKubeConfig(cluster){
+    cluster.displayKubeConfig = !cluster.displayKubeConfig;
+    if(cluster['kubeConfig']){return;}
+    this.clusterService.getAKSKubeConfig(cluster).subscribe(kubeConfig => {
+      cluster['kubeConfig'] = kubeConfig;
+    });
   }
 
   trackByFormatName(index, item){
