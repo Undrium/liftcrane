@@ -11,6 +11,7 @@
                 [matTooltipShowDelay]="1000"
                 >Clone Namespace</button>
             <button 
+                [class.spinner]="deleting" [disabled]="deleting"
                 color="accent" 
                 mat-raised-button 
                 (click)="deleteNamespaceDialog(namespace)"

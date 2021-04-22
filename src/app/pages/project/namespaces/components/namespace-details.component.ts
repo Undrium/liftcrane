@@ -1,10 +1,12 @@
-import { Component, Input }                from '@angular/core';
-import { MatDialog }                       from '@angular/material/dialog';
+import { Component, Input }                 from '@angular/core';
+import { MatDialog }                        from '@angular/material/dialog';
 
-import { CloneNamespaceDialogComponent }   from './clone-namespace-dialog.component'
-import { ConfirmDialogComponent }          from '../../../../components/confirm-dialog/confirm-dialog.component'
+import { CloneNamespaceDialogComponent }    from './clone-namespace-dialog.component'
+import { ConfirmDialogComponent }           from '../../../../components/confirm-dialog/confirm-dialog.component'
 
-import { NamespaceService }                from '../../../../services/namespace.service';
+import { LogService }                       from '../../../../services/log.service';
+import { NamespaceService }                 from '../../../../services/namespace.service';
+import { PageService }                      from '../../../../services/page.service';
 
 @Component({
     selector: 'namespace-details',
@@ -14,10 +16,16 @@ import { NamespaceService }                from '../../../../services/namespace.
 export class NamespaceDetailsComponent {
     @Input() namespace: any;
     @Input() loadEvents: boolean;
+    deleting = false;
 
     original: any;
 
-    constructor(public namespaceService: NamespaceService,public dialog: MatDialog) {}
+    constructor(
+      public namespaceService: NamespaceService, 
+      public logService: LogService,
+      public pageService: PageService, 
+      public dialog: MatDialog
+    ) {}
 
     cloneNamespaceDialog(): void {
       const dialogRef = this.dialog.open(CloneNamespaceDialogComponent, {
@@ -36,8 +44,16 @@ export class NamespaceDetailsComponent {
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          this.namespaceService.deleteNamespace(namespace.metadata.name).subscribe(resp =>{});
-  
+          this.deleting = true;
+          this.namespaceService.deleteNamespace(namespace.metadata.name).subscribe(
+            resp =>{
+              this.pageService.displayMessage("Namespace " + namespace.metadata.name + " deleted."); 
+            },
+            err => {
+                this.logService.handleError(err);
+            },
+            () => {this.deleting = false;}
+          );
         }
       });
     }

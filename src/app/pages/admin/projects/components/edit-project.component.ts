@@ -5,9 +5,10 @@ import { ConfirmDialogComponent }         from '../../../../components/confirm-d
 
 import { LogService }                       from '../../../../services/log.service';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
-import { ProjectsService }       from '../../../../services/projects.service';
-import { ClusterService }       from '../../../../services/cluster.service';
-import { CloudGuardDataSource }       from '../../../../services/cloudguard.data-source';
+import { ProjectsService }                  from '../../../../services/projects.service';
+import { ClusterService }                   from '../../../../services/cluster.service';
+import { CloudGuardDataSource }             from '../../../../services/cloudguard.data-source';
+import { PageService }                      from '../../../../services/page.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class EditProjectComponent {
 
     constructor(
         public logService: LogService,
+        public pageService: PageService,
         public projectsService: ProjectsService,
         public localStorageService: LocalStorageService,
         public clusterService: ClusterService,
@@ -41,7 +43,7 @@ export class EditProjectComponent {
     save(): void{
         this.projectsService.updateProject(this.project).subscribe(
             resp =>{
-
+                this.pageService.displayMessage("Project "+this.project.name+" updated");
             },
             err => {
                 this.logService.handleError(err);
@@ -59,7 +61,9 @@ export class EditProjectComponent {
         });
         dialogRef.afterClosed().subscribe(result => {
           if(result){
-            this.projectsService.deleteProject(project).subscribe();
+            this.projectsService.deleteProject(project).subscribe(result => {
+                this.pageService.displayMessage("Project "+this.project.name+" deleted");
+            });
           }
         });
       }

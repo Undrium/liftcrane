@@ -1,8 +1,11 @@
 <div class="page" fxFlex="100" fxLayout="column">
   <mat-toolbar color="accent">
     <mat-toolbar-row fxLayoutAlign="end center" fxLayoutGap="8px">
-      <search-filter [(filterText)]="clusterService.filterText" (filterTextChange)="clusterService.filterText = $event;"></search-filter>
       <span fxFlex="grow"></span>
+      <search-filter 
+        *ngIf="(clusterService.clusters$ | async).length > 1"
+        [(filterText)]="clusterService.filterText"
+      ></search-filter>
       <button 
         style="min-width:100px;"
         *ngIf="pageService.guard(['admin']) | async" 
@@ -25,7 +28,7 @@
     <mat-accordion multi>
       <mat-expansion-panel 
         class="clusterRow"
-        *ngFor="let cluster of (clusterService.clusters$ | async) | filterAndLimitClusters:clusterService.filterText; trackBy: trackByFormatName; let i=index; last as isLast;" 
+        *ngFor="let cluster of clusterService.filteredClusters(); trackBy: trackByFormatName; let i=index; last as isLast;" 
         [hidden]="cluster.hide"
         >
         <mat-expansion-panel-header>

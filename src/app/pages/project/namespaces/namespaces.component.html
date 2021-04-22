@@ -1,8 +1,17 @@
 <div class="page" fxFlex="100" fxLayout="column">
   <mat-toolbar color="accent">
-    <mat-toolbar-row fxLayoutAlign="space-between center">
+    <mat-toolbar-row fxLayoutAlign="space-between center" fxLayoutGap="8px">
       <cluster-select></cluster-select>
-      <button color="" mat-raised-button (click)="createNamespaceDialog()" [disabled]="!(clusterService.currentClusterSubject | async )">+ Namespace</button>
+      <span fxFlex="grow"></span>
+      <search-filter 
+        *ngIf="namespaces && namespaces.length > 1"
+        [(filterText)]="namespaceService.filterText"
+      ></search-filter>
+      <button 
+        style="min-width:120px;" 
+        mat-raised-button 
+        (click)="createNamespaceDialog()" 
+        [disabled]="!(clusterService.currentClusterSubject | async )">+ Namespace</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-progress-bar *ngIf="namespaceService.namespacesLoading" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
@@ -19,7 +28,7 @@
           class="namespaceRow"
           (opened)="showExtraDetails[namespace.metadata.uid] = true" 
           (closed)="showExtraDetails[namespace.metadata.uid] = false"
-          *ngFor="let namespace of namespaces;trackBy:trackByUid;let i=index; last as isLast;" 
+          *ngFor="let namespace of namespaceService.filteredNamespaces();trackBy:trackByUid;let i=index; last as isLast;" 
           >
           <mat-expansion-panel-header>
             <mat-panel-title>

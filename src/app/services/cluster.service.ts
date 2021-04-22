@@ -115,10 +115,18 @@ export class ClusterService {
     public async setCurrentCluster(cluster: any, dirty = false){
         var previousCluster = this.currentCluster;
         this.currentCluster = this.localStorageService.setItem('currentCluster', cluster); 
+        
+        if(!this.currentCluster && previousCluster){
+            // This is a reset of currentCluster, notify the rest of the application
+            this.currentClusterSubject.next(this.currentCluster);
+            return;
+        }
+
         // We do not want to spam change if same cluster and not dirty
         if((previousCluster.formatName != this.currentCluster.formatName) || dirty){
             this.currentClusterSubject.next(this.currentCluster);
         }
+        
         // If a dirty cluster it also need to be fetched, do that afterwards
         if(dirty){
             this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
@@ -222,19 +230,21 @@ export class ClusterService {
         
     } // End getFullCluster
 
-    public filterAndLimitClusters(clusters: any){
-        if(!clusters){
-           return clusters; 
+    public filteredClusters(){
+        if(!this.clusters || !this.clusters.length){
+            return []; 
         }
-        for(var cluster of clusters){
-            cluster["hide"] = this.filterText != "" && !cluster.name.includes(this.filterText);
+        if(this.filterText == ""){
+            return this.clusters;
         }
-
-        return clusters;
+        return this.clusters.filter(cluster => cluster.name.includes(this.filterText));
     }
 
 
     public removeFromLocalClusterList(clusterToDelete: any){
+        if(this.currentCluster && this.currentCluster.formatName == clusterToDelete['formatName']){
+            this.setCurrentCluster(null);
+        }
         for (let [index, cluster] of this.clusters.entries()) {
             if(clusterToDelete['formatName'] == cluster.formatName){
                 this.clusters.splice(index, 1);
@@ -243,6 +253,7 @@ export class ClusterService {
                 break;
             }
         }
+        
     }
 
     public upsertLocalClusterList(newCluster: any){

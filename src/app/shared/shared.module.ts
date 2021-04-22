@@ -20,9 +20,7 @@ import {
   NodeConditionSummaryPipe,
   NodeNameSummaryPipe 
 } from './pipes/node.pipe';
-import { 
-  FilterAndLimitClustersPipe
-} from './pipes/filters.pipe';
+
 import { RoleGuardPipe } from './pipes/guard.pipe';
 // Validators
 import { NameFormatDirective} from './validators/name-format.directive';
@@ -95,7 +93,6 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     ObjectEditorComponent,
     DeploymentIsPausedPipe,
     DeploymentIsRunningPipe,
-    FilterAndLimitClustersPipe,
     NodeConditionSummaryPipe,
     NodeNameSummaryPipe,
     RoleGuardPipe,
@@ -113,7 +110,6 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     SearchFilterComponent,
     DeploymentIsPausedPipe,
     DeploymentIsRunningPipe,
-    FilterAndLimitClustersPipe,
     NodeConditionSummaryPipe,
     RoleGuardPipe,
     NodeNameSummaryPipe,

@@ -1,5 +1,8 @@
 <mat-form-field >
-    <mat-label *ngIf="!(clusterService.getCurrentCluster() | async )">Select cluster</mat-label>
+    <mat-label *ngIf="!(clusterService.getCurrentCluster() | async )">
+        <span *ngIf="(clusterService.clusters$ | async ).length == 0">No Clusters</span>
+        <span *ngIf="(clusterService.clusters$ | async ).length > 0">Select cluster</span>
+    </mat-label>
     <mat-select 
         [ngModel]="clusterService.getCurrentCluster() | async" 
         (selectionChange)="switchCurrentCluster($event.value)" 

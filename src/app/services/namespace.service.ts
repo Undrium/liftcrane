@@ -16,9 +16,11 @@ import { ɵMetadataOverrider } from '@angular/core/testing';
 export class NamespaceService {
     public namespaces: Array<any> = [];
     public namespacesLoading = true;
-    namespaces$: ReplaySubject<Array<any>>;
+    namespaces$: BehaviorSubject<any>;
     public currentNamespace: any = {};
     public currentNamespaceSubject: BehaviorSubject<any>;
+    // General filters used all over the application for namespaces 
+    public filterText: string = "";
 
     constructor(
         public apiService: ApiService, 
@@ -28,10 +30,11 @@ export class NamespaceService {
         public localStorageService: LocalStorageService,
         public preferenceService: PreferenceService
     ) {
-        this.namespaces$ = new ReplaySubject<Array<any>>(1);    
+        this.namespaces$ = new BehaviorSubject<any>(this.namespaces);    
         this.currentNamespaceSubject = new BehaviorSubject<any>(null);
         // Subscribe to know when namespaces change
         this.clusterService.getCurrentCluster().subscribe((cluster:any) => {
+            this.namespacesLoading = false;
             if(!cluster || !cluster.name){return;}
             // Reset
             this.setNamespaces([]);
@@ -51,18 +54,14 @@ export class NamespaceService {
     * Get the current list of namespaces fetched or if not existing a new shallow list of namespaces
     */
    public async getProjectsNamespaces(projectFormatName: string, refresh = false):Promise<any>{
-
         if((refresh || !this.namespaces || this.namespaces.length == 0) && projectFormatName){
-            
             if(!this.clusterService.currentCluster || !this.clusterService.currentCluster.name){return;}
-
             this.namespacesLoading = true;
             var clusterFormatName = this.clusterService.currentCluster.formatName;
 
             this.cloudguardService.getProjectsClustersNamespaces(projectFormatName, clusterFormatName).subscribe((namespaces:any) => {
                 this.namespacesLoading = false;
                 this.setNamespaces(namespaces);
-                this.namespaces$.next(this.namespaces);
                 // Reset
                 this.setCurrentNamespace(null)
                 // Check preferences
@@ -124,6 +123,26 @@ export class NamespaceService {
         return true;
     }
 
+    public filterAndLimitNamespaces(namespaces: any){
+        if(!namespaces){
+           return namespaces; 
+        }
+        for(var namespace of namespaces){
+            namespace["hide"] = this.filterText != "" && !namespace.metadata.name.includes(this.filterText);
+        }
+        return namespaces;
+    }
+
+    public filteredNamespaces(){
+        if(!this.namespaces || !this.namespaces.length){
+            return []; 
+        }
+        if(this.filterText == ""){
+            return this.namespaces;
+        }
+        return this.namespaces.filter(namespace => namespace.metadata.name.includes(this.filterText));
+    }
+
     public setNamespaces(namespaces: any){
         this.namespaces.length = 0;
         [].push.apply(this.namespaces, namespaces);
@@ -136,7 +155,14 @@ export class NamespaceService {
     }
 
     public createNamespace(namespaceName:string, projectIdentifier: string):Observable<any>{
-        return this.apiService.getVendor(this.clusterService.currentCluster).createNamespace(namespaceName, projectIdentifier);
+        return this.apiService.getVendor(this.clusterService.currentCluster).
+                createNamespace(namespaceName, projectIdentifier).pipe(map(namescape =>
+                    {
+                        // Since a namespace has been created we need to renegotiate tokens, therefor fetch the cluster again
+                        this.clusterService.refresh(true);
+                        return this.namespaces;
+                    }
+                ));
     }
 
     public deleteNamespace(namespaceName:string):Observable<any>{

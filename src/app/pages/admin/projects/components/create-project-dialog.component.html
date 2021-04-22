@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Create Project</h1>
 <div mat-dialog-content>
-    <form class="create-project-form" fxLayout="column">
+    <form class="create-project-form" fxLayout="column" (submit)="create()">
         <mat-form-field fxFlex="100">
             <mat-label>Name</mat-label>
             <input name="name" [(ngModel)]="newProject.name" matInput>
