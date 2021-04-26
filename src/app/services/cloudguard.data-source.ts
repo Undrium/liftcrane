@@ -40,7 +40,9 @@ export class CloudGuardDataSource {
   public getProjectsCluster(projectFormatName: string, clusterFormatName: string): any{
     return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName).pipe(map((cluster: any) =>{
       // This is always packaged as base64 till the end client
-      cluster.personalToken = atob(cluster.personalToken);
+      if(cluster.personalToken){
+        cluster.personalToken = atob(cluster.personalToken);
+      }
       return cluster;
     })).pipe(share());
   }

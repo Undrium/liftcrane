@@ -12,6 +12,8 @@ import { ClusterService }       from '../../../../services/cluster.service';
     templateUrl: 'add-existing-cluster-dialog.component.html',
 })
 export class AddExistingClusterDialogComponent {
+    authType = "token";
+    kubeConfigString = "";
     tabIndex = 0;
     existingCluster: any;
     platforms: any[]; 
@@ -42,5 +44,13 @@ export class AddExistingClusterDialogComponent {
                 this.logService.handleError(err);
             }
         );
+    }
+
+    parseKubeConfig(event){
+        try{
+            console.log(event);
+        }catch(error){
+
+        }
     }
 }

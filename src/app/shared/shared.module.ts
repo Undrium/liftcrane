@@ -29,6 +29,7 @@ import { NameFormatDirective} from './validators/name-format.directive';
 import { FlexLayoutModule }                         from '@angular/flex-layout';
 
 import { MatButtonModule }                          from '@angular/material/button';
+import { MatButtonToggleModule }                    from '@angular/material/button-toggle';
 import { MatCardModule }                            from '@angular/material/card';
 import { MatCheckboxModule }                        from '@angular/material/checkbox';
 import { MatChipsModule }                           from '@angular/material/chips';
@@ -39,7 +40,7 @@ import { MatFormFieldModule}                        from '@angular/material/form
 import { MatIconModule }                            from '@angular/material/icon';
 import { MatInputModule }                           from '@angular/material/input';
 import { MatListModule }                            from '@angular/material/list';
-import { MatTableModule }                            from '@angular/material/table';
+import { MatTableModule }                           from '@angular/material/table';
 import { MatMenuModule }                            from '@angular/material/menu';
 import { MatPaginatorModule }                       from '@angular/material/paginator';
 import { MatProgressBarModule }                     from '@angular/material/progress-bar';
@@ -69,6 +70,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
@@ -125,6 +127,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     MatGridListModule,
     MatInputModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatToolbarModule, 
     MatIconModule, 
     MatSidenavModule, 

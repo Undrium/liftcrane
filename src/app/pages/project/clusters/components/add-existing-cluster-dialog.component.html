@@ -2,35 +2,71 @@
 <h1 mat-dialog-title>Add Existing Cluster</h1>
 <div mat-dialog-content>
     <form class="add-cluster-form" fxLayout="column">
-        <mat-form-field fxFlex="100">
-            <mat-label>Name</mat-label>
-            <input name="name" [(ngModel)]="existingCluster.name" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-            <mat-label>ApiServer</mat-label>
-            <input name="apiserver" [(ngModel)]="existingCluster.apiServer" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-            <mat-label>Token</mat-label>
-            <textarea name="token" [(ngModel)]="existingCluster.token" matInput></textarea>
-        </mat-form-field>
-        <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
-            <mat-form-field fxFlex="50" >
-                <mat-label>Platform</mat-label>
-                <mat-select [(ngModel)]="existingCluster.platform" name="platform">
-                    <mat-option 
-                        *ngFor="let platform of platforms" 
-                        [value]="platform.value">{{platform.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field fxFlex="50">
-                <mat-label>Vendor</mat-label>
-                <mat-select [(ngModel)]="existingCluster.vendor" name="vendor">
-                    <mat-option *ngFor="let vendor of vendors" [value]="vendor">{{vendor}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            
-        </div>
+
+        <mat-tab-group dynamicHeight color="accent" backgroundColor="">
+            <mat-tab label="Overview" fxFlex="100">
+                <div style="margin-top:16px;"  fxFlex="100" fxLayout="column">
+                    <mat-form-field  fxFlex="100">
+                        <mat-label>Name</mat-label>
+                        <input name="name" [(ngModel)]="existingCluster.name" matInput>
+                    </mat-form-field>
+                
+                    <mat-form-field >
+                        <mat-label>ApiServer</mat-label>
+                        <input name="apiserver" [(ngModel)]="existingCluster.apiServer" matInput fxFlex="100">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <mat-form-field *ngIf="!authType || authType == 'token'">
+                        <mat-label>Token</mat-label>
+                        <textarea name="token" [(ngModel)]="existingCluster.token" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="authType == 'certificate'">
+                        <mat-label>Cert data</mat-label>
+                        <textarea name="certData" [(ngModel)]="existingCluster.certData" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="authType == 'certificate'">
+                        <mat-label>Key data</mat-label>
+                        <textarea name="keyData" [(ngModel)]="existingCluster.keyData" matInput></textarea>
+                    </mat-form-field>
+                    <mat-button-toggle-group [(ngModel)]="authType" name="fontStyle" aria-label="Font Style">
+                        <mat-button-toggle value="token">Token</mat-button-toggle>
+                        <mat-button-toggle value="certificate">Cert</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Advanced" fxLayout="row" fxFlex="100">
+                <div fxFlex="100" fxLayout="row" fxLayoutGap="16px"  style="margin-top:16px;">
+                    <mat-form-field fxFlex="50" >
+                        <mat-label>Platform</mat-label>
+                        <mat-select [(ngModel)]="existingCluster.platform" name="platform">
+                            <mat-option 
+                                *ngFor="let platform of platforms" 
+                                [value]="platform.value">{{platform.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select [(ngModel)]="existingCluster.vendor" name="vendor">
+                            <mat-option *ngFor="let vendor of vendors" [value]="vendor">{{vendor}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100">
+                    <mat-form-field  fxFlex="100">
+                        <mat-label>KubeConfig</mat-label>
+                        <textarea 
+                            [(ngModel)]="kubeConfigString"
+                            [matTextareaAutosize]="false"
+                            name="kubeConfig" 
+                            (ngModelChange)="parseKubeConfig($event)" matInput fxFlex="100"></textarea>
+                    </mat-form-field>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+        
     </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end">
