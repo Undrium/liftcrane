@@ -9,10 +9,16 @@
       <button 
         style="min-width:100px;"
         *ngIf="pageService.guard(['admin']) | async" 
+        matTooltip="Add an already created cluster to Liftcrane" 
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="500"
         mat-raised-button (click)="addExistingClusterDialog()">+ Existing</button>
       <button 
         style="min-width:90px;"
         *ngIf="pageService.guard(['admin']) | async" 
+        matTooltip="Create a new AKS cluster in Azure" 
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="400"
         mat-raised-button (click)="createClusterDialog()">+ New</button>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -21,7 +27,7 @@
     <div class="somethingIsMissing" 
       *ngIf="
         !clusterService.clustersAreBeingFetched && 
-        (!(clusterService.clusters$ | async) || (clusterService.clusters$ | async).length == 0)
+        (!(clusterService.clusters$ | async) && (clusterService.clusters$ | async).length == 0)
       ">
       No clusters yet
     </div>
@@ -48,7 +54,7 @@
 
           <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
 
-            <div fxLayout="column" fxFlex="50">
+            <div fxLayout="column" fxFlex="50" *ngIf="cluster.vendor == 'AZURE'">
               <div fxLayout="row">
                 <h3>KubeConfig</h3>
                 <button class="displayEye" 

@@ -1,0 +1,15 @@
+.clusterChoice{
+    margin-left:16px;
+    ul {
+        list-style-type: none;
+        li{
+            font-weight:bold;
+            cursor:pointer;
+            padding-bottom:16px;
+            &:hover{
+                color:grey;
+            }
+        }
+    }
+    
+}

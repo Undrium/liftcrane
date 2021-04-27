@@ -3,7 +3,7 @@
 <div mat-dialog-content>
     <form class="add-cluster-form" fxLayout="column">
 
-        <mat-tab-group dynamicHeight color="accent" backgroundColor="">
+        <mat-tab-group dynamicHeight color="accent" backgroundColor="" [(selectedIndex)]="tabIndex">
             <mat-tab label="Overview" fxFlex="100">
                 <div style="margin-top:16px;"  fxFlex="100" fxLayout="column">
                     <mat-form-field  fxFlex="100">
@@ -53,18 +53,43 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div fxFlex="100">
-                    <mat-form-field  fxFlex="100">
-                        <mat-label>KubeConfig</mat-label>
+            </mat-tab>
+            <mat-tab label="KubeConfig" fxLayout="row" fxFlex="100">
+                <div fxFlex="100" fxLayout="column" fxFlex="100" style="margin-top:16px;">
+                    <mat-form-field  fxFlex="100" *ngIf="kubeConfigObject && !kubeConfigObject.clusters">
+                        <mat-label>Paste KubeConfig</mat-label>
                         <textarea 
                             [(ngModel)]="kubeConfigString"
                             [matTextareaAutosize]="false"
                             name="kubeConfig" 
-                            (ngModelChange)="parseKubeConfig($event)" matInput fxFlex="100"></textarea>
+                            (ngModelChange)="pasteKubeConfig($event)" matInput fxFlex="100"></textarea>
                     </mat-form-field>
+                    <div 
+                        class="clusterChoice"
+                        *ngIf="kubeConfigObject && kubeConfigObject.clusters && kubeConfigObject.clusters.length > 0"
+                    >
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            Multiple clusters found, pick one
+                            <button 
+                                style="margin-right:8px;"
+                                (click)="resetKubeConfig()"
+                                mat-raised-button aria-label="Paste a new KubeConfig">
+                                Start Over
+                            </button>
+                        </div>
+                        
+                        <ul>
+                            <li 
+                                *ngFor="let cluster of kubeConfigObject.clusters" 
+                                (click)="parseKubeConfig(cluster.name)"
+                                matTooltip="{{cluster.cluster.server}}" 
+                                [matTooltipPosition]="'left'"
+                                [matTooltipShowDelay]="500"
+                            >{{ cluster.name }}</li>
+                        </ul>
+                    </div>
                 </div>
             </mat-tab>
-
         </mat-tab-group>
         
     </form>

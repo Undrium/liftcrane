@@ -71,18 +71,18 @@ export class AuthService {
     if(user.usertype && user.usertype == 'admin'){
       return true;
     }
-      if(!user.projectRoles || user.projectRoles.length == 0){
-          return false;
-      }
-      for(var projectRole of user.projectRoles){
-          if(projectRole.project && projectRole.project.id == projectId){
-              if(projectRole.role && projectRole.role.name && allowedRoles.includes(projectRole.role.name)){
-                  return true;
-              }else{
-                  return false;
-              }
-          }
-      }
+    if(!user.projectRoles || (user.projectRoles && user.projectRoles.length == 0)){
+        return false;
+    }
+    for(var projectRole of user.projectRoles){
+        if(projectRole.project && projectRole.project.id == projectId){
+            if(projectRole.role && projectRole.role.name && allowedRoles.includes(projectRole.role.name)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
   }
 
   public isRoleInProject(role: string, projectId: string): Observable<boolean>{
