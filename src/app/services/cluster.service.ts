@@ -50,8 +50,6 @@ export class ClusterService {
         {name: "East Asia", value: "eastasia"},
         {name: "East US", value: "eastus"},
         {name: "East US 2", value: "eastus2"},
-        {name: "Germany Central", value: "germanycentral"},
-        {name: "Germany North East", value: "germanynortheast"},
         {name: "Japan East", value: "japaneast"},
         {name: "Japan West", value: "japanwest"},
         {name: "Korea Central", value: "koreacentral"},
@@ -272,41 +270,61 @@ export class ClusterService {
         this.localStorageService.setItem('clusters-'+this.projectsService.currentProject.formatName, this.clusters);
     }
 
-    public getAKSKubeConfig(clusterToDelete: any): Observable<any>{
-        return this.cloudGuardDataSource.getAKSKubeConfig(clusterToDelete.name);
+    public getAKSKubeConfig(cluster: any): Observable<any>{
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.getAKSKubeConfig(projectFormatName, cluster.name);
     }
 
+    public getAKSUpgradeProfile(cluster: any): Observable<any>{
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.getAKSUpgradeProfile(projectFormatName, cluster.name);
+    }
+
+    public getAKSCluster(cluster: any): Observable<any>{
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.getAKSCluster(projectFormatName, cluster.name);
+    }
+
+    public patchAKSCluster(cluster: any, clusterPatch: any): Observable<any>{
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.patchAKSCluster(projectFormatName, cluster.name, clusterPatch);
+    }
 
     public deleteAKSCluster(clusterToDelete: any): Observable<any>{
-        return this.cloudGuardDataSource.deleteAKSCluster(clusterToDelete.name).pipe(map(cluster => {
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.deleteAKSCluster(projectFormatName, clusterToDelete.name).pipe(map(cluster => {
             this.removeFromLocalClusterList(clusterToDelete);
             return cluster;
         }));
     }
 
     public createAKSCluster(data: any): Observable<any>{
-        return this.cloudGuardDataSource.createAKSCluster(data).pipe(map(cluster => {
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.createAKSCluster(projectFormatName, data).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public addCluster(cluster: any): Observable<any>{
-        return this.cloudGuardDataSource.addCluster(cluster).pipe(map(cluster => {
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.addCluster(projectFormatName, cluster).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public updateCluster(cluster: any): Observable<any>{
-        return this.cloudGuardDataSource.updateCluster(cluster).pipe(map(cluster => {
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.updateCluster(projectFormatName, cluster).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));
     }
 
     public deleteCluster(clusterToDelete): Observable<any>{
-        return this.cloudGuardDataSource.deleteCluster(clusterToDelete.formatName).pipe(map(resp => {
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.deleteCluster(projectFormatName, clusterToDelete.formatName).pipe(map(resp => {
             this.removeFromLocalClusterList(clusterToDelete);
             return resp;
         }));

@@ -7,7 +7,6 @@ import { LogService }                       from '../../../../services/log.servi
 import { ApiService }                       from '../../../../services/api.service';
 import { PageService }                      from '../../../../services/page.service';
 import { ClusterService }                   from '../../../../services/cluster.service';
-import { CloudGuardDataSource }             from '../../../../services/cloudguard.data-source';
 
 @Component({
     selector: 'patch-cluster-dialog',
@@ -22,7 +21,6 @@ export class PatchClusterDialogComponent {
         public logService: LogService,
         public apiService: ApiService,
         public clusterService: ClusterService,
-        public cloudGuardDataSource: CloudGuardDataSource,
         public dialogRef: MatDialogRef<PatchClusterDialogComponent>,
         public pageService: PageService,
         @Inject(MAT_DIALOG_DATA) public data: any
@@ -31,13 +29,13 @@ export class PatchClusterDialogComponent {
     }
 
     async init(){
-        var response = await this.cloudGuardDataSource.getAKSUpgradeProfile(this.data.cluster.formatName).toPromise();
+        var response = await this.clusterService.getAKSUpgradeProfile(this.data.cluster).toPromise();
         var upgrades = response?.properties?.controlPlaneProfile?.upgrades || [];
         this.availableVersions = [];
         for(var upgradeData of upgrades){
             this.availableVersions.push(upgradeData.kubernetesVersion);
         }
-        this.clusterPatch = await this.cloudGuardDataSource.getAKSCluster(this.data.cluster.formatName).toPromise();
+        this.clusterPatch = await this.clusterService.getAKSCluster(this.data.cluster).toPromise();
         // Default
         if(this.availableVersions[0]){
             this.clusterPatch.properties.kubernetesVersion = this.availableVersions[0];
@@ -51,7 +49,7 @@ export class PatchClusterDialogComponent {
 
     patch(): void{
         this.patchingRequest = true;
-        this.cloudGuardDataSource.patchAKSCluster(this.data.cluster.formatName, this.clusterPatch).subscribe(
+        this.clusterService.patchAKSCluster(this.data.cluster, this.clusterPatch).subscribe(
             cluster =>{
                 this.clusterService.upsertLocalClusterList(cluster);
                 this.dialogRef.close();

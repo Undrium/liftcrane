@@ -88,4 +88,8 @@ export class ProjectsService {
         return this.currentProjectSubject;
     }
 
+    public getCurrentProjectFormatName(){
+        return this.currentProject ? this.currentProject.formatName : "";
+    }
+
 }

@@ -15,7 +15,7 @@
             <mat-expansion-panel-header>
                 <mat-panel-title fxLayoutAlign="start center">
                     {{ user.username }} 
-                    <span class="numberOfProjectRoles" *ngIf="user.projectRoles.length > 0"> 
+                    <span class="numberOfProjectRoles" *ngIf="user.projectRoles && user.projectRoles.length > 0"> 
                         ({{user.projectRoles.length}} {{user.projectRoles.length > 1 ? 'projects' : 'project'  }})
                     </span>
                 </mat-panel-title>

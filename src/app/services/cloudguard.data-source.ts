@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders }    from '@angular/common/http';
 import { share, map, switchMap, first, take }      from 'rxjs/operators';
 import { Observable }                 from 'rxjs';
 
-import { ProfileService }                from './profile.service'
+import { ProfileService }                from './profile.service';
 
 import { environment } from '../../environments/environment';
 
@@ -11,7 +11,8 @@ import { environment } from '../../environments/environment';
 @Injectable({providedIn: 'root'})
 export class CloudGuardDataSource {
 
-  constructor(private http: HttpClient, private profileService: ProfileService) {}
+  constructor(
+    private http: HttpClient, private profileService: ProfileService) {}
 
   public heartbeat(user): any{
     return this.post("/auth/heartbeat", user);
@@ -51,6 +52,10 @@ export class CloudGuardDataSource {
     return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName+"/namespaces").pipe(share());
   }
 
+  public cloneNamespace(projectFormatName: string, namespaceName: string, cloneData: any): Observable<any> {
+    return this.post("/projects/"+projectFormatName+"/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);
+  }
+
   public getCluster(formatName: string): any{
     return this.get("/clusters/" + formatName);
   }
@@ -59,50 +64,46 @@ export class CloudGuardDataSource {
     return this.get("/clusters/" + formatName + "/namespaces");
   }
 
-  public getAKSCluster(name): any{
-    return this.get("/clusters/aks/"+name);
+  public getAKSCluster(projectFormatName: string, name): any{
+    return this.get("/projects/"+projectFormatName+"/clusters/aks/"+name);
   }
 
-  public getAKSUpgradeProfile(name): any{
-    return this.get("/clusters/aks/"+name+"/upgradeProfile");
+  public getAKSUpgradeProfile(projectFormatName: string, name): any{
+    return this.get("/projects/"+projectFormatName+"/clusters/aks/"+name+"/upgradeProfile");
   }
   
-  public getAKSKubeConfig(name): any{
-    return this.get("/clusters/aks/"+name+"/kubeconfig");
+  public getAKSKubeConfig(projectFormatName: string, name): any{
+    return this.get("/projects/"+projectFormatName+"/clusters/aks/"+name+"/kubeconfig");
   }
 
-  public createAKSCluster(post): any{
-    return this.post("/clusters/aks", post);
+  public deleteAKSCluster(projectFormatName: string,name): any{
+    return this.delete("/projects/"+projectFormatName+"/clusters/aks/"+name);
   }
 
-  public patchAKSCluster(formatName, patchData): any{
-    return this.patch("/clusters/aks/"+formatName, patchData);
+  public createAKSCluster(projectFormatName: string,post): any{
+    return this.post("/projects/"+projectFormatName+"/clusters/aks", post);
   }
 
-  public cloneNamespace(projectFormatName: string, namespaceName: string, cloneData: any): Observable<any> {
-    return this.post("/projects/"+projectFormatName+"/clusters/" + cloneData.sourceClusterFormatName + "/namespaces/" + namespaceName + "/clone", cloneData);
+  public patchAKSCluster(projectFormatName: string, clusterFormatName, patchData): any{
+    return this.patch("/projects/"+projectFormatName+"/clusters/aks/"+clusterFormatName, patchData);
   }
 
-  public deleteAKSCluster(name): any{
-    return this.delete("/clusters/aks/"+name);
+  public addCluster(projectFormatName: string, post): any{
+    return this.post("/projects/"+projectFormatName+"/clusters", post);
   }
 
-  public addCluster(post): any{
-    return this.post("/clusters", post);
+  public updateCluster(projectFormatName: string, cluster): any{
+    return this.patch("/projects/"+projectFormatName+"/clusters/"+cluster.formatName, cluster);
   }
 
-  public updateCluster(cluster): any{
-    return this.patch("/clusters/"+cluster.formatName, cluster);
+  public deleteCluster(projectFormatName: string, clusterFormatName): any{
+    return this.delete("/projects/"+projectFormatName+"/clusters/" + clusterFormatName);
   }
-
+  
   public updatePreferences(preferences: any[]): any{
     return this.patch("/users/preferences/", preferences);
   }
   
-  public deleteCluster(clusterFormatName): any{
-    return this.delete("/clusters/" + clusterFormatName);
-  }
-
   public countRegistries(): Observable<any>{
     return this.get("/registries/count").pipe(take(1));
   }

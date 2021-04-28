@@ -9,7 +9,6 @@ import { MatDialog }            from '@angular/material/dialog';
 
 import { NodeDialogComponent }  from './node-dialog.component'
 
-import { CloudGuardDataSource }    from '../../../../services/cloudguard.data-source';
 import { LogService }           from '../../../../services/log.service';
 import { PageService }          from '../../../../services/page.service';
 import { ApiService }           from '../../../../services/api.service';
@@ -32,7 +31,6 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   public nodeEvents: any;
 
   constructor(
-    public cloudGuardDataSource: CloudGuardDataSource, 
     public clusterService: ClusterService,
     public projectsService: ProjectsService,
     public pageService: PageService, 
@@ -58,7 +56,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
 
   async pollAzureClusterState(){
     const self = this;
-    var data = await this.cloudGuardDataSource.getAKSCluster(this.cluster.name).toPromise();
+    var data = await this.clusterService.getAKSCluster(this.cluster).toPromise();
     if(!this.pollStates.includes(data?.properties?.provisioningState)){
       this.stopPollTimer();
       // One final refresh;
@@ -96,7 +94,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     delete this.cluster.personalToken;
     delete this.cluster.status;
     this.cluster['status'] = 'fetching';
-    var cluster = await this.clusterService.getFullCluster(this.cluster.name, this.projectsService.currentProject.formatName).toPromise();
+    var cluster = await this.clusterService.getFullCluster(this.cluster.formatName, this.projectsService.currentProject.formatName).toPromise();
     this.initNodes(this.cluster);
   }
 
