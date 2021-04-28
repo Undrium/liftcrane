@@ -1,6 +1,6 @@
-<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card class="box">
-    <form fxLayout="column" (submit)="login()" >
+<form fxLayout="column" (onsubmit)="login()" >
+  <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
       <mat-form-field fxFlex="100">
           <mat-label>Username</mat-label>
           <input name="username" [(ngModel)]="username" matInput [disabled]="disableLogin">
@@ -10,6 +10,6 @@
           <input name="password" [(ngModel)]="password" type="password" matInput [disabled]="disableLogin">
       </mat-form-field>
       <button color="accent" type="submit" mat-raised-button [disabled]="disableLogin">Login</button>
-  </form>
-  </mat-card>
-</div>
+    </mat-card>
+  </div>
+</form>

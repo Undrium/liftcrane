@@ -3,6 +3,7 @@ import { NgModule }             from '@angular/core';
 import { SharedModule }         from '../../../shared/shared.module';
 
 import { NodeDialogComponent }                  from './components/node-dialog.component';
+import { ClusterDetailsComponent }              from './components/cluster-details.component';
 import { ClusterRowComponent }                  from './components/cluster-row.component';
 import { CreateClusterDialogComponent }         from './components/create-cluster-dialog.component';
 import { PatchClusterDialogComponent }          from './components/patch-cluster-dialog.component';
@@ -16,6 +17,7 @@ import { ClustersRoutingModule }                from './clusters-routing.module'
   declarations: [
     AddExistingClusterDialogComponent,
     CreateClusterDialogComponent,
+    ClusterDetailsComponent,
     ClusterRowComponent,
     ClustersComponent,
     NodeDialogComponent,

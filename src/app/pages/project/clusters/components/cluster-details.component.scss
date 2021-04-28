@@ -1,0 +1,54 @@
+@import "../../../../../variables.scss";
+
+.extraDetails{
+    width:100%;
+    .title{
+        font-size:24px;
+    }
+    .url, .jwt, .versionInfo, .yaml{
+        word-wrap: break-word;
+        background-color: rgb(51,51,51);
+        background: linear-gradient(183deg, rgba(51,51,51,1) 0%, rgb(87, 87, 87) 100%);
+        padding:8px;
+        border-radius:5px;
+        color:#EEE;       
+          
+        a:active, a:visited, a:link{
+            color:#EEE !important;
+        }
+        a:hover{
+            color:$subColor !important;
+        }
+    }
+    .jwt{
+        word-wrap: break-word;
+    }
+    .yaml pre{
+        white-space: pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        margin:0px !important;
+    }
+    .versionInfo{
+        font-size:12px;
+        max-width:400px;
+    }
+}
+
+
+
+.url a {
+    text-decoration: none;
+    &:visited{
+        color:blue;
+    }
+}
+
+.displayEye{
+    cursor:pointer;
+
+    margin-top:6px;
+    font-size:18px;
+}

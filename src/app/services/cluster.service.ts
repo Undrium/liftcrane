@@ -87,20 +87,20 @@ export class ClusterService {
 
     }
 
-    // TODO Make it more clear what is refreshed
-    public refresh(isCurrent: boolean = true){
-        if(this.currentCluster && this.currentCluster.formatName){
-            // Force renewal through deletion of token
-            delete this.currentCluster.personalToken;
-            delete this.currentCluster.status;
-            this.getFullCluster(this.currentCluster.formatName, this.projectsService.currentProject.formatName).subscribe(
-                (cluster: any) => {
-                    // Refresh to notify listeners
-                    if(isCurrent){
-                        this.setCurrentCluster(cluster);
-                    }
-                }
-            );
+    public refresh(cluster){
+        delete cluster.personalToken;
+        delete cluster.status;
+        cluster['status'] = 'fetching';
+        return this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).toPromise().then(cluster => {
+            if(this.currentCluster && this.currentCluster.formatName == cluster?.formatName){
+                this.setCurrentCluster(cluster);
+            }
+        });
+    }
+
+    public refreshCurrentCluster(){
+        if(this.currentCluster?.formatName){
+            this.refresh(this.currentCluster);
         }
     }
 
@@ -121,7 +121,7 @@ export class ClusterService {
         }
 
         // We do not want to spam change if same cluster and not dirty
-        if((previousCluster.formatName != this.currentCluster.formatName) || dirty){
+        if((previousCluster?.formatName != this.currentCluster?.formatName) || dirty){
             this.currentClusterSubject.next(this.currentCluster);
         }
         
@@ -164,7 +164,7 @@ export class ClusterService {
                 return
             }
             this.setCurrentClusterByName(preference['preferenceValue']);  
-            if(this.currentCluster.formatName && this.clusters[0] && this.clusters[0].formatName == this.currentCluster.formatName){
+            if(this.currentCluster?.formatName && this.clusters[0] && this.clusters[0].formatName == this.currentCluster.formatName){
                 // Trigger this for other services to know a refresh has happened
                 this.setCurrentClusterByName(this.clusters[0].formatName);
             }

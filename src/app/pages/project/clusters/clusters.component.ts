@@ -10,8 +10,7 @@ import { ProjectsService }    from '../../../services/projects.service';
 
 import { CreateClusterDialogComponent }       from './components/create-cluster-dialog.component';
 import { AddExistingClusterDialogComponent }  from './components/add-existing-cluster-dialog.component';
-import { ConfirmDialogComponent }             from '../../../components/confirm-dialog/confirm-dialog.component';
-import { PatchClusterDialogComponent }        from './components/patch-cluster-dialog.component';
+
 
 @Component({
   selector: 'app-clusters',
@@ -58,52 +57,6 @@ export class ClustersComponent {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  deleteCluster(cluster): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '450px',
-        data: {
-          title: "Confirm Delete",
-          message: "Confirm deletion of cluster " + cluster.name + " reference (will not be removed from provider)."
-        }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.clusterService.deleteCluster(cluster).subscribe(response => {
-          this.accordion.closeAll();
-          this.pageService.displayMessage(`Cluster ${cluster.name} deleted.`);
-        });
-      }
-    });
-  }
-
-  deleteClusterInAzure(cluster): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '450px',
-        data: {
-          title: "Confirm Delete",
-          message: "Confirm deletion of cluster " + cluster.name + " in Azure."
-        }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.clusterService.deleteAKSCluster(cluster).subscribe(result => {
-          this.accordion.closeAll();
-          this.pageService.displayMessage("Cluster deletion started of " + cluster.name);
-        });
-      }
-    });
-  }
-
-  patchClusterInAzureDialog(cluster): void {
-    const dialogRef = this.dialog.open(PatchClusterDialogComponent, {
-      width: '550px',
-      data: {cluster: cluster}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.accordion.closeAll();
-    });
-  }
-
   public filterAndLimitClusters(clusters: any){
 
     var filteredClusters = clusters.filter((cluster) => {
@@ -112,16 +65,7 @@ export class ClustersComponent {
 
     return filteredClusters;
 
-  }
-
-  public toggleKubeConfig(cluster){
-    cluster.displayKubeConfig = !cluster.displayKubeConfig;
-    if(cluster['kubeConfig']){return;}
-
-    this.clusterService.getAKSKubeConfig(cluster).subscribe(kubeConfig => {
-      cluster['kubeConfig'] = kubeConfig;
-    });
-  }
+  } 
 
   trackByFormatName(index, item){
     return item.formatName;

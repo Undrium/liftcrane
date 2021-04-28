@@ -156,13 +156,12 @@ export class NamespaceService {
 
     public createNamespace(namespaceName:string, projectIdentifier: string):Observable<any>{
         return this.apiService.getVendor(this.clusterService.currentCluster).
-                createNamespace(namespaceName, projectIdentifier).pipe(map(namescape =>
-                    {
-                        // Since a namespace has been created we need to renegotiate tokens, therefor fetch the cluster again
-                        this.clusterService.refresh(true);
-                        return this.namespaces;
-                    }
-                ));
+        createNamespace(namespaceName, projectIdentifier).pipe(map(namescape =>
+            {
+                this.clusterService.refreshCurrentCluster();
+                return this.namespaces;
+            }
+        ));
     }
 
     public deleteNamespace(namespaceName:string):Observable<any>{

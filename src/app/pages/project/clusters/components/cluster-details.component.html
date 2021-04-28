@@ -1,0 +1,106 @@
+<div class="extraDetails" fxLayout="column">
+    <div *ngIf="cluster.apiServer" fxLayout="column">
+      <h3>API</h3>
+      <div fxFlex="50" class="url"><a href="{{cluster.apiServer}}" target="_blank">{{cluster.apiServer}}</a></div>
+    </div>
+    <div *ngIf="cluster.dashboardUrl && cluster.platform == 'KUBERNETES'" fxLayout="column">
+      <h3>Kubernetes Dashboard URL</h3>
+      <div fxFlex="50" class="url"><a href="{{cluster.dashboardUrl}}" target="_blank">{{cluster.dashboardUrl}}</a></div>
+    </div>
+
+    <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
+
+      <div fxLayout="column" fxFlex="50" *ngIf="cluster.vendor == 'AZURE'">
+        <div fxLayout="row">
+          <h3>KubeConfig</h3>
+          <button class="displayEye" 
+            mat-icon-button color="accent" 
+            aria-label="Show KubeConfig" 
+            (click)="toggleKubeConfig(cluster)"
+            matTooltip="Get the KubeConfig for this cluster" 
+            [matTooltipPosition]="'above'"
+            [matTooltipShowDelay]="1000">
+            <i class=" fas fa-eye"></i>
+          </button>
+        </div>
+        <div class="yaml">
+          <pre *ngIf="cluster.displayKubeConfig">{{cluster.kubeConfig || 'Loading ...'}}</pre>
+          <pre *ngIf="!cluster.displayKubeConfig">Click <strong (click)="toggleKubeConfig(cluster)" style="cursor:pointer;">here</strong> to reveal the KubeConfig.</pre>
+        </div>
+      </div>
+
+      <div *ngIf="cluster.personalToken" fxLayout="column" fxFlex="50">
+        <div fxLayout="row">
+          <h3>Personal token for access to cluster and dashboard</h3>
+          <button class="displayEye" 
+            mat-icon-button color="accent" 
+            aria-label="Show JWT" 
+            (click)="cluster.displayJWT = !cluster.displayJWT"
+            matTooltip="Toggle the JWT token user generated for this cluster" 
+            [matTooltipPosition]="'above'"
+            [matTooltipShowDelay]="1000">
+            <i class=" fas fa-eye"></i>
+          </button>
+        </div>
+        <div class="jwt" >
+          <code *ngIf="cluster.displayJWT">{{cluster.personalToken}}</code>
+          <code *ngIf="!cluster.displayJWT">Click <strong (click)="cluster.displayJWT = !cluster.displayJWT" style="cursor:pointer;">here</strong> to reveal the JWT.</code>
+        </div>
+      </div>
+
+    </div>
+
+    <div fxLayout="row">
+      <h3>Platform</h3>
+      <button 
+        class="displayEye" 
+        mat-icon-button color="accent" 
+        aria-label="Show more version info" 
+        (click)="cluster.displayMoreVersionInfo = !cluster.displayMoreVersionInfo"
+        matTooltip="Show more version info" 
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="1000">
+        <i class=" fas fa-eye"></i>
+      </button>
+    </div>
+    <div fxFlex="50">
+      <code>{{cluster.platform}} {{ cluster.platformVersionInfo?.gitVersion }}</code>
+      <pre class="versionInfo" *ngIf="cluster.platformVersionInfo && cluster.displayMoreVersionInfo">{{ cluster.platformVersionInfo | json }}</pre>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+        <span></span>
+        <button 
+            color="error" 
+            (click)="deleteCluster(cluster)"
+            mat-raised-button aria-label="Delete the cluster" 
+            >
+            DELETE
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button 
+            *ngIf="cluster.vendor == 'AZURE'"
+            color="error" 
+            (click)="deleteClusterInAzure(cluster)"
+            mat-raised-button aria-label="Delete the cluster both reference and Azure" 
+            >
+            DELETE IN AZURE
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button 
+            *ngIf="cluster.vendor == 'AZURE'"
+            (click)="patchClusterInAzureDialog(cluster)"
+            [disabled]="cluster?.vendorState == 'Upgrading'"
+            mat-raised-button aria-label="Patch (upgrade) the clusters Kubernetes version" 
+            >
+            PATCH
+            <mat-icon>upgrade</mat-icon>
+        </button>
+        <button 
+            (click)="refreshCluster(cluster)"
+            mat-raised-button aria-label="Refresh the cluster" 
+            >
+            REFRESH
+            <mat-icon>sync</mat-icon>
+        </button>
+    </div>
+</div>

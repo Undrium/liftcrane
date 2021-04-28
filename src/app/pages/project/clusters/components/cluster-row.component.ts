@@ -91,10 +91,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   async refreshCluster(){
-    delete this.cluster.personalToken;
-    delete this.cluster.status;
-    this.cluster['status'] = 'fetching';
-    var cluster = await this.clusterService.getFullCluster(this.cluster.formatName, this.projectsService.currentProject.formatName).toPromise();
+    await this.clusterService.refresh(this.cluster);
     this.initNodes(this.cluster);
   }
 

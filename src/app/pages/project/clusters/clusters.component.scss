@@ -7,20 +7,6 @@
     color: $sadColor;
 }
 
-.url a {
-    text-decoration: none;
-    &:visited{
-        color:blue;
-    }
-}
-
-.displayEye{
-    cursor:pointer;
-    margin-left:8px;
-    margin-top:4px;
-    font-size:23px;
-}
-
 .clusterList{
 
     .clusterRow{

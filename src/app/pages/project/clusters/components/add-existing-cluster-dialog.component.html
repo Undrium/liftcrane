@@ -1,7 +1,7 @@
 
-<h1 mat-dialog-title>Add Existing Cluster</h1>
-<div mat-dialog-content>
-    <form class="add-cluster-form" fxLayout="column">
+<form #createForm="ngForm" class="add-cluster-form" fxLayout="column" (onsubmit)="createExisting()">
+    <h1 mat-dialog-title>Add Existing Cluster</h1>
+    <div mat-dialog-content>
 
         <mat-tab-group dynamicHeight color="accent" backgroundColor="" [(selectedIndex)]="tabIndex">
             <mat-tab label="Overview" fxFlex="100">
@@ -92,9 +92,11 @@
             </mat-tab>
         </mat-tab-group>
         
-    </form>
-</div>
-<div mat-dialog-actions fxLayoutAlign="end">
-    <button color="accent" mat-raised-button (click)="createExisting()">Add Existing</button>
-    <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
-</div>
+    </div>
+
+    <div mat-dialog-actions fxLayoutAlign="end">
+        <button color="accent" mat-raised-button (click)="createExisting()">Add Existing</button>
+        <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+    </div>
+    
+</form>
