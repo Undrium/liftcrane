@@ -2,12 +2,11 @@ import { Component }                        from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
-import { ConfirmDialogComponent }         from '../../../../components/confirm-dialog/confirm-dialog.component';
-import { PageService }        from '../../../../services/page.service';
-import { CloudGuardDataSource }        from '../../../../services/cloudguard.data-source';
-import { ClusterService }        from '../../../../services/cluster.service';
-import { buffer } from 'rxjs/operators';
-
+import { ConfirmDialogComponent }     from '../../../../components/confirm-dialog/confirm-dialog.component';
+import { PageService }                from '../../../../services/page.service';
+import { CloudGuardDataSource }       from '../../../../services/cloudguard.data-source';
+import { ClusterService }             from '../../../../services/cluster.service';
+import { LogService }                 from 'src/app/services/log.service';
 
 
 @Component({
@@ -16,18 +15,21 @@ import { buffer } from 'rxjs/operators';
   styleUrls: ['./cluster.component.scss']
 })
 export class ClusterComponent {
+
   public cluster: any;
   public clusterClone: any;
   public platforms: any;
+
   constructor(
+    private activatedRoute: ActivatedRoute,
     public pageService: PageService,
     private cloudGuardDataSource: CloudGuardDataSource,
     private clusterService: ClusterService,
-    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
+    public logService: LogService,
     private router: Router,
-
   ) {
+
     this.platforms = this.clusterService.availablePlatforms;
 
     this.pageService.startLoader("Fetching cluster ...");
@@ -57,7 +59,12 @@ export class ClusterComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.clusterService.updateCluster(this.cluster).subscribe();
+        this.clusterService.updateCluster(this.cluster).subscribe(resp =>{
+          this.pageService.displayMessage("Cluster saved.");
+        },
+        err => {
+            this.logService.handleError(err);
+        });
       }
     });
   }

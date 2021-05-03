@@ -11,8 +11,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
   },
   { 
-    path: 'project', 
-    loadChildren: () => import('./pages/project/project.module').then(m => m.ProjectModule), 
+    path: 'projects', 
+    loadChildren: () => import('./pages/projects/project.module').then(m => m.ProjectModule), 
     data: { title: " " },
     canActivate: [AuthGuard]
   },
@@ -23,31 +23,31 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { 
-    path: 'project/clusters', 
-    loadChildren: () => import('./pages/project/clusters/clusters.module').then(m => m.ClustersModule), 
-    data: { faIcon: "fas fa-th", title: "Clusters", parent: "project" },
+    path: 'projects/clusters', 
+    loadChildren: () => import('./pages/projects/clusters/clusters.module').then(m => m.ClustersModule), 
+    data: { faIcon: "fas fa-th", title: "Clusters", parent: "projects" },
     canActivate: [AuthGuard]
   },
   { 
-    path: 'project/namespaces', 
-    loadChildren: () => import('./pages/project/namespaces/namespaces.module').then(m => m.NamespacesModule), 
-    data: { faIcon: "fas fa-signature", title: "Namespaces", parent: "project" },
+    path: 'projects/namespaces', 
+    loadChildren: () => import('./pages/projects/namespaces/namespaces.module').then(m => m.NamespacesModule), 
+    data: { faIcon: "fas fa-signature", title: "Namespaces", parent: "projects" },
     canActivate: [AuthGuard]
   },
   { 
-    path: 'project/clusters/:clusterFormatname/namespaces', 
-    loadChildren: () => import('./pages/project/namespaces/namespaces.module').then(m => m.NamespacesModule), 
+    path: 'projects/clusters/:clusterFormatname/namespaces', 
+    loadChildren: () => import('./pages/projects/namespaces/namespaces.module').then(m => m.NamespacesModule), 
     canActivate: [AuthGuard]
   },
   { 
-    path: 'project/deployments', 
-    loadChildren: () => import('./pages/project/deployments/deployments.module').then(m => m.DeploymentsModule), 
-    data: { faIcon: "fas fa-globe", title: "Deployments", parent: "project" },
+    path: 'projects/deployments', 
+    loadChildren: () => import('./pages/projects/deployments/deployments.module').then(m => m.DeploymentsModule), 
+    data: { faIcon: "fas fa-globe", title: "Deployments", parent: "projects" },
     canActivate: [AuthGuard]
   },
   { 
-    path: 'project/clusters/:clusterFormatname/namespaces/:namespace/deployments', 
-    loadChildren: () => import('./pages/project/deployments/deployments.module').then(m => m.DeploymentsModule), 
+    path: 'projects/clusters/:clusterFormatname/namespaces/:namespace/deployments', 
+    loadChildren: () => import('./pages/projects/deployments/deployments.module').then(m => m.DeploymentsModule), 
     canActivate: [AuthGuard]
   },
   { 

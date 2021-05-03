@@ -8,7 +8,7 @@ import {
 import { MatDialog }            from '@angular/material/dialog';
 
 import { ConfirmDialogComponent }             from '../../../../components/confirm-dialog/confirm-dialog.component';
-import { PatchClusterDialogComponent }        from './../components/patch-cluster-dialog.component';
+import { PatchClusterDialogComponent }        from './patch-cluster-dialog.component';
 
 import { LogService }           from '../../../../services/log.service';
 import { PageService }          from '../../../../services/page.service';
@@ -24,9 +24,9 @@ declare const YAML: any;
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./cluster-details.component.scss']
 })
-export class ClusterDetailsComponent implements OnInit {
+export class ClusterDetailsComponent {
   @Input() cluster: any;
-  @Input() accordion: any;
+  @Input("closeAccordion") closeAccordion: any;
 
   constructor(
     public clusterService: ClusterService,
@@ -36,16 +36,10 @@ export class ClusterDetailsComponent implements OnInit {
     public apiService: ApiService,
     public dialog: MatDialog
     ) { 
-      
-  }
-
-  async ngOnInit() {
 
   }
 
-  ngOnDestroy() {
 
-  }
 
   async refreshCluster(){
     this.clusterService.refresh(this.cluster);
@@ -62,7 +56,7 @@ export class ClusterDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.clusterService.deleteCluster(cluster).subscribe(response => {
-          this.accordion.closeAll();
+          this.closeAccordion();
           this.pageService.displayMessage(`Cluster ${cluster.name} deleted.`);
         });
       }
@@ -80,7 +74,7 @@ export class ClusterDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.clusterService.deleteAKSCluster(cluster).subscribe(result => {
-          this.accordion.closeAll();
+          this.closeAccordion();
           this.pageService.displayMessage("Cluster deletion started of " + cluster.name);
         });
       }
@@ -93,7 +87,7 @@ export class ClusterDetailsComponent implements OnInit {
       data: {cluster: cluster}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.accordion.closeAll();
+      this.closeAccordion();
     });
   }
 

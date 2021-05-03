@@ -1,12 +1,12 @@
 import { Component, Inject }                from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 
-import { DeploymentService }                from './../../../../services/deployment.service';
-import { NamespaceService }                from './../../../../services/namespace.service';
-import { LogService }                       from './../../../../services/log.service';
-import { ApiService }                       from './../../../../services/api.service';
-import { RegistryService }                       from './../../../../services/registry.service';
-import { LocalStorageService }              from './../../../../services/localstorage.service';
+import { DeploymentService }                from '../../../../services/deployment.service';
+import { NamespaceService }                from '../../../../services/namespace.service';
+import { LogService }                       from '../../../../services/log.service';
+import { ApiService }                       from '../../../../services/api.service';
+import { RegistryService }                       from '../../../../services/registry.service';
+import { LocalStorageService }              from '../../../../services/localstorage.service';
 
 @Component({
     selector: 'create-deployment-dialog',

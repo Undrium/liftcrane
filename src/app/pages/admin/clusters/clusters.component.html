@@ -9,6 +9,10 @@
             <th mat-header-cell *matHeaderCellDef> Formatname </th>
             <td mat-cell *matCellDef="let el"> {{el.formatName}} </td>
         </ng-container>
+        <ng-container matColumnDef="project.name">
+          <th mat-header-cell *matHeaderCellDef> Project </th>
+          <td mat-cell *matCellDef="let el"> {{el.project.name}} </td>
+        </ng-container>
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let el"><mat-icon style="cursor:pointer;" (click)="deleteCluster(el)">delete</mat-icon>
@@ -20,3 +24,5 @@
       </table>
     </div>
 </div>
+
+

@@ -43,7 +43,9 @@
             <cluster-row [cluster]="cluster" fxFlex="100"></cluster-row>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <cluster-details [cluster]="cluster" [accordion]="accordion" fxFlex="100"></cluster-details>
+        
+        <cluster-details [cluster]="cluster" [closeAccordion]="closeAccordion" fxFlex="100"></cluster-details>
+
       </mat-expansion-panel>
     </mat-accordion>
   </div>

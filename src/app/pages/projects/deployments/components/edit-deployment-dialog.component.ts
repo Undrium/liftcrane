@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 
 import { DeploymentService }                from '../../../../services/deployment.service';
 import { NamespaceService }                 from '../../../../services/namespace.service';
-import { LogService }                       from './../../../../services/log.service';
+import { LogService }                       from '../../../../services/log.service';
 
 
 @Component({

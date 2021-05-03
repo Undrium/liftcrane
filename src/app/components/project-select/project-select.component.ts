@@ -1,4 +1,5 @@
 import { Component, Inject }    from '@angular/core';
+import { Router, ActivatedRoute, Params }   from '@angular/router';
 
 import { first }                    from "rxjs/operators";
 
@@ -20,7 +21,8 @@ export class ProjectSelectComponent {
       public preferenceService: PreferenceService, 
       public clusterService: ClusterService, 
       public namespaceService: NamespaceService, 
-      public profileService: ProfileService
+      public profileService: ProfileService,
+      private router: Router
     ) { 
       profileService.user$.pipe(first()).subscribe(user => {
         if(!user || !user.projectRoles){
@@ -53,6 +55,7 @@ export class ProjectSelectComponent {
     }
 
     public async switchProject(project){
+      this.router.navigate(['/projects/clusters']);
       this.preferenceService.addOrUpdatePreference("preferedProject", project.name);
       await this.projectsService.setCurrentProject(project);
     }

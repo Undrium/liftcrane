@@ -4,10 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 import { LogService }                       from '../../../../services/log.service';
 import { ApiService }                       from '../../../../services/api.service';
 import { ClusterService }                   from '../../../../services/cluster.service';
-import { CloudGuardDataSource }                from '../../../../services/cloudguard.data-source';
+import { CloudGuardDataSource }             from '../../../../services/cloudguard.data-source';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
 import { NamespaceService }                 from '../../../../services/namespace.service';
-import { PageService }                      from './../../../../services/page.service';
+import { PageService }                      from '../../../../services/page.service';
 import { ProjectsService }                  from '../../../../services/projects.service';
 
 

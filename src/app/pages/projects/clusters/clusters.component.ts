@@ -19,12 +19,9 @@ import { AddExistingClusterDialogComponent }  from './components/add-existing-cl
 })
 export class ClustersComponent {
 
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild(MatAccordion) accordion: MatAccordion = null;
 
-  public vendor: any
-  public clusters:Array<any> = [];
   public showProgressbar: boolean = false;
-  public filterText: String = "";
 
   constructor(
     public clusterService: ClusterService,
@@ -32,7 +29,6 @@ export class ClustersComponent {
     public pageService: PageService, 
     public apiService: ApiService,
     public dialog: MatDialog
-
   ) { 
     this.pageService.pageTitle = "Clusters";
   }
@@ -57,15 +53,12 @@ export class ClustersComponent {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  public filterAndLimitClusters(clusters: any){
+  public closeAccordion(){
+    if(this.accordion){
+      this.accordion.closeAll();
+    }
+  }
 
-    var filteredClusters = clusters.filter((cluster) => {
-      return this.filterText == "" || cluster.name.includes(this.filterText);
-    });
-
-    return filteredClusters;
-
-  } 
 
   trackByFormatName(index, item){
     return item.formatName;

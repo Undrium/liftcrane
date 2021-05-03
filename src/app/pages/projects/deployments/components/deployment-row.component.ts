@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewEncapsulation }      from '@angular/core';
 import { MatDialog }                                        from '@angular/material/dialog';
 
-import { DeleteDeploymentDialogComponent }  from './../components/delete-deployment-dialog.component'
-import { EditDeploymentDialogComponent }    from './../components/edit-deployment-dialog.component';
-import { RevisionDialogComponent }          from './../components/revision-dialog.component';
-import { ScaleDialogComponent }             from './../components/scale-dialog.component'
+import { DeleteDeploymentDialogComponent }  from './delete-deployment-dialog.component'
+import { EditDeploymentDialogComponent }    from './edit-deployment-dialog.component';
+import { RevisionDialogComponent }          from './revision-dialog.component';
+import { ScaleDialogComponent }             from './scale-dialog.component'
 
 import { PageService }        from '../../../../services/page.service';
 import { ApiService }         from '../../../../services/api.service';

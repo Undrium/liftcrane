@@ -4,9 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 import { LogService }                       from '../../../../services/log.service';
 import { ApiService }                       from '../../../../services/api.service';
 import { LocalStorageService }              from '../../../../services/localstorage.service';
-import { NamespaceService }                 from './../../../../services/namespace.service';
-import { ProjectsService }                  from './../../../../services/projects.service';
-import { PageService }                      from './../../../../services/page.service';
+import { NamespaceService }                 from '../../../../services/namespace.service';
+import { ProjectsService }                  from '../../../../services/projects.service';
+import { PageService }                      from '../../../../services/page.service';
 
 
 @Component({

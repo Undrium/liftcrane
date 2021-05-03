@@ -18,7 +18,7 @@ export class ClusterService {
     // List with loaded clusters
     public clusters: Array<any> = [];
     // When needed update 
-    public clusters$: ReplaySubject<Array<any>>; 
+    public clusters$: BehaviorSubject<any>; 
     // Selected cluster
     public currentCluster: any = {};
     // Subject to subscribe to for selected (current cluster)
@@ -75,7 +75,7 @@ export class ClusterService {
         public projectsService: ProjectsService,
         public preferenceService: PreferenceService
         ) { 
-        this.clusters$ = new ReplaySubject<Array<any>>(1);
+        this.clusters$ = new BehaviorSubject<any>(this.clusters); ;
         this.currentCluster = this.localStorageService.getItem('currentCluster', {}); 
         this.currentClusterSubject = new BehaviorSubject<{currentCluster: any}>(this.currentCluster);
 

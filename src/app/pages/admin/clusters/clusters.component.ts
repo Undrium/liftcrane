@@ -15,7 +15,7 @@ import { CloudGuardDataSource }        from '../../../services/cloudguard.data-s
 
 export class ClustersComponent {
   public clusters: any[];
-  displayedColumns: string[] = ['name', 'formatname', 'action'];
+  displayedColumns: string[] = ['name', 'formatname', 'project.name', 'action'];
 
 
   constructor(
