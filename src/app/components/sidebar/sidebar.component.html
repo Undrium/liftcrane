@@ -12,9 +12,11 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-nav-list class="navigation" fxFlex="100">
+
     <div class="navigationWrapper">
+
       <!-- Project navigation part -->
-      <div class="menuChildren">
+      <div class="menuChildren" *ngIf="authService.isLoggedIn() | async">
         <a [routerLink]="getProjectUri()+'/clusters'" 
           [class.active]="pageService.isActivePage(getProjectUri()+'/clusters')">
           <div class="navigationItem nav-icon">
@@ -37,23 +39,26 @@
       </div>
 
       <!-- Dynamic menu part -->
-      <div *ngFor="let menuItem of menuItems; let first = first">
-        <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
-        <a *ngIf="(!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 
-          [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
-          <mat-icon *ngIf="menuItem.icon">{{menuItem.icon}}</mat-icon><i class="{{menuItem.faIcon}}" *ngIf="menuItem.faIcon"></i>
-          {{menuItem.title}}
-        </a>
-        <div class="menuChildren" *ngIf="menuItem.children && menuItem.children.length > 0" [class.first]="first">
-          <a [routerLink]="menuItemChild.path" *ngFor="let menuItemChild of menuItem.children"  [class.active]="pageService.isActivePage(menuItemChild.path)">
-            <div class="navigationItem nav-icon" *ngIf="(!menuItemChild.settings.expectedUserType || profileService.isUserType(menuItemChild.settings.expectedUserType))">
-              <mat-icon *ngIf="menuItemChild.icon">{{menuItemChild.icon}}</mat-icon>
-              <i class="{{menuItemChild.faIcon}}" *ngIf="menuItemChild.faIcon"></i>
-              {{menuItemChild.title}}
-            </div>
+      <section style="padding-top:8px;">
+        <div *ngFor="let menuItem of menuItems; let first = first">
+          <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
+          <a *ngIf="(!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 
+            [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
+            <mat-icon *ngIf="menuItem.icon">{{menuItem.icon}}</mat-icon><i class="{{menuItem.faIcon}}" *ngIf="menuItem.faIcon"></i>
+            {{menuItem.title}}
           </a>
+          <div class="menuChildren" *ngIf="menuItem.children && menuItem.children.length > 0" [class.first]="first">
+            <a [routerLink]="menuItemChild.path" *ngFor="let menuItemChild of menuItem.children"  [class.active]="pageService.isActivePage(menuItemChild.path)">
+              <div class="navigationItem nav-icon" *ngIf="(!menuItemChild.settings.expectedUserType || profileService.isUserType(menuItemChild.settings.expectedUserType))">
+                <mat-icon *ngIf="menuItemChild.icon">{{menuItemChild.icon}}</mat-icon>
+                <i class="{{menuItemChild.faIcon}}" *ngIf="menuItemChild.faIcon"></i>
+                {{menuItemChild.title}}
+              </div>
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
+
     </div>
   </mat-nav-list>
   <div *ngIf="authService.isLoggedIn() | async" class="logoutButton" (click)="pageService.logout()" fxLayout="column"><span><i class="fas fa-sign-out-alt"></i>Logout</span>

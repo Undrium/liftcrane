@@ -60,7 +60,7 @@ export class DeploymentsComponent {
       .subscribe(([cluster, namespace]) => {
         // First check if we need to redirect
         var uri = this.projectsService.getProjectDeploymentsUri(cluster, namespace);
-
+        console.log(uri);
         if(this.router.url != uri){
           this.router.navigate([uri]);
         }

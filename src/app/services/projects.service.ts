@@ -113,7 +113,7 @@ export class ProjectsService {
             base += "/clusters/" + cluster.formatName;
         }
 
-        if(cluster?.formatNamenamespace && namespace?.metadata?.name){
+        if(cluster?.formatName && namespace?.metadata?.name){
             base += "/namespaces/" +namespace.metadata.name;
         }
 
