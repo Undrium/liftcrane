@@ -19,34 +19,36 @@ const routes: Routes = [
   { 
     path: 'registries', 
     loadChildren: () => import('./pages/registries/registries.module').then(m => m.RegistriesModule), 
-    data: { faIcon: "fas fa-list", title: "Registries" }, 
+    //data: { faIcon: "fas fa-list", title: "Registries" }, 
     canActivate: [AuthGuard]
   },
   { 
-    path: 'projects/clusters', 
+    path: 'projects/:projectFormatName/clusters', 
     loadChildren: () => import('./pages/projects/clusters/clusters.module').then(m => m.ClustersModule), 
-    data: { faIcon: "fas fa-th", title: "Clusters", parent: "projects" },
     canActivate: [AuthGuard]
   },
   { 
-    path: 'projects/namespaces', 
-    loadChildren: () => import('./pages/projects/namespaces/namespaces.module').then(m => m.NamespacesModule), 
-    data: { faIcon: "fas fa-signature", title: "Namespaces", parent: "projects" },
-    canActivate: [AuthGuard]
-  },
-  { 
-    path: 'projects/clusters/:clusterFormatname/namespaces', 
+    path: 'projects/:projectFormatName/namespaces', 
     loadChildren: () => import('./pages/projects/namespaces/namespaces.module').then(m => m.NamespacesModule), 
     canActivate: [AuthGuard]
   },
   { 
-    path: 'projects/deployments', 
+    path: 'projects/:projectFormatName/clusters/:clusterFormatname/namespaces', 
+    loadChildren: () => import('./pages/projects/namespaces/namespaces.module').then(m => m.NamespacesModule), 
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'projects/:projectFormatName/deployments', 
     loadChildren: () => import('./pages/projects/deployments/deployments.module').then(m => m.DeploymentsModule), 
-    data: { faIcon: "fas fa-globe", title: "Deployments", parent: "projects" },
     canActivate: [AuthGuard]
   },
   { 
-    path: 'projects/clusters/:clusterFormatname/namespaces/:namespace/deployments', 
+    path: 'projects/:projectFormatName/clusters/:clusterFormatname/deployments', 
+    loadChildren: () => import('./pages/projects/deployments/deployments.module').then(m => m.DeploymentsModule), 
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'projects/:projectFormatName/clusters/:clusterFormatname/namespaces/:namespace/deployments', 
     loadChildren: () => import('./pages/projects/deployments/deployments.module').then(m => m.DeploymentsModule), 
     canActivate: [AuthGuard]
   },
@@ -57,7 +59,7 @@ const routes: Routes = [
   { 
     path: 'metrics', 
     loadChildren: () => import('./pages/metrics/metrics.module').then(m => m.MetricsModule),
-    data: { faIcon: "fas fa-chart-pie", title: "Metrics" }
+    //data: { faIcon: "fas fa-chart-pie", title: "Metrics" }
   },
   { 
     path: 'docs', 

@@ -55,7 +55,7 @@ export class ProjectSelectComponent {
     }
 
     public async switchProject(project){
-      this.router.navigate(['/projects/clusters']);
+      this.router.navigate(['/projects/'+project.formatName+'/clusters']);
       this.preferenceService.addOrUpdatePreference("preferedProject", project.name);
       await this.projectsService.setCurrentProject(project);
     }

@@ -53,12 +53,11 @@ export class ClustersComponent {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  public closeAccordion(){
+  closeAccordion = () => {
     if(this.accordion){
       this.accordion.closeAll();
     }
   }
-
 
   trackByFormatName(index, item){
     return item.formatName;

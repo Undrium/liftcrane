@@ -214,7 +214,10 @@ export class CloudGuardDataSource {
   }
 
   public handleCloudGuardResponse(response: any){
-    return response.result || response;
+    if(response && response.result !== undefined){
+      return response.result
+    }
+    return response;
   }
 
   public getHeaders(type?: string): Observable<any> {

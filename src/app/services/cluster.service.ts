@@ -153,6 +153,7 @@ export class ClusterService {
         }
         // Determine if a cluster should be selected in select components
         this.preferenceService.getPreferenceByName("cluster").subscribe(preference => {
+
             if(typeof preference  === 'undefined') { 
                 // No preference, default to 0
                 if(this.clusters.length){
@@ -163,6 +164,7 @@ export class ClusterService {
                 this.setCurrentClusterByName(this.clusters[0].formatName); 
                 return
             }
+
             this.setCurrentClusterByName(preference['preferenceValue']);  
             if(this.currentCluster?.formatName && this.clusters[0] && this.clusters[0].formatName == this.currentCluster.formatName){
                 // Trigger this for other services to know a refresh has happened
@@ -179,52 +181,52 @@ export class ClusterService {
     */
     public getFullCluster(formatName, projectFormatName):Observable<any>{
         // Since we do not know, wait on a cluster list
-        return this.clusters$.pipe(take(1)).pipe(switchMap((clusters) => {
-            let cluster = clusters.find(el => el.formatName === formatName);
-            if(!cluster){
-                return of(false);
-            }
-            if(!cluster.status){
-                cluster['status'] = "fetching";
-            }
-            if(cluster && cluster.status && cluster.status == 'unavailable'){
-                return of(cluster);  
-            }
-            if(cluster){
-                cluster.status = "fetched";
-            }
 
-            // Do we need to fetch the cluster?
-            if(!cluster || (cluster && !cluster.personalToken)){
-                cluster.status = "fetching";
-                var identifier = cluster.formatName + projectFormatName;
-                
-                if(!this.clusterFetch$[identifier] && projectFormatName) {
-                    this.clusterFetch$[identifier] 
-                        = this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
-                }
-                return this.clusterFetch$[identifier].pipe(
-                    map((fetchedCluster: any)=>{
-                        if(!fetchedCluster || !fetchedCluster.name){return false;}
-                        // Merge new properties into the existing cluster
-                        Object.assign(cluster, fetchedCluster);
-                        cluster.status = cluster.personalToken == "" ? "unavailable" : "fetched";
-                        this.localStorageService.setItem('clusters-'+projectFormatName, this.clusters);
-                        return cluster;
-                    }),
-                    catchError(err => { 
-                        cluster.status = "unavailable";
-                        // Persist
-                        this.localStorageService.setItem('clusters-'+projectFormatName, this.clusters); 
-                        throw err;
-                    })
-                );
-            }
+        let cluster = this.clusters.find(el => el.formatName === formatName);
 
-            // We have a cluster
-            return of(cluster);          
-        
-        }));
+        if(!cluster){
+            return of(false);
+        }
+        if(!cluster.status){
+            cluster['status'] = "fetching";
+        }
+        if(cluster && cluster.status && cluster.status == 'unavailable'){
+            return of(cluster);  
+        }
+        if(cluster){
+            cluster.status = "fetched";
+        }
+
+        // Do we need to fetch the cluster?
+        if(!cluster || (cluster && !cluster.personalToken)){
+            cluster.status = "fetching";
+            var identifier = cluster.formatName + projectFormatName;
+            
+            if(!this.clusterFetch$[identifier] && projectFormatName) {
+                this.clusterFetch$[identifier] 
+                    = this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
+            }
+            return this.clusterFetch$[identifier].pipe(
+                map((fetchedCluster: any)=>{
+                    if(!fetchedCluster || !fetchedCluster.name){return false;}
+                    // Merge new properties into the existing cluster
+                    Object.assign(cluster, fetchedCluster);
+                    cluster.status = cluster.personalToken == "" ? "unavailable" : "fetched";
+                    this.localStorageService.setItem('clusters-'+projectFormatName, this.clusters);
+                    return cluster;
+                }),
+                catchError(err => { 
+                    cluster.status = "unavailable";
+                    // Persist
+                    this.localStorageService.setItem('clusters-'+projectFormatName, this.clusters); 
+                    throw err;
+                })
+            );
+        }
+
+        // We have a cluster
+        return of(cluster);          
+    
         
     } // End getFullCluster
 

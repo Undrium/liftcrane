@@ -65,15 +65,14 @@ export class NamespaceService {
                 // Reset
                 this.setCurrentNamespace(null)
                 // Check preferences
-                this.preferenceService.getPreferenceByName("preferedNamespace"+clusterFormatName).subscribe(preference => {
-                    if(typeof preference  == 'undefined') { 
+                this.preferenceService.getPreferenceByName("preferedNamespace"+clusterFormatName).subscribe((preference: any) => {
+                    if(typeof preference  == 'undefined' || !this.setCurrentNamespaceByName(preference?.preferenceValue)) { 
                         // No preference, default to 0
                         if(this.namespaces && this.namespaces[0] && this.namespaces[0].metadata){
                             this.setCurrentNamespaceByName(this.namespaces[0].metadata.name); 
                         }
                         return 
-                    }
-                    this.setCurrentNamespaceByName(preference['preferenceValue']);       
+                    }     
                 });
             });
             // Reset
@@ -83,13 +82,11 @@ export class NamespaceService {
     }
 
     public setCurrentNamespaceByName(namespaceName: string){
-        this.namespaces$.subscribe((namespaces: any) => {
-            for(var namespace of namespaces){
-                if(namespace.metadata.name == namespaceName){
-                    this.setCurrentNamespace(namespace);
-                }
-            }
-        })
+        var foundNamespace = this.namespaces.find(namespace => namespace?.metadata?.name == namespaceName);
+        if(foundNamespace){
+            this.setCurrentNamespace(foundNamespace);
+        }
+        return foundNamespace;
     }
 
     public async setCurrentNamespace(namespace: any){
@@ -97,8 +94,9 @@ export class NamespaceService {
         if(namespace && !this.sameUID(namespace, this.currentNamespace)){
 
             this.currentNamespace = this.localStorageService.setItem('currentNamespace', namespace); 
-            this.preferenceService.addOrUpdatePreference("namespace", this.currentNamespace.metadata.name || "");
+            this.preferenceService.addOrUpdatePreference("namespace", this.currentNamespace?.metadata?.name || "");
             // Notify others
+            
             this.currentNamespaceSubject.next(this.currentNamespace);
 
         }else if(!namespace){
@@ -106,7 +104,7 @@ export class NamespaceService {
             this.currentNamespace = this.localStorageService.setItem('currentNamespace', namespace); 
             this.preferenceService.addOrUpdatePreference("namespace", "");
             this.currentNamespaceSubject.next(this.currentNamespace);
-            
+
         }
     }
 
@@ -158,6 +156,7 @@ export class NamespaceService {
         return this.apiService.getVendor(this.clusterService.currentCluster).
         createNamespace(namespaceName, projectIdentifier).pipe(map(namescape =>
             {
+                // To update access we need to refresh the current cluster
                 this.clusterService.refreshCurrentCluster();
                 return this.namespaces;
             }
@@ -169,7 +168,7 @@ export class NamespaceService {
             .deleteNamespace(namespaceName)
             .pipe(map((resp: any) => {
                 if(resp && resp.status && resp.status.phase && resp.status.phase == 'Terminating'){
-                    this.namespaces.splice(this.namespaces.findIndex(item => item?.metadata?.name === resp?.metadata?.name), 1);
+                    this.namespaces.splice(this.namespaces.findIndex(item => item?.metadata?.name === namespaceName), 1);
                     if(this.currentNamespace?.metadata?.name == namespaceName){
                         this.setCurrentNamespace(null);
                     }

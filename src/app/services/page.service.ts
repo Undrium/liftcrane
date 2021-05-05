@@ -20,6 +20,7 @@ export class PageService {
     public pageTitle: string;
     public beforeLogin: string = "";
     public messageSubject = new Subject<any>();
+    public subscriptions: Array<any> = [];
     // Loader
     public somethingIsLoading = false;
     public whatIsLoading = "Something is loading";
@@ -50,6 +51,14 @@ export class PageService {
     public stopLoader(){
         this.somethingIsLoading = false;
         this.whatIsLoading = "";
+    }
+
+    public trackSubscription(subscription: any){
+        this.subscriptions.push(subscription);
+    }
+
+    public wipeSubscriptions(){
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     }
 
     public guard(allowedRoles: string[]):Observable<boolean>{

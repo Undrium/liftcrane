@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { PageService } from '../../services/page.service';
-import { AuthService } from '../../services/auth.service';
-import { ProfileService } from '../../services/profile.service';
+import { PageService }      from '../../services/page.service';
+import { AuthService }      from '../../services/auth.service';
+import { ProfileService }   from '../../services/profile.service';
+import { ProjectsService }  from '../../services/projects.service';
 
 import { environment } from '../../../environments/environment';
 
@@ -31,6 +32,7 @@ export class SidebarComponent {
       public pageService: PageService, 
       public authService: AuthService,
       public profileService: ProfileService,
+      public projectsService: ProjectsService,
       private router: Router
   ) {
     this.environmentData = environment;
@@ -38,11 +40,14 @@ export class SidebarComponent {
   }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  .pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
 
+  public getProjectUri(){
+    return this.projectsService.getProjectUri();
+  }
 
   getMenuItems(): MenuItem[] {  
     return this.router.config

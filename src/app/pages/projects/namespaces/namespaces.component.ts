@@ -1,5 +1,5 @@
 import { Component }                        from '@angular/core';
-import { ActivatedRoute, Params }           from '@angular/router';
+import { ActivatedRoute, Params, Router }           from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
 
 import { CreateNamespaceDialogComponent }   from './components/create-namespace-dialog.component'
@@ -8,6 +8,7 @@ import { PageService }        from '../../../services/page.service';
 import { ApiService }         from '../../../services/api.service';
 import { ClusterService }     from '../../../services/cluster.service';
 import { NamespaceService }   from '../../../services/namespace.service';
+import { ProjectsService }    from '../../../services/projects.service';
 
 @Component({
   selector: 'app-namespaces',
@@ -25,17 +26,29 @@ export class NamespacesComponent {
     public apiService: ApiService,
     public clusterService: ClusterService,
     public namespaceService: NamespaceService,
+    public projectsService: ProjectsService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog
   ) { 
       this.pageService.pageTitle = "Namespaces";
       // Do we already have a cluster in the url?
-      this.activatedRoute.params.subscribe((params: Params) => {
+      this.pageService.trackSubscription(this.activatedRoute.params.subscribe((params: Params) => {
         var clusterFormatname = params['clusterFormatname'];
         if(clusterFormatname){
           this.clusterService.setCurrentClusterByName(clusterFormatname)
         }
-      });
+      }));
+
+      // Do the user wish to switch cluster?
+      this.pageService.trackSubscription(this.clusterService.getCurrentCluster().subscribe((cluster: any) => {
+        var uri = this.projectsService.getProjectNamespaceUri(cluster);
+        if(this.router.url != uri){
+          this.router.navigate([uri]);
+        }
+      }));
+
+
       this.namespaces = namespaceService.namespaces;
 
   }
@@ -56,6 +69,10 @@ export class NamespacesComponent {
 
   trackByUid(index, item){
     return item.metadata.uid; 
+  }
+
+  ngOnDestroy() {
+    this.pageService.wipeSubscriptions();
   }
 
 }

@@ -12,6 +12,7 @@ import { DeploymentService }  from '../../../services/deployment.service';
 import { ClusterService }     from '../../../services/cluster.service';
 import { NamespaceService }   from '../../../services/namespace.service';
 import { LogService }         from '../../../services/log.service';
+import { ProjectsService }    from '../../../services/projects.service';
 
 
 @Component({
@@ -34,13 +35,16 @@ export class DeploymentsComponent {
     public dialog: MatDialog,
     public deploymentService: DeploymentService,
     public namespaceService: NamespaceService,
+    public projectsService: ProjectsService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     public logService: LogService,
     public pageService: PageService
   ) { 
     this.pageService.pageTitle = "Deployments";
+    
     // Do we already have a cluster and namespace in the url?
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.pageService.trackSubscription(this.activatedRoute.params.subscribe((params: Params) => {
       var clusterFormatname = params['clusterFormatname'];
       if(clusterFormatname){
         this.clusterService.setCurrentClusterByName(clusterFormatname)
@@ -49,22 +53,24 @@ export class DeploymentsComponent {
       if(namespace){
         this.namespaceService.setCurrentNamespaceByName(namespace)
       }
-    });
+    }));
 
-    combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
-    .subscribe(([cluster, namespace]) => {
-      this.loadingDeployments = true;
-      this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
+    this.pageService.trackSubscription(
+      combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
+      .subscribe(([cluster, namespace]) => {
+        // First check if we need to redirect
+        var uri = this.projectsService.getProjectDeploymentsUri(cluster, namespace);
 
-      this.deployments = [];
-      //Since both OCP4 and Kubernetes use deployments we fetch those first
+        if(this.router.url != uri){
+          this.router.navigate([uri]);
+        }
 
-      this.getDeployments(namespace);
-      // OCP4 also has deployment configurations
-      if(this.vendor.platformName == "OPENSHIFT4"){
-        this.getDeploymentConfigs(namespace);
-      }
-    });
+        this.loadingDeployments = true;
+        this.vendor = this.apiService.getVendor(this.clusterService.currentCluster);
+
+        this.deployments = [];
+        this.getDeployments(namespace);
+    }));
 
   }
 
@@ -123,6 +129,7 @@ export class DeploymentsComponent {
     if(this.deploymentConfigsEvents && this.deploymentConfigsEvents['abortController']){
       this.deploymentConfigsEvents['abortController'].abort();
     }
+    this.pageService.wipeSubscriptions();
   }
 
   async handleDeploymentEvents(resourceVersion: number){

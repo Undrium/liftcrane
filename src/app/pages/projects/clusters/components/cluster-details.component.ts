@@ -39,13 +39,12 @@ export class ClusterDetailsComponent {
 
   }
 
-
-
   async refreshCluster(){
     this.clusterService.refresh(this.cluster);
   }
 
   deleteCluster(cluster): void {
+    
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         width: '450px',
         data: {
@@ -53,6 +52,7 @@ export class ClusterDetailsComponent {
           message: "Confirm deletion of cluster " + cluster.name + " reference (will not be removed from provider)."
         }
     });
+
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.clusterService.deleteCluster(cluster).subscribe(response => {

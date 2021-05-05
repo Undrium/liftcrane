@@ -13,9 +13,33 @@
   </mat-toolbar>
   <mat-nav-list class="navigation" fxFlex="100">
     <div class="navigationWrapper">
+      <!-- Project navigation part -->
+      <div class="menuChildren">
+        <a [routerLink]="getProjectUri()+'/clusters'" 
+          [class.active]="pageService.isActivePage(getProjectUri()+'/clusters')">
+          <div class="navigationItem nav-icon">
+            <i class="fas fa-th"></i> Clusters
+          </div>
+        </a>
+        <a [routerLink]="getProjectUri()+'/namespaces'" 
+          [class.active]="pageService.isActivePage(getProjectUri()+'/namespaces')">
+          <div class="navigationItem nav-icon">
+            <i class="fas fa-signature"></i> Namespaces
+          </div>
+        </a>
+        <a 
+          [routerLink]="getProjectUri()+'/deployments'" 
+          [class.active]="pageService.isActivePage(getProjectUri()+'/deployments')">
+          <div class="navigationItem nav-icon">
+            <i class="fas fa-globe"></i> Deployments
+          </div>
+        </a>
+      </div>
+
+      <!-- Dynamic menu part -->
       <div *ngFor="let menuItem of menuItems; let first = first">
         <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
-        <a *ngIf="menuItem.path != 'kubernetes' && (!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 
+        <a *ngIf="(!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 
           [routerLink]="menuItem.path" test="menuItem.path" class="navigationItem nav-icon" [class.active]="pageService.isActivePage(menuItem.path)">
           <mat-icon *ngIf="menuItem.icon">{{menuItem.icon}}</mat-icon><i class="{{menuItem.faIcon}}" *ngIf="menuItem.faIcon"></i>
           {{menuItem.title}}
