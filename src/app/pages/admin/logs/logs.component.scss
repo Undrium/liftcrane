@@ -1,1 +1,18 @@
 @import "../../../../variables.scss";
+
+.logDate{
+    font-size:14px;
+    color:rgb(161, 161, 161);
+}
+
+.extraDetails pre{
+    word-wrap: break-word;
+    background-color: rgb(51,51,51);
+    background: linear-gradient(183deg, rgba(51,51,51,1) 0%, rgb(87, 87, 87) 100%);
+    padding:8px;
+    border-radius:5px;
+    color:#EEE;       
+      
+    font-size:12px;
+    max-width:400px;
+}

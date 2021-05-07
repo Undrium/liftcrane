@@ -9,13 +9,17 @@
         <mat-accordion class="example-headers-align" multi>
             <mat-expansion-panel 
                 class=""
-                *ngFor="let logs of logs;let i=index; last as isLast; trackBy: trackByFn;" 
+                *ngFor="let log of logs;let i=index; last as isLast; trackBy: trackByFn;" 
             >
-            <mat-expansion-panel-header (click)="showExtraDetails[logs.formatName] = !showExtraDetails[logs.formatName]">
-                <mat-panel-title >{{ logs.name }}</mat-panel-title>
+            <mat-expansion-panel-header (click)="showExtraDetails[log.id] = !showExtraDetails[log.id]">
+                <mat-panel-title fxLayoutAlign="space-between center">
+                    <div class="logMessage">{{log.message}}</div>
+                    <div class="logDate">{{ log.created | date:'yyyy-MM-dd HH:MM' }}</div>
+                </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="extraDetails" fxLayout="row" fxLayoutGap="16px">
-                <edit-logs [logs]="logs" fxFlex="100" *ngIf="showExtraDetails[logs.formatName]"></edit-logs>
+            <div class="extraDetails" fxLayout="column" fxLayoutGap="16px">
+                {{ log.logType }}
+                <pre *ngIf="log.metadata">{{ log.metadata | json }}</pre>
             </div>
         </mat-expansion-panel>
       </mat-accordion>

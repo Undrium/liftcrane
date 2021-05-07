@@ -7,6 +7,7 @@ import { ConfirmDialogComponent }         from '../../../components/confirm-dial
 
 import { PageService }        from '../../../services/page.service';
 import { LogService }        from '../../../services/log.service';
+import { CloudGuardDataSource }        from '../../../services/cloudguard.data-source';
 
 
 @Component({
@@ -20,13 +21,17 @@ export class LogsComponent {
   constructor(
     public pageService: PageService,
     public logService: LogService,
+    public cloudGuardDataSource: CloudGuardDataSource,
     public dialog: MatDialog
 
   ) { 
     this.pageService.pageTitle = "Admin > Logs";
-
+    this.fetchLogs();
   }
 
+  async fetchLogs(){
+    this.logs = await this.cloudGuardDataSource.getLogs().toPromise();
+  }
 
   trackByFn(index, item) {
     return item.formatName;

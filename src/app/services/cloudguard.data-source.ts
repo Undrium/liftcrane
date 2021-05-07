@@ -88,6 +88,10 @@ export class CloudGuardDataSource {
     return this.patch("/projects/"+projectFormatName+"/clusters/aks/"+clusterFormatName, patchData);
   }
 
+  public getLogs(): any{
+    return this.get("/logs/");
+  }
+
   public addCluster(projectFormatName: string, post): any{
     return this.post("/projects/"+projectFormatName+"/clusters", post);
   }
