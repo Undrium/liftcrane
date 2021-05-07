@@ -19,15 +19,13 @@
         <div class="clusterVendorState" fxFlex 
             fxLayout="row"
             fxLayoutAlign="start space-between "
-            *ngIf="cluster.vendorState == 'Creating' || cluster.vendorState == 'Upgrading'"
+            *ngIf="pollStates.includes(cluster.vendorState)"
             (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
             <mat-spinner 
                 style="margin-right:16px;"
                 color="accent"
                 [diameter]="20" 
-                [strokeWidth]="3" 
-                matTooltip="Retrieving status of {{ cluster.name }}" 
-                [matTooltipPosition]="'above'"></mat-spinner>  
+                [strokeWidth]="3"></mat-spinner>  
             {{ cluster.vendorState }}
         </div>
         <div class="status" fxFlex fxLayoutAlign="end center">

@@ -1,0 +1,25 @@
+<div class="page" fxFlex="100" fxLayout="column">
+    <mat-toolbar color="accent">
+        <mat-toolbar-row fxLayoutAlign="space-between center">
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
+    <div class="pageContent">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel 
+                class=""
+                *ngFor="let logs of logs;let i=index; last as isLast; trackBy: trackByFn;" 
+            >
+            <mat-expansion-panel-header (click)="showExtraDetails[logs.formatName] = !showExtraDetails[logs.formatName]">
+                <mat-panel-title >{{ logs.name }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="extraDetails" fxLayout="row" fxLayoutGap="16px">
+                <edit-logs [logs]="logs" fxFlex="100" *ngIf="showExtraDetails[logs.formatName]"></edit-logs>
+            </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+</div>
+  
+  

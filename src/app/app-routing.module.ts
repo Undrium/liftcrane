@@ -114,6 +114,12 @@ const routes: Routes = [
     children:[]
   },
   { 
+    path: 'admin/logs', 
+    data: { expectedUserType: 'admin', faIcon: "fas fa-stream", title: "Logs", parent: "admin" },
+    canActivate: [TypeGuard],
+    children:[]
+  },
+  { 
     path: '**', component: PageNotFoundComponent }
 ];
 

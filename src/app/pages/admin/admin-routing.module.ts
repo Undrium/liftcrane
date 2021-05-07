@@ -4,9 +4,10 @@ import { Routes, RouterModule }     from '@angular/router';
 import { AdminComponent }           from './admin.component';
 import { StartComponent }           from './start/start.component';
 import { UsersComponent }           from './users/users.component';
-import { ClustersComponent }           from './clusters/clusters.component';
-import { ClusterComponent }           from './clusters/cluster/cluster.component';
-import { ProjectsComponent }           from './projects/projects.component';
+import { ClustersComponent }        from './clusters/clusters.component';
+import { ClusterComponent }         from './clusters/cluster/cluster.component';
+import { LogsComponent }            from './logs/logs.component';
+import { ProjectsComponent }        from './projects/projects.component';
 import { AuthGuard }                from '../../services/guards/auth.guard';
 
 export const adminRoutes: Routes = [
@@ -43,6 +44,12 @@ export const adminRoutes: Routes = [
         path: 'projects', 
         data: { title: "Projects", faIcon: "fas fa-stream", },
         component: ProjectsComponent,
+        
+      },
+      { 
+        path: 'logs', 
+        data: { title: "Logs", faIcon: "fas fa-stream", },
+        component: LogsComponent,
         
       },
     ]

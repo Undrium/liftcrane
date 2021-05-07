@@ -51,6 +51,7 @@ export class PatchClusterDialogComponent {
         this.patchingRequest = true;
         this.clusterService.patchAKSCluster(this.data.cluster, this.clusterPatch).subscribe(
             cluster =>{
+                cluster.status = "fetched";
                 this.clusterService.upsertLocalClusterList(cluster);
                 this.dialogRef.close();
                 this.pageService.displayMessage("Patching " + this.data.cluster.name + " ...");

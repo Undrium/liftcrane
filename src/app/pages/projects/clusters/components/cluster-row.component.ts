@@ -26,7 +26,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   @Input() cluster: any;
   public vendor: any
   nodes: Array<any> = [];
-  pollStates: Array<any> = ["Creating", "Upgrading"];
+  public pollStates: Array<any> = ["creating", "patching", "unknown"];
   pollTimeout = null;
   public nodeEvents: any;
 
@@ -54,17 +54,18 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     this.stopPollTimer();
   }
 
-  async pollAzureClusterState(){
+  async pollClusterState(){
     const self = this;
-    var data = await this.clusterService.getAKSCluster(this.cluster).toPromise();
-    if(!this.pollStates.includes(data?.properties?.provisioningState)){
+    var projectFormatName = this.projectsService.currentProject.formatName;
+    var cluster = await this.clusterService.fetchClusterFromCloudguard(projectFormatName, this.cluster).toPromise();
+    if(!this.pollStates.includes(cluster.vendorState)){
       this.stopPollTimer();
       // One final refresh;
-      await this.refreshCluster();
+      await this.refreshClusterAndNodes();
       return;
     }
     return setTimeout(function(){
-      self.pollAzureClusterState();
+      self.pollClusterState();
     }, 7000);
   }
 
@@ -90,7 +91,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     }
   }
 
-  async refreshCluster(){
+  async refreshClusterAndNodes(){
     await this.clusterService.refresh(this.cluster);
     this.initNodes(this.cluster);
   }
@@ -136,8 +137,8 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    if(this.cluster.vendor == "AZURE" && this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
-      this.pollTimeout = this.pollAzureClusterState();
+    if(this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
+      this.pollTimeout = this.pollClusterState();
     }
   }
 

@@ -95,6 +95,7 @@ export class ClusterService {
             if(this.currentCluster && this.currentCluster.formatName == cluster?.formatName){
                 this.setCurrentCluster(cluster);
             }
+            return cluster;
         });
     }
 
@@ -204,7 +205,7 @@ export class ClusterService {
             
             if(!this.clusterFetch$[identifier] && projectFormatName) {
                 this.clusterFetch$[identifier] 
-                    = this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
+                    = this.fetchClusterFromCloudguard(projectFormatName, cluster);
             }
             return this.clusterFetch$[identifier].pipe(
                 map((fetchedCluster: any)=>{
@@ -229,6 +230,10 @@ export class ClusterService {
     
         
     } // End getFullCluster
+
+    public fetchClusterFromCloudguard(projectFormatName, cluster){
+        return this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
+    }
 
     public filteredClusters(){
         if(!this.clusters || !this.clusters.length){
