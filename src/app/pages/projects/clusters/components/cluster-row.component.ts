@@ -7,6 +7,8 @@ import {
 }                               from '@angular/core';
 import { MatDialog }            from '@angular/material/dialog';
 
+import { interval }             from 'rxjs';
+
 import { NodeDialogComponent }  from './node-dialog.component'
 
 import { LogService }           from '../../../../services/log.service';
@@ -25,10 +27,14 @@ import { ProjectsService }       from '../../../../services/projects.service';
 export class ClusterRowComponent implements OnInit, OnChanges {
   @Input() cluster: any;
   public vendor: any
-  nodes: Array<any> = [];
-  public pollStates: Array<any> = ["creating", "patching", "unknown"];
-  pollTimeout = null;
+  
+  public nodes: Array<any> = [];
   public nodeEvents: any;
+  
+  public pollStates: Array<any> = ["creating", "patching", "unknown"];
+  public pollTimeout = null;
+
+  public estimate = null;
 
   constructor(
     public clusterService: ClusterService,
@@ -44,7 +50,6 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   async ngOnInit() {
     this.vendor = this.apiService.getVendor(this.cluster);
     this.initNodes(this.cluster);
-
   }
 
   ngOnDestroy() {
@@ -55,9 +60,15 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   async pollClusterState(){
+    
     const self = this;
     var projectFormatName = this.projectsService.currentProject.formatName;
     var cluster = await this.clusterService.fetchClusterFromCloudguard(projectFormatName, this.cluster).toPromise();
+    
+    if(!this.estimate){
+      await this.getAndStartEstimation(cluster.vendorState);
+    }
+
     if(!this.pollStates.includes(cluster.vendorState)){
       this.stopPollTimer();
       // One final refresh;
@@ -89,6 +100,46 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     }catch(error){
       this.logService.handleError(error, false);
     }
+  }
+
+  public async getAndStartEstimation(type?: string){
+    if(!this.estimate && this.cluster?.formatName){
+      this.estimate = await this.clusterService.getEstimation(this.cluster, type).toPromise();
+      if(this.estimate.averageTime == 0){
+        this.progressbarType = "indeterminate";
+        return false;
+      }
+      var startTime = new Date(this.estimate.startTime);
+      var currentTime = new Date(this.estimate.currentTime);
+      var elapsedSeconds = Math.abs((currentTime.getTime() - startTime.getTime()) / 1000);
+      var timeLeft = this.estimate.averageTime - elapsedSeconds;
+      timeLeft = Math.round(timeLeft > 0 ? timeLeft : 0);
+      this.estimate['timeMessage'] = "Estimating it to take " + timeLeft + " seconds";
+      console.log(this.estimate['timeMessage']);
+      this.progressbarValue = 100;
+      this.startTimer(timeLeft);
+    }
+    return true;
+  }
+
+  progressbarType = "determinate";
+  progressbarValue = 100;
+  curTick: number = 0;
+
+  startTimer(seconds: number) {
+    const limit = seconds * 5;
+    const timer$ = interval(200);
+
+    const sub = timer$.subscribe((tick) => {
+      if (!limit || this.curTick >= limit) {
+        sub.unsubscribe();
+        return;
+      }
+
+      this.progressbarValue = 100 - tick * 100 / limit;
+      this.curTick = tick;
+      
+    });
   }
 
   async refreshClusterAndNodes(){

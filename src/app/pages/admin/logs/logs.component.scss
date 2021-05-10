@@ -1,8 +1,19 @@
 @import "../../../../variables.scss";
 
+.logType{
+    min-width:170px;
+    font-size:11px;
+    color:rgb(167, 167, 167);
+}
+
+.logMessage{
+    min-width:600px;
+}
+
 .logDate{
     font-size:14px;
     color:rgb(161, 161, 161);
+    min-width:120px;
 }
 
 .extraDetails pre{

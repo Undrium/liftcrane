@@ -37,4 +37,21 @@ export class LogsComponent {
     return item.formatName;
   }
 
+  delete(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '450px',
+        data: {
+          message: "Are you sure you want to delete all logs?"
+        }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.cloudGuardDataSource.deleteAllLogs().subscribe(result => {
+          this.fetchLogs();
+        });
+
+      }
+    });
+  }
+
 }

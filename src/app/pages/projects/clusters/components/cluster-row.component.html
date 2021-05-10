@@ -21,11 +21,15 @@
             fxLayoutAlign="start space-between "
             *ngIf="pollStates.includes(cluster.vendorState)"
             (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
-            <mat-spinner 
+            <mat-progress-spinner 
                 style="margin-right:16px;"
                 color="accent"
+                [mode]="progressbarType"
+                [value]="progressbarValue"
                 [diameter]="20" 
-                [strokeWidth]="3"></mat-spinner>  
+                [strokeWidth]="3"
+                matTooltip="{{estimate && estimate['timeMessage'] || cluster.vendorState}}" 
+                [matTooltipPosition]="'above'"></mat-progress-spinner>  
             {{ cluster.vendorState }}
         </div>
         <div class="status" fxFlex fxLayoutAlign="end center">

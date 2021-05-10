@@ -305,6 +305,11 @@ export class ClusterService {
         }));
     }
 
+    public getEstimation(cluster: any, type?: string){
+        var projectFormatName = this.projectsService.getCurrentProjectFormatName();
+        return this.cloudGuardDataSource.getEstimation(projectFormatName, cluster.formatName, type);
+    }
+
     public createAKSCluster(data: any): Observable<any>{
         var projectFormatName = this.projectsService.getCurrentProjectFormatName();
         return this.cloudGuardDataSource.createAKSCluster(projectFormatName, data).pipe(map(cluster => {

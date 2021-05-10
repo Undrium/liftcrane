@@ -1,7 +1,7 @@
 <div class="page" fxFlex="100" fxLayout="column">
     <mat-toolbar color="accent">
-        <mat-toolbar-row fxLayoutAlign="space-between center">
-
+        <mat-toolbar-row fxLayoutAlign="end center">
+            <button color="error" name="delete" (click)="delete()" mat-raised-button>Delete All Logs</button>
         </mat-toolbar-row>
     </mat-toolbar>
     <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
@@ -13,12 +13,13 @@
             >
             <mat-expansion-panel-header (click)="showExtraDetails[log.id] = !showExtraDetails[log.id]">
                 <mat-panel-title fxLayoutAlign="space-between center">
+                    <div class="logType">{{ log.logType }}</div>
                     <div class="logMessage">{{log.message}}</div>
+                    <div fxFlex="grow"></div>
                     <div class="logDate">{{ log.created | date:'yyyy-MM-dd HH:MM' }}</div>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="extraDetails" fxLayout="column" fxLayoutGap="16px">
-                {{ log.logType }}
                 <pre *ngIf="log.metadata">{{ log.metadata | json }}</pre>
             </div>
         </mat-expansion-panel>

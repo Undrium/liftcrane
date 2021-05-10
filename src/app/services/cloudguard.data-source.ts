@@ -59,9 +59,18 @@ export class CloudGuardDataSource {
   public getCluster(formatName: string): any{
     return this.get("/clusters/" + formatName);
   }
+
+  
   
   public getClusterNamespaces(formatName: string): any{
     return this.get("/clusters/" + formatName + "/namespaces");
+  }
+  
+  public getEstimation(projectFormatName: string, clusterFormatName: string, type?: string): any{
+    if(!type){
+      type = "patching";
+    }
+    return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName + "/estimation/" + type);
   }
 
   public getAKSCluster(projectFormatName: string, name): any{
@@ -90,6 +99,10 @@ export class CloudGuardDataSource {
 
   public getLogs(): any{
     return this.get("/logs/");
+  }
+
+  public deleteAllLogs(): any{
+    return this.delete("/logs/");
   }
 
   public addCluster(projectFormatName: string, post): any{
