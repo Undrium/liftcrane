@@ -1,14 +1,19 @@
 import { Injectable }       from '@angular/core';
 import { Observable }       from 'rxjs';
 
-import { ApiService }       from './api.service';
-import { ClusterService }     from './cluster.service';
+
+import { ApiService }                   from './api.service';
+import { ClusterService }               from './cluster.service';
+import { NamespaceService }             from './namespace.service';
+import { ProjectsService }              from './projects.service';
 
 @Injectable({providedIn: 'root'})
 export class DeploymentService {
     constructor(
         public apiService: ApiService,
-        public clusterService: ClusterService
+        public clusterService: ClusterService,
+        public namespaceService: NamespaceService,
+        public projectsService: ProjectsService
     ) {}
 
     public scaleDeployment(namespace: string, deploymentName: any, numberOfReplicas: number):Observable<any>{
@@ -65,6 +70,20 @@ export class DeploymentService {
                 }
             }
         }
+    }
+
+    public getCurrentUri(){
+        var base = "projects/" + this.projectsService.getCurrentProjectFormatName();
+
+        if(this.clusterService.currentCluster?.formatName){
+            base += "/clusters/" + this.clusterService.currentCluster.formatName;
+        }
+
+        if(this.clusterService.currentCluster?.formatName && this.namespaceService.currentNamespace?.metadata?.name){
+            base += "/namespaces/" +this.namespaceService.currentNamespace.metadata.name;
+        }
+        
+        return base + "/deployments";
     }
 
 }

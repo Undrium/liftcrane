@@ -5,7 +5,7 @@
             <div class="clusterOrigin">{{ getClusterOrigin(cluster) }}</div>
         </div>
         <div class="clusterLocation" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
-            {{cluster.vendorLocation || 'NA'}}
+            {{cluster.external?.vendorLocation || 'NA'}}
         </div>
         <div class="nodes" fxFlex="grow" fxLayout="row">
             <div 

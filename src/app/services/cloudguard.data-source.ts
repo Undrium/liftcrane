@@ -109,8 +109,12 @@ export class CloudGuardDataSource {
     return this.post("/projects/"+projectFormatName+"/clusters", post);
   }
 
-  public updateCluster(projectFormatName: string, cluster): any{
+  public updateProjectCluster(projectFormatName: string, cluster): any{
     return this.patch("/projects/"+projectFormatName+"/clusters/"+cluster.formatName, cluster);
+  }
+
+  public updateCluster(cluster): any{
+    return this.patch("/clusters/"+cluster.formatName, cluster);
   }
 
   public deleteCluster(projectFormatName: string, clusterFormatName): any{

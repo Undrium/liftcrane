@@ -42,7 +42,7 @@ export class NamespacesComponent {
 
       // Do the user wish to switch cluster?
       this.pageService.trackSubscription(this.clusterService.getCurrentCluster().subscribe((cluster: any) => {
-        var uri = this.projectsService.getProjectNamespaceUri(cluster);
+        var uri = this.namespaceService.getCurrentUri();
         if(this.router.url != uri){
           this.router.navigate([uri]);
         }

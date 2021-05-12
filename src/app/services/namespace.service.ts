@@ -180,5 +180,16 @@ export class NamespaceService {
         return this.apiService.getVendor(this.clusterService.currentCluster).updateNamespace(specification.metadata.name, specification);
     }
 
+    public getCurrentUri(){
+        var base = "projects/" + this.projectsService.getCurrentProjectFormatName();
+
+        if(this.clusterService.currentCluster?.formatName){
+            base += "/clusters/" + this.clusterService.currentCluster.formatName;
+        }
+        
+        return base + "/namespaces";
+    }
+
+
     
 }

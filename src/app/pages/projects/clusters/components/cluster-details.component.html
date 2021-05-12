@@ -64,8 +64,8 @@
       </button>
     </div>
     <div fxFlex="50">
-      <code>{{cluster.platform}} {{ cluster.platformVersionInfo?.gitVersion }}</code>
-      <pre class="versionInfo" *ngIf="cluster.platformVersionInfo && cluster.displayMoreVersionInfo">{{ cluster.platformVersionInfo | json }}</pre>
+      <code>{{cluster.platform}} {{ cluster.external.platformVersionInfo?.gitVersion }}</code>
+      <pre class="versionInfo" *ngIf="cluster.external.platformVersionInfo && cluster.displayMoreVersionInfo">{{ cluster.external.platformVersionInfo | json }}</pre>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
         <span></span>

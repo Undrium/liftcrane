@@ -142,6 +142,11 @@ export class ClusterService {
 
     }
 
+    public getCurrentUri(){
+        var base = "projects/" + this.projectsService.getCurrentProjectFormatName();
+        return base + "/clusters";
+    }
+
     /*
     * Get the current list of clusters fetched or if not existing a new shallow list of clusters
     */
@@ -326,9 +331,16 @@ export class ClusterService {
         }));
     }
 
-    public updateCluster(cluster: any): Observable<any>{
+    public updateProjectCluster(cluster: any): Observable<any>{
         var projectFormatName = this.projectsService.getCurrentProjectFormatName();
-        return this.cloudGuardDataSource.updateCluster(projectFormatName, cluster).pipe(map(cluster => {
+        return this.cloudGuardDataSource.updateProjectCluster(projectFormatName, cluster).pipe(map(cluster => {
+            this.upsertLocalClusterList(cluster);
+            return cluster;
+        }));
+    }
+
+    public updateCluster(cluster: any): Observable<any>{
+        return this.cloudGuardDataSource.updateCluster(cluster).pipe(map(cluster => {
             this.upsertLocalClusterList(cluster);
             return cluster;
         }));

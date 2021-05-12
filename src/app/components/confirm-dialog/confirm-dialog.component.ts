@@ -8,6 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 })
 export class ConfirmDialogComponent {
     newNamespace: any;
+    verifyInput: string = "";
 
     constructor(
         public dialogRef: MatDialogRef<ConfirmDialogComponent>,

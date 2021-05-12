@@ -17,21 +17,21 @@
 
       <!-- Project navigation part -->
       <div class="menuChildren" *ngIf="authService.isLoggedIn() | async">
-        <a [routerLink]="getProjectUri()+'/clusters'" 
-          [class.active]="pageService.isActivePage(getProjectUri()+'/clusters')">
+        <a [routerLink]="getClusterProjectUri()" 
+          [class.active]="pageService.isActivePage(getClusterProjectUri())">
           <div class="navigationItem nav-icon">
             <i class="fas fa-th"></i> Clusters
           </div>
         </a>
-        <a [routerLink]="getProjectUri()+'/namespaces'" 
-          [class.active]="pageService.isActivePage(getProjectUri()+'/namespaces')">
+        <a [routerLink]="getNamespaceProjectUri()" 
+          [class.active]="pageService.isActivePage(getNamespaceProjectUri())">
           <div class="navigationItem nav-icon">
             <i class="fas fa-signature"></i> Namespaces
           </div>
         </a>
         <a 
-          [routerLink]="getProjectUri()+'/deployments'" 
-          [class.active]="pageService.isActivePage(getProjectUri()+'/deployments')">
+          [routerLink]="getDeploymentProjectUri()" 
+          [class.active]="pageService.isActivePage(getDeploymentProjectUri())">
           <div class="navigationItem nav-icon">
             <i class="fas fa-globe"></i> Deployments
           </div>

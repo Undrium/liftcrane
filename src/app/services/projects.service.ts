@@ -92,37 +92,4 @@ export class ProjectsService {
         return this.currentProject ? this.currentProject.formatName : "";
     }
 
-    public getProjectUri(){
-        var formatName = this.getCurrentProjectFormatName();
-        var suffix = formatName != "" ? formatName: "";
-        return "/projects/" + suffix;
-    }
-
-
-    public getProjectNamespaceUri(cluster?: any){
-        var base = this.getProjectUri();
-        if(cluster?.formatName){
-            base += "/clusters/" + cluster.formatName;
-        }
-        return base + "/namespaces";
-    }
-
-    public getProjectDeploymentsUri(cluster?: any, namespace?: any){
-        var base = this.getProjectUri();
-        if(cluster?.formatName){
-            base += "/clusters/" + cluster.formatName;
-        }
-
-        if(cluster?.formatName && namespace?.metadata?.name){
-            base += "/namespaces/" +namespace.metadata.name;
-        }
-
-        return base + "/deployments";
-    }
-
-    public getProjectDepoymentsUri(){
-        var base = this.getProjectUri();
-        return base;
-    }
-
 }

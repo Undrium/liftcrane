@@ -33,7 +33,9 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="(clusterService.currentClusterSubject | async ).platform == 'OPENSHIFT4'">
+    <mat-card *ngIf="
+      (clusterService.currentClusterSubject | async ) && 
+      (clusterService.currentClusterSubject | async ).platform == 'OPENSHIFT4'">
       <mat-card-content>
         <div class="somethingIsMissing" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
           Please select namespace.

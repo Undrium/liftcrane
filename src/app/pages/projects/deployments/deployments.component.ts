@@ -59,8 +59,8 @@ export class DeploymentsComponent {
       combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
       .subscribe(([cluster, namespace]) => {
         // First check if we need to redirect
-        var uri = this.projectsService.getProjectDeploymentsUri(cluster, namespace);
-        console.log(uri);
+        var uri = this.deploymentService.getCurrentUri();
+
         if(this.router.url != uri){
           this.router.navigate([uri]);
         }

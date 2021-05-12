@@ -69,11 +69,16 @@ export class ClusterComponent {
     });
   }
 
+  dirty(): boolean{
+    return JSON.stringify(this.clusterClone) !== JSON.stringify(this.cluster);
+  }
+
   delete(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         width: '450px',
         data: {
-          message: "Are you sure you want to delete " + this.cluster.name
+          message: "Are you sure you want to delete " + this.cluster.name,
+          verifiyText: this.cluster.name
         }
     });
     dialogRef.afterClosed().subscribe(result => {

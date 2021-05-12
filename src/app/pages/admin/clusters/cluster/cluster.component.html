@@ -6,6 +6,14 @@
             <input name="name" [(ngModel)]="cluster.name" matInput>
         </mat-form-field>
         <mat-form-field fxFlex="100">
+          <mat-label>Description</mat-label>
+          <input name="description" [(ngModel)]="cluster.internal.description" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+          <mat-label>Comment</mat-label>
+          <input name="comment" [(ngModel)]="cluster.internal.comment" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
             <mat-label>ApiServer</mat-label>
             <input name="apiserver" [(ngModel)]="cluster.apiServer" matInput>
         </mat-form-field>
@@ -21,7 +29,7 @@
         </mat-form-field>
         <div fxFlex="100" fxLayoutAlign="end" fxLayoutGap="8px">
           <button color="accent" name="save" (click)="save()" mat-raised-button>Save</button>
-          <button color="" name="reset" (click)="reset()" mat-raised-button>Reset</button>
+          <button color="" name="reset" (click)="reset()" mat-raised-button [disabled]="!dirty()">Reset Changes</button>
           <button color="error" name="reset" (click)="delete()" mat-raised-button>Delete</button>
         </div>
 

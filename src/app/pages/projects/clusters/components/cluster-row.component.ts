@@ -102,10 +102,14 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     }
   }
 
+  /*
+  * TODO make this more compact
+  */
   public async getAndStartEstimation(type?: string){
     if(!this.estimate && this.cluster?.formatName){
       this.estimate = await this.clusterService.getEstimation(this.cluster, type).toPromise();
       if(this.estimate.averageTime == 0){
+        this.estimate['timeMessage'] = "Can't estimate time for modification.";
         this.progressbarType = "indeterminate";
         return false;
       }
@@ -182,7 +186,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     vendor = vendor.charAt(0).toUpperCase() + vendor.slice(1).toLowerCase();
     platform = platform.charAt(0).toUpperCase() + platform.slice(1).toLowerCase();
 
-    var version = cluster?.platformVersionInfo?.gitVersion || '';
+    var version = cluster?.external?.platformVersionInfo?.gitVersion || '';
 
     return `${platform} ${version} ${placement} ${vendor}`;
   }

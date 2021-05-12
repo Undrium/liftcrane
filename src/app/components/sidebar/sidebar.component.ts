@@ -3,10 +3,14 @@ import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { PageService }      from '../../services/page.service';
-import { AuthService }      from '../../services/auth.service';
-import { ProfileService }   from '../../services/profile.service';
-import { ProjectsService }  from '../../services/projects.service';
+
+import { PageService }        from '../../services/page.service';
+import { AuthService }        from '../../services/auth.service';
+import { ProfileService }     from '../../services/profile.service';
+import { ProjectsService }    from '../../services/projects.service';
+import { NamespaceService }   from '../../services/namespace.service';
+import { ClusterService }     from '../../services/cluster.service';
+import { DeploymentService }  from '../../services/deployment.service';
 
 import { environment } from '../../../environments/environment';
 
@@ -33,6 +37,9 @@ export class SidebarComponent {
       public authService: AuthService,
       public profileService: ProfileService,
       public projectsService: ProjectsService,
+      public namespaceService: NamespaceService,
+      public clusterService: ClusterService,
+      public deploymentService: DeploymentService,
       private router: Router
   ) {
     this.environmentData = environment;
@@ -45,8 +52,16 @@ export class SidebarComponent {
     shareReplay()
   );
 
-  public getProjectUri(){
-    return this.projectsService.getProjectUri();
+  public getDeploymentProjectUri(){
+    return this.deploymentService.getCurrentUri();
+  }
+
+  public getClusterProjectUri(){
+    return this.clusterService.getCurrentUri();
+  }
+
+  public getNamespaceProjectUri(){
+    return this.namespaceService.getCurrentUri();
   }
 
   getMenuItems(): MenuItem[] {  

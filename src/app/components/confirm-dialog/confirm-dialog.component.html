@@ -1,8 +1,25 @@
 <h1 mat-dialog-title>{{ data.title || 'Confirm' }}</h1>
 <div mat-dialog-content>
     {{ data.message || 'Please confirm' }}
+    <div *ngIf="data.verifiyText" style="margin-top:16px;" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>Type <span style="font-weight: 500;">{{data.verifiyText}}</span></div>
+        <div>
+            <mat-form-field style="max-width:180px;">
+                <mat-icon 
+                    *ngIf="data.verifiyText == verifyInput"
+                    matSuffix 
+                    style="font-size:18px;margin-top:10px;margin-right:8px;color:rgb(0, 173, 0);"
+                >thumb_up_off_alt</mat-icon>
+                <input matInput ngDefaultControl [(ngModel)]="verifyInput" type="text" placeholder="Verify here">
+            </mat-form-field>
+        </div>
+    </div>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end">
-    <button color="accent" mat-raised-button [mat-dialog-close]="true">Confirm</button>
+    <button 
+        color="accent" 
+        mat-raised-button [mat-dialog-close]="true" 
+        [disabled]="data.verifiyText && (data.verifiyText != verifyInput)"
+    >Confirm</button>
     <button color="" mat-raised-button [mat-dialog-close]="false">Cancel</button>
 </div>

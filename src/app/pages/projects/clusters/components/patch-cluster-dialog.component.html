@@ -8,7 +8,7 @@
         </div>
         <div fxFlex="100" fxLayout="row" *ngIf="clusterPatch?.properties?.kubernetesVersion" fxLayoutAlign="space-between center">
             <div style="font-size:16px;text-align:center;" fxFlex="33">
-                Current {{ data.cluster.platformVersionInfo?.gitVersion || "Unknown version" }}
+                Current {{ data.cluster.external?.platformVersionInfo?.gitVersion || "Unknown version" }}
             </div>
             <div style="font-size:16px;text-align:center;" fxFlex="33">
                 <mat-icon>east</mat-icon>
