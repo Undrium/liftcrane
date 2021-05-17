@@ -8,6 +8,7 @@ import { ConfirmDialogComponent }                   from '../components/confirm-
 import { NamespaceSelectComponent }                 from '../components/namespace-select/namespace-select.component';
 import { ObjectEditorComponent }                    from '../components/object-editor/object-editor.component';
 import { ObjectEditorDialogComponent }              from '../components/object-editor-dialog/object-editor-dialog.component';
+import { SupportDialogComponent }                   from '../components/support-dialog/support-dialog.component';
 import { ProjectSelectComponent }                   from '../components/project-select/project-select.component';
 import { SearchFilterComponent }                    from '../components/search-filter/search-filter.component';
 
@@ -100,6 +101,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     RoleGuardPipe,
     NameFormatDirective,
     ObjectEditorDialogComponent,
+    SupportDialogComponent,
     SearchFilterComponent
   ],
   exports: [
@@ -109,6 +111,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     NamespaceSelectComponent,
     CommonModule,
     ObjectEditorComponent,
+    SupportDialogComponent,
     SearchFilterComponent,
     DeploymentIsPausedPipe,
     DeploymentIsRunningPipe,

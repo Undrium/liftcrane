@@ -1,0 +1,29 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+      <mat-toolbar-row fxLayoutAlign="end center">
+          <button color="error" name="delete" (click)="delete()" mat-raised-button>Delete All Logs</button>
+      </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
+  <div class="pageContent">
+      <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel 
+              class=""
+              *ngFor="let logEntry of getLogEntries();let i=index; last as isLast; trackBy: trackByFn;" 
+          >
+          <mat-expansion-panel-header (click)="showExtraDetails[logEntry.id] = !showExtraDetails[logEntry.id]">
+              <mat-panel-title fxLayoutAlign="space-between center">
+                  <div class="logType">{{ logEntry.type }}</div>
+                  <div class="logMessage">{{logEntry.message}}</div>
+                  <div fxFlex="grow"></div>
+                  <div class="timestamp">{{ logEntry.timestamp | date:'yyyy-MM-dd HH:MM' }}</div>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="extraDetails" fxLayout="column" fxLayoutGap="16px">
+              <pre *ngIf="logEntry.data">{{ logEntry.data | json }}</pre>
+          </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+

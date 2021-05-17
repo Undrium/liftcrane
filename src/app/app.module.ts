@@ -9,7 +9,7 @@ import { AppRoutingModule }         from './app-routing.module';
 import { AppComponent }             from './app.component';
 import { PageNotFoundComponent }    from './pages/page-not-found/page-not-found.component';
 import { ProfileComponent }         from './pages/profile/profile.component';
-import { SidebarComponent }     from './components/sidebar/sidebar.component';
+import { SidebarComponent }         from './components/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -29,4 +29,4 @@ import { SidebarComponent }     from './components/sidebar/sidebar.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

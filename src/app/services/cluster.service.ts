@@ -250,7 +250,6 @@ export class ClusterService {
         return this.clusters.filter(cluster => cluster.name.includes(this.filterText));
     }
 
-
     public removeFromLocalClusterList(clusterToDelete: any){
         if(this.currentCluster && this.currentCluster.formatName == clusterToDelete['formatName']){
             this.setCurrentCluster(null);
@@ -352,6 +351,19 @@ export class ClusterService {
             this.removeFromLocalClusterList(clusterToDelete);
             return resp;
         }));
+    }
+
+    public kubernetesReady(cluster: any): boolean{
+        if(!cluster){
+            return false;
+        }
+        if(!cluster.apiServer){
+            return false;
+        }
+        if(!cluster.personalToken){
+            return false;
+        }
+        return true;
     }
 
 }

@@ -49,7 +49,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
 
   async ngOnInit() {
     this.vendor = this.apiService.getVendor(this.cluster);
-    this.initNodes(this.cluster);
+    this.initNodes(this.cluster); 
   }
 
   ngOnDestroy() {
@@ -192,6 +192,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
+
     if(this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
       this.pollTimeout = this.pollClusterState();
     }

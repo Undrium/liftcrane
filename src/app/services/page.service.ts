@@ -11,15 +11,15 @@ import { ProfileService }               from './profile.service';
 import { ProjectsService }               from './projects.service';
 
 import * as _                           from 'lodash';
+import { LogService } from './log.service';
 
 @Injectable({providedIn: 'root'})
 export class PageService {
 
     sideNavOpen: boolean;
-    messages: Array<any> = [];
+    
     public pageTitle: string;
     public beforeLogin: string = "";
-    public messageSubject = new Subject<any>();
     public subscriptions: Array<any> = [];
     // Loader
     public somethingIsLoading = false;
@@ -28,6 +28,7 @@ export class PageService {
     constructor(
         public authService: AuthService,
         public localStorageService: LocalStorageService,
+        public logService: LogService,
         private breakpointObserver: BreakpointObserver,
         private router: Router,
         public profileService: ProfileService,
@@ -87,8 +88,7 @@ export class PageService {
       }
 
     public displayMessage(message: string){
-        this.messages.push(message);
-        this.messageSubject.next(message);
+        this.logService.log(message, "message", {}, true);
     }
 
     public isHandset$: Observable<boolean> = 

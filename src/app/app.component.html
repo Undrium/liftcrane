@@ -21,14 +21,25 @@
             <span>{{pageService.pageTitle}}</span>
             <span fxFlex="fill"></span>
             <mat-spinner 
-                color="accent"
-                *ngIf="pageService.somethingIsLoading" 
-                style="margin-right:3px;"
-                [diameter]="24" 
-                [strokeWidth]="3" 
-                matTooltip="{{ pageService.whatIsLoading }}" 
-                [matTooltipPosition]="'above'">
+            color="accent"
+            *ngIf="pageService.somethingIsLoading" 
+            style="margin-right:3px;"
+            [diameter]="24" 
+            [strokeWidth]="3" 
+            matTooltip="{{ pageService.whatIsLoading }}" 
+            [matTooltipPosition]="'above'">
             </mat-spinner>
+            <a [routerLink]="['/logs']" mat-icon-button> 
+                <mat-icon aria-label="Side nav toggle icon">notifications</mat-icon>
+            </a>
+            <button
+                type="button"
+                aria-label="Ask for support"
+                mat-icon-button
+                (click)="supportDialog()"
+                >
+                <mat-icon aria-label="Side nav toggle icon">chat</mat-icon>
+            </button>
         </mat-toolbar>
         <main fxLayoutAlign="start" fxLayout="column">
             <router-outlet></router-outlet>

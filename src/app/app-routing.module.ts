@@ -62,6 +62,10 @@ const routes: Routes = [
     //data: { faIcon: "fas fa-chart-pie", title: "Metrics" }
   },
   { 
+    path: 'logs', 
+    loadChildren: () => import('./pages/logs/logs.module').then(m => m.LogsModule)
+  },
+  { 
     path: 'docs', 
     loadChildren: () => import('./pages/docs/docs.module').then(m => m.DocsModule),
     data: { faIcon: "fas fa-file-alt", title: "Docs" }

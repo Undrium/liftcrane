@@ -314,6 +314,9 @@ export class KubeBase {
       if (fullCluster.status && fullCluster.status == 'unavailable') {
         throw new Error('Cluster is not available ' + cluster.name);
       }
+      if (!fullCluster.personalToken) {
+        throw new Error('Personal token missing');
+      }
       var headers = {};
       if (fullCluster && fullCluster.personalToken) {
         headers['authorization'] = "Bearer " + fullCluster.personalToken;

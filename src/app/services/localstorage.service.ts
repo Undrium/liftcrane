@@ -25,8 +25,11 @@ export class LocalStorageService {
  	 */
   getItem(name: string, defaultReturn = null): any {
     if(this.isExist(name)) {
-      let obj = JSON.parse(localStorage.getItem(name));
-  		return obj;
+      try{
+        let obj = JSON.parse(localStorage.getItem(name));
+        return obj;
+      }catch(err){}
+  		
   	}
   	return defaultReturn;
   }
@@ -47,6 +50,18 @@ export class LocalStorageService {
     if(this[name]){
       delete this[name];
     }
+  }
+
+  /**
+   * Add to an array, create if not existing
+   * @param {string} name
+   * @param {object} data
+ 	 */
+   addToArray(name: string, data: any): any {
+    var list = this.getItem(name, []);
+    list.push(data);
+    this.setItem(name, list);
+    return list;
   }
 
   /*
